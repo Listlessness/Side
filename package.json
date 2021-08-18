@@ -8,11 +8,15 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "ctk-anime-scraper": "^3.5.0",
     "expo": "~42.0.1",
     "expo-status-bar": "~1.0.4",
+    "jikan-node": "^1.2.1",
+    "mal-scraper": "^2.11.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-anchor-carousel": "^4.0.1",
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
