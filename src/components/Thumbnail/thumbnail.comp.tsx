@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThumbnailProps } from '../model/thumbnail.comp.types';
+import { ThumbnailProps } from './thumbnail.comp.types';
 import { Text, View, Image, StyleSheet } from 'react-native';
 
 function Thumbnail({
@@ -14,7 +14,7 @@ function Thumbnail({
             <Image
                 style={styles.picture}
                 source={{uri: picture_url}}
-                loadingIndicatorSource={require('../../assets/img/placeholderPic.jpg')}
+                loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
             />
             <Text style={styles.title}>
                 {title}

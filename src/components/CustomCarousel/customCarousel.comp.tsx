@@ -2,26 +2,26 @@ import React, { Component } from 'react';
 import { useRef } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import Carousel from 'react-native-anchor-carousel';
-import { CustomCarouselTypes } from '../model/customCarousel.comp.types';
-import { SeasonalAnimeRelease } from '../model/types';
-import Thumbnail from './thumbnail.comp';
+import { CustomCarouselTypes } from './customCarousel.comp.types';
+import Thumbnail from '../Thumbnail/thumbnail.comp';
+import { TopItem } from '../../utils/interfaces';
 
 const {width: windowWidth} = Dimensions.get('window');
 
-function CustomCarousel({
+export function CustomCarousel({
     items
 }: CustomCarouselTypes) {
 
     const carouselRef = React.useRef(null);
 
-    let _renderItem = ({item, index}: { item: SeasonalAnimeRelease; index: number; }) => {
+    let _renderItem = ({item, index}: { item: TopItem; index: number; }) => {
 
         return (
             <Thumbnail
                 id={item.title}
                 title={item.title}
-                url={item.link}
-                picture_url={item.picture}
+                url={item.url}
+                picture_url={item.image_url}
             />
         );
     }
@@ -59,5 +59,3 @@ const styles = StyleSheet.create({
         width: 100
     }
 });
-
-export default CustomCarousel;
