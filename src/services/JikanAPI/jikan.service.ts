@@ -18,7 +18,7 @@ export class JikanService {
     @handleResponse
     fetchTop(type: JikanInterfaces.Types, page?: number, subtype?: JikanInterfaces.SubTypes) {
 
-        let path = `${endpoints.top}/${page || 1}`;
+        let path = `${endpoints.top}/${type}/${page || 1}`;
 
         if (subtype !== undefined) path = `${path}/${subtype}`;
 

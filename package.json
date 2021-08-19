@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@types/react-native-snap-carousel": "^3.8.4",
     "axios": "^0.21.1",
     "ctk-anime-scraper": "^3.5.0",
     "expo": "~42.0.1",
@@ -16,10 +17,12 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-anchor-carousel": "^4.0.1",
+    "react-native-snap-carousel": "^3.9.1",
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.14.5",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
     "typescript": "~4.0.0"

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { useRef } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
-import Carousel from 'react-native-anchor-carousel';
+import Carousel from 'react-native-snap-carousel';
 import { CustomCarouselTypes } from './customCarousel.comp.types';
 import Thumbnail from '../Thumbnail/thumbnail.comp';
 import { TopItem } from '../../utils/interfaces';
@@ -35,10 +35,6 @@ export function CustomCarousel({
                 data={items}
                 renderItem={_renderItem}
                 itemWidth={windowWidth * 0.4}
-                containerWidth={windowWidth}
-                separatorWidth={0}
-                minScrollDistance={0}
-                itemContainerStyle={styles.itemContainer}
             />
         ) : (
             <View>
