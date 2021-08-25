@@ -10,30 +10,30 @@ export interface Filters {
 }
 declare type Rated = 'g' | 'pg' | 'pg13' | 'r17' | 'r' | 'rx';
 export interface SearchResult {
-    readonly request_hash: string;
-    readonly request_cached: boolean;
-    readonly request_cache_expiry: number;
-    readonly results: Result[];
-    readonly last_page: number;
+     request_hash: string;
+     request_cached: boolean;
+     request_cache_expiry: number;
+     results: Result[];
+     last_page: number;
 }
-export declare type SearchTypes = 'anime' | 'character' | 'doujin' | 'manga' | 'manhua' | 'manhwa' | 'movie' | 'music' | 'novel' | 'ona' | 'oneshot' | 'ova' | 'person' | 'special' | 'tv';
+export type SearchTypes = 'anime' | 'character' | 'doujin' | 'manga' | 'manhua' | 'manhwa' | 'movie' | 'music' | 'novel' | 'ona' | 'oneshot' | 'ova' | 'person' | 'special' | 'tv';
 declare type Status = 'airing' | 'completed' | 'complete' | 'tba' | 'upcoming';
 interface Result {
-    readonly airing: boolean;
-    readonly end_date: Date | null;
-    readonly episodes: number;
-    readonly image_url: string;
-    readonly mal_id: number;
-    readonly members: number;
-    readonly rated: Rated;
-    readonly score: number;
-    readonly start_date: Date;
-    readonly synopsis: string;
-    readonly title: string;
-    readonly type: Type;
-    readonly url: string;
+     airing: boolean;
+     end_date: Date | null;
+     episodes: number;
+     image_url: string;
+     mal_id: number;
+     members: number;
+     rated: Rated;
+     score: number;
+     start_date: Date;
+     synopsis: string;
+     title: string;
+     type: Type;
+     url: string;
 }
-declare enum Type {
+enum Type {
     Movie = "Movie",
     Ona = "ONA",
     Ova = "OVA",

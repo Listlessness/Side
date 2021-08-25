@@ -1,7 +1,7 @@
 export interface JikanErrorResponse {
-    readonly status: 404,
-    readonly type: string,
-    readonly message:string
-    readonly error: string,
-    readonly report_url?: string
+     status: 404,
+     type: string,
+     message:string,
+     error: string,
+     report_url?: string
 }

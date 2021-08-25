@@ -1,33 +1,27 @@
-export type {
-    TopResult,
-    SubTypes,
-    Types,
-    TopItem
-};
 
-interface TopResult {
-    readonly request_cache_expiry: number;
-    readonly request_cached: boolean;
-    readonly request_hash: string;
-    readonly top: TopItem[];
+export interface TopResult {
+     request_cache_expiry: number;
+     request_cached: boolean;
+     request_hash: string;
+     top: TopItem[];
 }
-interface TopItem {
-    readonly end_date: null | string;
-    readonly image_url: string;
-    readonly mal_id: number;
-    readonly members: number;
-    readonly rank: number;
-    readonly score: number;
-    readonly start_date: null | string;
-    readonly title: string;
-    readonly type: Type;
-    readonly url: string;
-    readonly volumes: number | null;
+export interface TopItem {
+     end_date: null | string;
+     image_url: string;
+     mal_id: number;
+     members: number;
+     rank: number;
+     score: number;
+     start_date: null | string;
+     title: string;
+     type: Type;
+     url: string;
+     volumes: number | null;
 }
-declare enum Type {
+enum Type {
     Doujinshi = "Doujinshi",
     Manga = "Manga",
     Novel = "Novel"
 }
-declare type SubTypes = 'airing' | 'bypopularity' | 'doujin' | 'favorite' | 'manga' | 'manhua' | 'manhwa' | 'movie' | 'novels' | 'oneshots' | 'ova' | 'special' | 'tv' | 'upcoming';
-declare type Types = 'anime' | 'manga' | 'people' | 'characters';
+export type SubTypes = 'airing' | 'bypopularity' | 'doujin' | 'favorite' | 'manga' | 'manhua' | 'manhwa' | 'movie' | 'novels' | 'oneshots' | 'ova' | 'special' | 'tv' | 'upcoming';
+export type Types = 'anime' | 'manga' | 'people' | 'characters';

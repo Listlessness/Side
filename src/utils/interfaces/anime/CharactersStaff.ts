@@ -1,31 +1,31 @@
 export interface CharactersStaff {
-    readonly characters: Character[];
-    readonly request_cache_expiry: number;
-    readonly request_cached: boolean;
-    readonly request_hash: string;
-    readonly staff: Staff[];
+     characters: Character[];
+     request_cache_expiry: number;
+     request_cached: boolean;
+     request_hash: string;
+     staff: Staff[];
 }
 interface Character {
-    readonly image_url: string;
-    readonly mal_id: number;
-    readonly name: string;
-    readonly role: Role;
-    readonly url: string;
-    readonly voice_actors: Staff[];
+     image_url: string;
+     mal_id: number;
+     name: string;
+     role: Role;
+     url: string;
+     voice_actors: Staff[];
 }
-declare enum Role {
+enum Role {
     Main = "Main",
     Supporting = "Supporting"
 }
 interface Staff {
-    readonly image_url: string;
-    readonly language?: Language;
-    readonly mal_id: number;
-    readonly name: string;
-    readonly url: string;
-    readonly positions?: string[];
+     image_url: string;
+     language?: Language;
+     mal_id: number;
+     name: string;
+     url: string;
+     positions?: string[];
 }
-declare enum Language {
+enum Language {
     English = "English",
     French = "French",
     German = "German",

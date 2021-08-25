@@ -1,14 +1,14 @@
 export interface Friends {
-    readonly request_hash: string;
-    readonly request_cached: boolean;
-    readonly request_cache_expiry: number;
-    readonly friends: Friend[];
+     request_hash: string;
+     request_cached: boolean;
+     request_cache_expiry: number;
+     friends: Friend[];
 }
 interface Friend {
-    readonly friends_since: Date | null;
-    readonly image_url: string;
-    readonly last_online: Date;
-    readonly url: string;
-    readonly username: string;
+     friends_since: Date | null;
+     image_url: string;
+     last_online: Date;
+     url: string;
+     username: string;
 }
 export {};

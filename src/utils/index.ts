@@ -1,2 +1,2 @@
-export * as JikanInterfaces from './interfaces';
-export * as Constants from './constants';
+export * from './interfaces';
+export * from './constants';

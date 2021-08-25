@@ -2,46 +2,46 @@ import { Days, Seasons, SearchTypes } from "../interfaces";
 
 
 export {
+    MonthSeason,
+    MonthNumSeason,
     JikanTypesObj,
     JikanAnimeSubTypesObj,
     JikanMangaSubTypesObj,
     SeasonTypesObj,
-    MonthSeason,
-    MonthNumSeason,
     JikanDaysObj,
     JikanSearchTypeObj,
 };
 
 const enum JikanTypesObj {
-    anime = 'anime',
-    manga = 'manga',
-    people=  'people',
-    characters = 'characters'
+    Anime = 'anime',
+    Manga = 'manga',
+    People=  'people',
+    Characters = 'characters'
 }
 
 const enum JikanAnimeSubTypesObj {
-    airing = 'airing',
-    upcoming = 'upcoming',
-    tv = 'tv',
-    movie = 'movie',
-    ova = 'ova',
-    special = 'special',
-    bypopularity = 'bypopularity',
-    favorite = 'favorite'
+    Airing = 'airing',
+    Upcoming = 'upcoming',
+    TV = 'tv',
+    Movie = 'movie',
+    OVA = 'ova',
+    Special = 'special',
+    ByPopularity = 'bypopularity',
+    Favorite = 'favorite'
 }
 
-const enum JikanMangaSubTypesObj {
-    manga = 'manga',
-    novels = 'novels',
-    oneshots = 'oneshots',
-    doujin = 'doujin',
-    manhwa = 'manhwa',
-    manhua = 'manhua',
-    bypopularity = 'bypopularity',
-    favorite = 'favorite'
+enum JikanMangaSubTypesObj {
+    Manga = 'manga',
+    Novels = 'novels',
+    Oneshots = 'oneshots',
+    Doujin = 'doujin',
+    Manhwa = 'manhwa',
+    Manhua = 'manhua',
+    ByPopularity = 'bypopularity',
+    Favorite = 'favorite'
 }
 
-const enum SeasonTypesObj {
+enum SeasonTypesObj {
     SPRING = 'spring',
     SUMMER = 'summer',
     FALL = 'fall',

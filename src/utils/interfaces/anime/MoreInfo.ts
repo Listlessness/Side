@@ -1,6 +1,6 @@
 export interface MoreInfo {
-    readonly moreinfo: string;
-    readonly request_cache_expiry: number;
-    readonly request_cached: boolean;
-    readonly request_hash: string;
+     moreinfo: string;
+     request_cache_expiry: number;
+     request_cached: boolean;
+     request_hash: string;
 }

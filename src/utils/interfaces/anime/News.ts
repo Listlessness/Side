@@ -1,18 +1,18 @@
 export interface News {
-    readonly articles: Article[];
-    readonly request_cache_expiry: number;
-    readonly request_cached: boolean;
-    readonly request_hash: string;
+     articles: Article[];
+     request_cache_expiry: number;
+     request_cached: boolean;
+     request_hash: string;
 }
 interface Article {
-    readonly author_name: string;
-    readonly author_url: string;
-    readonly comments: number;
-    readonly date: Date;
-    readonly forum_url: string;
-    readonly image_url: string;
-    readonly intro: string;
-    readonly title: string;
-    readonly url: string;
+     author_name: string;
+     author_url: string;
+     comments: number;
+     date: Date;
+     forum_url: string;
+     image_url: string;
+     intro: string;
+     title: string;
+     url: string;
 }
 export {};

@@ -1,4 +1,8 @@
-import { JikanInterfaces, Constants } from '../../utils';
+import {
+    Types, SubTypes, AnimeById, CharactersStaff, Days, Filters,
+    Recommendations, ScheduleResult, SearchTypes, SeasonLater, 
+    SeasonResult, Seasons, TopResult, MonthNumSeason, SearchResult 
+} from '../../utils';
 import axios, { AxiosInstance } from 'axios';
 import { anime_request_endpoints, endpoints } from './endpoints';
 import handleResponse from './RequestDecorator';
@@ -16,29 +20,29 @@ export class JikanService {
     }
 
     @handleResponse
-    fetchTop(type: JikanInterfaces.Types, page?: number, subtype?: JikanInterfaces.SubTypes) {
+    fetchTop(type: Types, page?: number, subtype?: SubTypes) {
 
         let path = `${endpoints.top}/${type}/${page || 1}`;
 
         if (subtype !== undefined) path = `${path}/${subtype}`;
 
-        return this.jikanRequest.get<JikanInterfaces.TopResult>(path)
-                            .then(resp => resp.data as JikanInterfaces.TopResult);
+        return this.jikanRequest.get<TopResult>(path)
+                            .then(resp => resp.data as TopResult);
     }
 
     @handleResponse
-    async fetchSeason(year?: number, season?: JikanInterfaces.Seasons) {
+    async fetchSeason(year?: number, season?: Seasons) {
 
         if (year === undefined) year = new Date().getFullYear();
-        if (season === undefined) season = Constants.MonthNumSeason[new Date().getMonth()];
+        if (season === undefined) season = MonthNumSeason[new Date().getMonth()];
 
         let path = `${endpoints.season}`;
 
         if (year !== undefined) path = `${path}/${year}`;
         if (season !== undefined) path = `${path}/${season}`;
 
-        return this.jikanRequest.get<JikanInterfaces.SeasonResult>(path)
-                    .then(resp => resp.data as JikanInterfaces.SeasonResult);
+        return this.jikanRequest.get<SeasonResult>(path)
+                    .then(resp => resp.data as SeasonResult);
     }
 
     @handleResponse
@@ -46,52 +50,52 @@ export class JikanService {
 
         let path = `${endpoints.season_later}`;
 
-        return this.jikanRequest.get<JikanInterfaces.SeasonLater>(path)
-                        .then(resp => resp.data as JikanInterfaces.SeasonLater);
+        return this.jikanRequest.get<SeasonLater>(path)
+                        .then(resp => resp.data as SeasonLater);
     }
 
     @handleResponse
     async fetchAnime(id: number) {
         let path = `${endpoints.anime}/${id}`;
 
-        return this.jikanRequest.get<JikanInterfaces.AnimeById>(path)
-                        .then(resp => resp.data as JikanInterfaces.AnimeById);
+        return this.jikanRequest.get<AnimeById>(path)
+                        .then(resp => resp.data as AnimeById);
     }
 
     @handleResponse
     async fetchCharacters4Anime(id: number) {
         let path = `${endpoints.anime}/${id}/${anime_request_endpoints.characters_staff}`;
 
-        return this.jikanRequest.get<JikanInterfaces.CharactersStaff>(path)
-                            .then(resp => resp.data as JikanInterfaces.CharactersStaff);
+        return this.jikanRequest.get<CharactersStaff>(path)
+                            .then(resp => resp.data as CharactersStaff);
     }
 
     @handleResponse
     async fetchRecommendations4Anime(id: number) {
         let path = `${endpoints.anime}/${id}/${anime_request_endpoints.recommendations}`;
 
-        return this.jikanRequest.get<JikanInterfaces.Recommendations>(path)
-                        .then(resp => resp.data as JikanInterfaces.Recommendations);
+        return this.jikanRequest.get<Recommendations>(path)
+                        .then(resp => resp.data as Recommendations);
     }
 
     @handleResponse
     async fetchReviews4Anime(id: number) {
         let path = `${endpoints.anime}/${id}/${anime_request_endpoints.reviews}`;
 
-        return this.jikanRequest.get<JikanInterfaces.Recommendations>(path)
-                        .then(resp => resp.data as JikanInterfaces.Recommendations);
+        return this.jikanRequest.get<Recommendations>(path)
+                        .then(resp => resp.data as Recommendations);
     }
 
     @handleResponse
-    async fetchSchedule(day: JikanInterfaces.Days) {
+    async fetchSchedule(day: Days) {
         let path = `${endpoints.schedule}/${day}`;
 
-        return this.jikanRequest.get<JikanInterfaces.ScheduleResult>(path)
-                            .then(resp => resp.data as JikanInterfaces.ScheduleResult);
+        return this.jikanRequest.get<ScheduleResult>(path)
+                            .then(resp => resp.data as ScheduleResult);
     }
 
     @handleResponse
-    async DoSearch(query: string, searchType: JikanInterfaces.SearchTypes, page?: number, filters?: JikanInterfaces.Filters) {
+    async DoSearch(query: string, searchType: SearchTypes, page?: number, filters?: Filters) {
         let path = `${endpoints.search}/${searchType}`;
 
         let params: {[index: string]: any} = {
@@ -101,9 +105,9 @@ export class JikanService {
 
         if (filters?.genre !== undefined) params['genre'] = filters.genre;
 
-        return this.jikanRequest.get<JikanInterfaces.ScheduleResult>(path, {
+        return this.jikanRequest.get<SearchResult>(path, {
             params: params
-        }).then(resp => resp.data as JikanInterfaces.ScheduleResult);
+        }).then(resp => resp.data as SearchResult);
     }
 };
 

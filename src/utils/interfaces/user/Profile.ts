@@ -1,55 +1,55 @@
 export interface Profile {
-    readonly about: string;
-    readonly anime_stats: AnimeStats;
-    readonly birthday: Date;
-    readonly favorites: Favorites;
-    readonly gender: string;
-    readonly image_url: string;
-    readonly joined: Date;
-    readonly last_online: Date;
-    readonly location: null;
-    readonly manga_stats: MangaStats;
-    readonly request_cache_expiry: number;
-    readonly request_cached: boolean;
-    readonly request_hash: string;
-    readonly url: string;
-    readonly username: string;
+     about: string;
+     anime_stats: AnimeStats;
+     birthday: Date;
+     favorites: Favorites;
+     gender: string;
+     image_url: string;
+     joined: Date;
+     last_online: Date;
+     location: null;
+     manga_stats: MangaStats;
+     request_cache_expiry: number;
+     request_cached: boolean;
+     request_hash: string;
+     url: string;
+     username: string;
 }
 interface AnimeStats {
-    readonly completed: number;
-    readonly days_watched: number;
-    readonly dropped: number;
-    readonly episodes_watched: number;
-    readonly mean_score: number;
-    readonly on_hold: number;
-    readonly plan_to_watch: number;
-    readonly rewatched: number;
-    readonly total_entries: number;
-    readonly watching: number;
+     completed: number;
+     days_watched: number;
+     dropped: number;
+     episodes_watched: number;
+     mean_score: number;
+     on_hold: number;
+     plan_to_watch: number;
+     rewatched: number;
+     total_entries: number;
+     watching: number;
 }
 interface Favorites {
-    readonly anime: Anime[];
-    readonly characters: Anime[];
-    readonly manga: any[];
-    readonly people: Anime[];
+     anime: Anime[];
+     characters: Anime[];
+     manga: any[];
+     people: Anime[];
 }
 interface Anime {
-    readonly image_url: string;
-    readonly mal_id: number;
-    readonly name: string;
-    readonly url: string;
+     image_url: string;
+     mal_id: number;
+     name: string;
+     url: string;
 }
 interface MangaStats {
-    readonly chapters_read: number;
-    readonly completed: number;
-    readonly days_read: number;
-    readonly dropped: number;
-    readonly mean_score: number;
-    readonly on_hold: number;
-    readonly plan_to_read: number;
-    readonly reading: number;
-    readonly reread: number;
-    readonly total_entries: number;
-    readonly volumes_read: number;
+     chapters_read: number;
+     completed: number;
+     days_read: number;
+     dropped: number;
+     mean_score: number;
+     on_hold: number;
+     plan_to_read: number;
+     reading: number;
+     reread: number;
+     total_entries: number;
+     volumes_read: number;
 }
 export {};

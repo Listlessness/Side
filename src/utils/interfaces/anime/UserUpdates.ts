@@ -1,20 +1,20 @@
 export interface UserUpdates {
-    readonly request_cache_expiry: number;
-    readonly request_cached: boolean;
-    readonly request_hash: string;
-    readonly users: User[];
+     request_cache_expiry: number;
+     request_cached: boolean;
+     request_hash: string;
+     users: User[];
 }
 interface User {
-    readonly date: Date;
-    readonly episodes_seen: number | null;
-    readonly episodes_total: number | null;
-    readonly image_url: string;
-    readonly score: number | null;
-    readonly status: Status;
-    readonly url: string;
-    readonly username: string;
+     date: Date;
+     episodes_seen: number | null;
+     episodes_total: number | null;
+     image_url: string;
+     score: number | null;
+     status: Status;
+     url: string;
+     username: string;
 }
-declare enum Status {
+enum Status {
     Completed = "Completed",
     Dropped = "Dropped",
     OnHold = "On-Hold",

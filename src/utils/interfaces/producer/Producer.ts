@@ -1,38 +1,38 @@
 export interface Producer {
-    readonly anime: Anime[];
-    readonly meta: Meta;
-    readonly request_cache_expiry: number;
-    readonly request_cached: boolean;
-    readonly request_hash: string;
+     anime: Anime[];
+     meta: Meta;
+     request_cache_expiry: number;
+     request_cached: boolean;
+     request_hash: string;
 }
 interface Anime {
-    readonly airing_start: Date | null;
-    readonly episodes: number | null;
-    readonly genres: Meta[];
-    readonly image_url: string;
-    readonly kids: boolean;
-    readonly licensors: string[];
-    readonly mal_id: number;
-    readonly members: number;
-    readonly producers: Meta[];
-    readonly r18: boolean;
-    readonly score: number | null;
-    readonly source: Source;
-    readonly synopsis: string;
-    readonly title: string;
-    readonly type: AnimeType;
-    readonly url: string;
+     airing_start: Date | null;
+     episodes: number | null;
+     genres: Meta[];
+     image_url: string;
+     kids: boolean;
+     licensors: string[];
+     mal_id: number;
+     members: number;
+     producers: Meta[];
+     r18: boolean;
+     score: number | null;
+     source: Source;
+     synopsis: string;
+     title: string;
+     type: AnimeType;
+     url: string;
 }
 interface Meta {
-    readonly mal_id: number;
-    readonly name: string;
-    readonly type: MetaType;
-    readonly url: string;
+     mal_id: number;
+     name: string;
+     type: MetaType;
+     url: string;
 }
-declare enum MetaType {
+enum MetaType {
     Anime = "anime"
 }
-declare enum Source {
+enum Source {
     Empty = "-",
     Game = "Game",
     LightNovel = "Light novel",
@@ -42,7 +42,7 @@ declare enum Source {
     The4KomaManga = "4-koma manga",
     WebManga = "Web manga"
 }
-declare enum AnimeType {
+enum AnimeType {
     Movie = "Movie",
     Ona = "ONA",
     Ova = "OVA",

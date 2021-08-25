@@ -1,10 +1,10 @@
-export declare type Periods = 'today' | 'weekly' | 'monthly';
-export declare type Types = 'anime' | 'character' | 'manga' | 'person' | 'season' | 'schedule' | 'search' | 'top';
+export  type Periods = 'today' | 'weekly' | 'monthly';
+export  type Types = 'anime' | 'character' | 'manga' | 'person' | 'season' | 'schedule' | 'search' | 'top';
 export interface Status {
-    readonly cached_requests: number;
-    readonly connected_clients: string;
-    readonly requests_this_month: number;
-    readonly requests_this_week: number;
-    readonly requests_today: number;
-    readonly total_connections_received: string;
+     cached_requests: number;
+     connected_clients: string;
+     requests_this_month: number;
+     requests_this_week: number;
+     requests_today: number;
+     total_connections_received: string;
 }

@@ -1,68 +1,68 @@
 export interface Anime {
-    readonly anime: AnimeElement[];
-    readonly item_count: number;
-    readonly mal_url: MalURL;
-    readonly request_cache_expiry: number;
-    readonly request_cached: boolean;
-    readonly request_hash: string;
+     anime: AnimeElement[];
+     item_count: number;
+     mal_url: MalURL;
+     request_cache_expiry: number;
+     request_cached: boolean;
+     request_hash: string;
 }
 export interface Manga {
-    readonly item_count: number;
-    readonly mal_url: MalURL;
-    readonly manga: MangaElement[];
-    readonly request_cache_expiry: number;
-    readonly request_cached: boolean;
-    readonly request_hash: string;
+     item_count: number;
+     mal_url: MalURL;
+     manga: MangaElement[];
+     request_cache_expiry: number;
+     request_cached: boolean;
+     request_hash: string;
 }
 interface AnimeElement {
-    readonly airing_start: Date | null;
-    readonly episodes: number | null;
-    readonly genres: MalURL[];
-    readonly image_url: string;
-    readonly kids: boolean;
-    readonly licensors: string[];
-    readonly mal_id: number;
-    readonly members: number;
-    readonly producers: MalURL[];
-    readonly r18: boolean;
-    readonly score: number | null;
-    readonly source: Source;
-    readonly synopsis: string;
-    readonly title: string;
-    readonly type: AnimeType;
-    readonly url: string;
+     airing_start: Date | null;
+     episodes: number | null;
+     genres: MalURL[];
+     image_url: string;
+     kids: boolean;
+     licensors: string[];
+     mal_id: number;
+     members: number;
+     producers: MalURL[];
+     r18: boolean;
+     score: number | null;
+     source: Source;
+     synopsis: string;
+     title: string;
+     type: AnimeType;
+     url: string;
 }
 interface MangaElement {
-    readonly authors: MalURL[];
-    readonly genres: MalURL[];
-    readonly image_url: string;
-    readonly mal_id: number;
-    readonly members: number;
-    readonly publishing_start: Date | null;
-    readonly score: number;
-    readonly serialization: string[];
-    readonly synopsis: string;
-    readonly title: string;
-    readonly type: MangaType;
-    readonly url: string;
-    readonly volumes: number | null;
+     authors: MalURL[];
+     genres: MalURL[];
+     image_url: string;
+     mal_id: number;
+     members: number;
+     publishing_start: Date | null;
+     score: number;
+     serialization: string[];
+     synopsis: string;
+     title: string;
+     type: MangaType;
+     url: string;
+     volumes: number | null;
 }
-declare enum MangaType {
+enum MangaType {
     Doujinshi = "Doujinshi",
     Manga = "Manga",
     Manhwa = "Manhwa",
     Novel = "Novel"
 }
 interface MalURL {
-    readonly mal_id: number;
-    readonly name: string;
-    readonly type: MalURLType;
-    readonly url: string;
+     mal_id: number;
+     name: string;
+     type: MalURLType;
+     url: string;
 }
-declare enum MalURLType {
+enum MalURLType {
     Anime = "anime"
 }
-declare enum Source {
+enum Source {
     Empty = "-",
     Manga = "Manga",
     Novel = "Novel",
@@ -70,7 +70,7 @@ declare enum Source {
     VisualNovel = "Visual novel",
     WebManga = "Web manga"
 }
-declare enum AnimeType {
+enum AnimeType {
     Movie = "Movie",
     Ona = "ONA",
     Ova = "OVA",

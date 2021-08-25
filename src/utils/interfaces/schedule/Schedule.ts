@@ -1,38 +1,38 @@
-export declare type Days = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday' | 'other' | 'unknown';
+export type Days = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday' | 'other' | 'unknown';
 export interface ScheduleResult {
-    readonly request_hash: string;
-    readonly request_cached: boolean;
-    readonly request_cache_expiry: number;
-    readonly monday: Day[];
+     request_hash: string;
+     request_cached: boolean;
+     request_cache_expiry: number;
+     monday: Day[];
 }
 interface Day {
-    readonly airing_start: Date;
-    readonly episodes: number | null;
-    readonly genres: Genre[];
-    readonly image_url: string;
-    readonly kids: boolean;
-    readonly licensors: any[];
-    readonly mal_id: number;
-    readonly members: number;
-    readonly producers: Genre[];
-    readonly r18: boolean;
-    readonly score: number | null;
-    readonly source: string;
-    readonly synopsis: string;
-    readonly title: string;
-    readonly type: MondayType;
-    readonly url: string;
+     airing_start: Date;
+     episodes: number | null;
+     genres: Genre[];
+     image_url: string;
+     kids: boolean;
+     licensors: any[];
+     mal_id: number;
+     members: number;
+     producers: Genre[];
+     r18: boolean;
+     score: number | null;
+     source: string;
+     synopsis: string;
+     title: string;
+     type: MondayType;
+     url: string;
 }
 interface Genre {
-    readonly mal_id: number;
-    readonly name: string;
-    readonly type: GenreType;
-    readonly url: string;
+     mal_id: number;
+     name: string;
+     type: GenreType;
+     url: string;
 }
-declare enum GenreType {
+enum GenreType {
     Anime = "anime"
 }
-declare enum MondayType {
+ enum MondayType {
     Tv = "TV"
 }
 export {};

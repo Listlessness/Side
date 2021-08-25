@@ -1,17 +1,17 @@
 export interface Characters {
-    readonly characters: Character[];
-    readonly request_cache_expiry: number;
-    readonly request_cached: boolean;
-    readonly request_hash: string;
+     characters: Character[];
+     request_cache_expiry: number;
+     request_cached: boolean;
+     request_hash: string;
 }
 interface Character {
-    readonly image_url: string;
-    readonly mal_id: number;
-    readonly name: string;
-    readonly role: Role;
-    readonly url: string;
+     image_url: string;
+     mal_id: number;
+     name: string;
+     role: Role;
+     url: string;
 }
-export declare enum Role {
+export enum Role {
     Main = "Main",
     Supporting = "Supporting"
 }

@@ -1,12 +1,14 @@
 import React from 'react';
-import { ThumbnailProps } from './thumbnail.comp.types';
+import { ThumbnailProps } from './thumbnail.types';
 import { Text, View, Image, StyleSheet } from 'react-native';
 
 function Thumbnail({
     id,
     title,
+    score,
     description,
     url,
+    type,
     picture_url
 }: ThumbnailProps) {
     return (
@@ -16,9 +18,19 @@ function Thumbnail({
                 source={{uri: picture_url}}
                 loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
             />
-            <Text style={styles.title}>
-                {title}
-            </Text>
+            <View style={styles.info}>
+                <Text style={styles.title}>
+                    {title}
+                </Text>
+                <View style={styles.meta}>
+                    <Text style={styles.score}>
+                        {score}
+                    </Text>
+                    <Text style={styles.type}>
+                        {type}
+                    </Text>
+                </View>
+            </View>
         </View>
     )
 }
@@ -30,16 +42,41 @@ const styles = StyleSheet.create({
         height: '100%',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingLeft: 5,
+        paddingRight: 5
     },
     picture: {
         width: '100%',
         height: '75%',
-        resizeMode: 'contain',
+        resizeMode: 'cover',
+    },
+    info: {
+        paddingTop: 5,
+        height: '25%',
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
     },
     title: {
-        color: '#fff',
-        fontWeight: '500'
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        color: '#F5F1DB',
+        fontWeight: '500',
+    },
+    meta: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    score: {
+        color: '#FCBF49',
+        fontWeight: '500',
+    },
+    type: {
+        color: '#F77F00',
+        fontWeight: '500',
     }
 });
 

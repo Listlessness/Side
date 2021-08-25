@@ -1,8 +1,8 @@
 export type {
-    ThumbnailProps
+    StackItemProps
 }
 
-interface ThumbnailProps {
+interface StackItemProps {
     id?: number | string;
     title: string;
     description?:  string;

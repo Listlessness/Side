@@ -1,69 +1,69 @@
 export interface AnimeById {
-    readonly aired: Aired;
-    readonly airing: boolean;
-    readonly background: string;
-    readonly broadcast: string;
-    readonly duration: string;
-    readonly ending_themes: string[];
-    readonly episodes: number;
-    readonly favorites: number;
-    readonly genres: Genre[];
-    readonly image_url: string;
-    readonly licensors: Genre[];
-    readonly mal_id: number;
-    readonly members: number;
-    readonly opening_themes: string[];
-    readonly popularity: number;
-    readonly premiered: string;
-    readonly producers: Genre[];
-    readonly rank: number;
-    readonly rating: string;
-    readonly related: Related;
-    readonly request_cache_expiry: number;
-    readonly request_cached: boolean;
-    readonly request_hash: string;
-    readonly score: number;
-    readonly scored_by: number;
-    readonly source: string;
-    readonly status: string;
-    readonly studios: Genre[];
-    readonly synopsis: string;
-    readonly title_english: string;
-    readonly title_japanese: string;
-    readonly title_synonyms: any[];
-    readonly title: string;
-    readonly trailer_url: string;
-    readonly type: string;
-    readonly url: string;
+     aired: Aired;
+     airing: boolean;
+     background: string;
+     broadcast: string;
+     duration: string;
+     ending_themes: string[];
+     episodes: number;
+     favorites: number;
+     genres: Genre[];
+     image_url: string;
+     licensors: Genre[];
+     mal_id: number;
+     members: number;
+     opening_themes: string[];
+     popularity: number;
+     premiered: string;
+     producers: Genre[];
+     rank: number;
+     rating: string;
+     related: Related;
+     request_cache_expiry: number;
+     request_cached: boolean;
+     request_hash: string;
+     score: number;
+     scored_by: number;
+     source: string;
+     status: string;
+     studios: Genre[];
+     synopsis: string;
+     title_english: string;
+     title_japanese: string;
+     title_synonyms: any[];
+     title: string;
+     trailer_url: string;
+     type: string;
+     url: string;
 }
 interface Aired {
-    readonly from: Date;
-    readonly prop: Prop;
-    readonly string: string;
-    readonly to: Date;
+     from: Date;
+     prop: Prop;
+     string: string;
+     to: Date;
 }
 interface Prop {
-    readonly from: From;
-    readonly to: From;
+     from: From;
+     to: From;
 }
 interface From {
-    readonly day: number;
-    readonly month: number;
-    readonly year: number;
+     day: number;
+     month: number;
+     year: number;
 }
 interface Genre {
-    readonly mal_id: number;
-    readonly name: string;
-    readonly type: Type;
-    readonly url: string;
+     mal_id: number;
+     name: string;
+     type: Type;
+     url: string;
 }
-declare enum Type {
+enum Type {
     Anime = "anime",
     Manga = "manga"
 }
 interface Related {
-    readonly Adaptation: Genre[];
-    readonly 'Side story': Genre[];
-    readonly Summary: Genre[];
+     Adaptation: Genre[];
+     'Side story': Genre[];
+     Summary: Genre[];
 }
 export {};

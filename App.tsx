@@ -7,17 +7,15 @@ export default function App() {
 
 
   return (
-    <SafeAreaView style={styles.container}>
       <LandingPage />
-    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#003049',
     alignItems: 'center',
     justifyContent: 'center',
+    height: 'auto'
   },
 });

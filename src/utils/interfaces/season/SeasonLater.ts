@@ -1,40 +1,40 @@
 export interface SeasonLater {
-    readonly anime: Anime[];
-    readonly request_cache_expiry: number;
-    readonly request_cached: boolean;
-    readonly request_hash: string;
-    readonly season_name: string;
-    readonly season_year: null;
+     anime: Anime[];
+     request_cache_expiry: number;
+     request_cached: boolean;
+     request_hash: string;
+     season_name: string;
+     season_year: null;
 }
 interface Anime {
-    readonly airing_start: null;
-    readonly continuing: boolean;
-    readonly episodes: number | null;
-    readonly genres: Genre[];
-    readonly image_url: string;
-    readonly kids: boolean;
-    readonly licensors: string[];
-    readonly mal_id: number;
-    readonly members: number;
-    readonly producers: Genre[];
-    readonly r18: boolean;
-    readonly score: null;
-    readonly source: Source;
-    readonly synopsis: string;
-    readonly title: string;
-    readonly type: AnimeType;
-    readonly url: string;
+     airing_start: null;
+     continuing: boolean;
+     episodes: number | null;
+     genres: Genre[];
+     image_url: string;
+     kids: boolean;
+     licensors: string[];
+     mal_id: number;
+     members: number;
+     producers: Genre[];
+     r18: boolean;
+     score: null;
+     source: Source;
+     synopsis: string;
+     title: string;
+     type: AnimeType;
+     url: string;
 }
 interface Genre {
-    readonly mal_id: number;
-    readonly name: string;
-    readonly type: GenreType;
-    readonly url: string;
+     mal_id: number;
+     name: string;
+     type: GenreType;
+     url: string;
 }
-declare enum GenreType {
+enum GenreType {
     Anime = "anime"
 }
-declare enum Source {
+enum Source {
     CardGame = "Card game",
     Empty = "-",
     Game = "Game",
@@ -49,7 +49,7 @@ declare enum Source {
     VisualNovel = "Visual novel",
     WebManga = "Web manga"
 }
-declare enum AnimeType {
+enum AnimeType {
     Empty = "-",
     Movie = "Movie",
     Ona = "ONA",

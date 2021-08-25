@@ -1,14 +1,14 @@
 export interface SeasonArchive {
-    readonly archive: Archive[];
-    readonly request_cache_expiry: number;
-    readonly request_cached: boolean;
-    readonly request_hash: string;
+     archive: Archive[];
+     request_cache_expiry: number;
+     request_cached: boolean;
+     request_hash: string;
 }
 interface Archive {
-    readonly year: number;
-    readonly seasons: Season[];
+     year: number;
+     seasons: Season[];
 }
-declare enum Season {
+enum Season {
     Fall = "Fall",
     Spring = "Spring",
     Summer = "Summer",

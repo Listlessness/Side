@@ -1,23 +1,23 @@
 export interface Forum {
-    readonly request_cache_expiry: number;
-    readonly request_cached: boolean;
-    readonly request_hash: string;
-    readonly topics: Topic[];
+     request_cache_expiry: number;
+     request_cached: boolean;
+     request_hash: string;
+     topics: Topic[];
 }
 interface Topic {
-    readonly author_name: string;
-    readonly author_url: string;
-    readonly date_posted: Date;
-    readonly last_post: LastPost;
-    readonly replies: number;
-    readonly title: string;
-    readonly topic_id: number;
-    readonly url: string;
+     author_name: string;
+     author_url: string;
+     date_posted: Date;
+     last_post: LastPost;
+     replies: number;
+     title: string;
+     topic_id: number;
+     url: string;
 }
 interface LastPost {
-    readonly author_name: string;
-    readonly author_url: string;
-    readonly date_posted: Date;
-    readonly url: string;
+     author_name: string;
+     author_url: string;
+     date_posted: Date;
+     url: string;
 }
 export {};

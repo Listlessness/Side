@@ -1,43 +1,74 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import { CustomCarousel } from '../../components/CustomCarousel';
+import { Dimensions, StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { ThumbnailCarousel } from '../../components/CustomCarousel/ThumbnailCarousel';
+import { LandingPageHeader } from '../../components/landingPageHeader';
 import JikanAPI from '../../services/JikanAPI';
-import { Constants, JikanInterfaces } from '../../utils';
+import GogoAnimeAPI from '../../services/GogoanimeAPI';
+import { TopItem, JikanTypesObj, JikanAnimeSubTypesObj } from '../../utils';
+import { IRecentRelease } from 'gogoanime-api';
+import { StackCarousel } from '../../components/CustomCarousel/StackCarousel';
 
+const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 export default function LandingPage() {
-    const [topAiringList, setTopAiringList] = useState<JikanInterfaces.TopItem[]>([]);
 
-    const [topUpcomingList, setTopUpcomingList] = useState<JikanInterfaces.TopItem[]>([]);
+    const [newEpisodeList, setNewEpisodeList] = useState<IRecentRelease[]>([])
+
+    const [topAiringList, setTopAiringList] = useState<TopItem[]>([]);
+
+    const [topUpcomingList, setTopUpcomingList] = useState<TopItem[]>([]);
+
+    useEffect(() => {
+        GogoAnimeAPI.fetchRecentlyAddedEpisodes().then(resp => {
+            setNewEpisodeList(resp.data);
+        })
+    }, [newEpisodeList?.length])
 
 
     useEffect(() => {
-        JikanAPI.fetchTop(Constants.JikanTypesObj.anime, 1, Constants.JikanAnimeSubTypesObj.airing).then((resp: JikanInterfaces.TopResult) => {
+        JikanAPI.fetchTop(JikanTypesObj.Anime, 1, JikanAnimeSubTypesObj.Airing).then(resp => {
             setTopAiringList(resp.top);
         })
-    }, [topAiringList.length])
+    }, [topAiringList?.length])
 
     useEffect(() => {
-        JikanAPI.fetchTop(Constants.JikanTypesObj.anime, 1, Constants.JikanAnimeSubTypesObj.upcoming).then((resp: JikanInterfaces.TopResult) => {
+        JikanAPI.fetchTop(JikanTypesObj.Anime, 1, JikanAnimeSubTypesObj.Upcoming).then(resp => {
             setTopUpcomingList(resp.top);
         })
-    }, [topUpcomingList.length])
+    }, [topUpcomingList?.length])
 
     return (
         <SafeAreaView style={styles.landingPage}>
-            <CustomCarousel
-                items={topAiringList}
-            />
-            <CustomCarousel
-                items={topUpcomingList}
-            />
+            <LandingPageHeader/>
+            <View style={styles.content}>
+                <StackCarousel
+                    title="fs"
+                    items={newEpisodeList}
+                />
+                <ThumbnailCarousel
+                    title="Top Airing Anime"
+                    items={topAiringList}
+                />
+                <ThumbnailCarousel
+                    title="Top Upcoming Anime"
+                    items={topUpcomingList}
+                />
+            </View>
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
   landingPage: {
-    flex: 1
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000E14',
+    height: windowHeight * 2
   },
+  content: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 50,
+  }
 });
