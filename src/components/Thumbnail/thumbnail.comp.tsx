@@ -1,6 +1,8 @@
 import React from 'react';
 import { ThumbnailProps } from './thumbnail.types';
-import { Text, View, Image, StyleSheet } from 'react-native';
+import { Text, View, Image, StyleSheet, Dimensions, ImageBackground } from 'react-native';
+import { Button } from 'react-native-elements';
+const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 function Thumbnail({
     id,
@@ -12,51 +14,67 @@ function Thumbnail({
     picture_url
 }: ThumbnailProps) {
     return (
-        <View key={id} style={styles.container}>
-            <Image
-                style={styles.picture}
-                source={{uri: picture_url}}
-                loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
-            />
-            <View style={styles.info}>
-                <Text style={styles.title}>
-                    {title}
-                </Text>
-                <View style={styles.meta}>
-                    <Text style={styles.score}>
-                        {score}
-                    </Text>
-                    <Text style={styles.type}>
-                        {type}
-                    </Text>
+        <Button key={id} containerStyle={styles.container} buttonStyle={{padding: 0}} type="clear"
+            icon={
+                <View key={id} style={styles.container}>
+                    <ImageBackground
+                        style={styles.background}
+                        resizeMode="cover"
+                        blurRadius={5}
+                        source={{uri: picture_url}}
+                        loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
+                    >
+                        <Image
+                            style={styles.picture}
+                            source={{uri: picture_url}}
+                            resizeMode="contain"
+                            loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
+                        />
+                    </ImageBackground>
+                    <View style={styles.info}>
+                        <Text style={styles.title}>
+                            {title}
+                        </Text>
+                        <View style={styles.meta}>
+                            <Text style={styles.score}>
+                                {score}
+                            </Text>
+                            <Text style={styles.type}>
+                                {type}
+                            </Text>
+                        </View>
+                    </View>
                 </View>
-            </View>
-        </View>
+            }
+        />
     )
 }
 
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        height: '100%',
+        width: windowWidth * .3,
+        height: windowHeight * .3,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         paddingLeft: 5,
         paddingRight: 5
     },
+    background: {
+        width: '100%',
+        height: windowHeight * .24
+    },
     picture: {
         width: '100%',
-        height: '75%',
-        resizeMode: 'cover',
+        height: '100%'
     },
     info: {
         paddingTop: 5,
-        height: '25%',
+        height: '24%',
         display: 'flex',
         flexDirection: 'column',
-        width: '100%',
+        width: '100%'
     },
     title: {
         whiteSpace: 'nowrap',

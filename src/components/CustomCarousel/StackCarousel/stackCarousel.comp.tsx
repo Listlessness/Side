@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import { useRef } from 'react';
+import React from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
-import Carousel from 'react-native-snap-carousel';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { StackCarouselTypes } from './stackCarousel.types';
 import { MessageComp } from '../../MessageComp';
 import { IRecentRelease } from 'gogoanime-api';
 import StackItem from '../../StackItem/stackItem.comp';
+import { SeeMoreButton } from '../../common';
+import { Screens } from './../../../utils/constants';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -15,7 +16,7 @@ export function StackCarousel({
 }: StackCarouselTypes) {
 
     const carouselRef = React.useRef(null);
-    const [currIndex, setIndex] = React.useState(0)
+    const [activeSlide, setActiveSlide] = React.useState(0);
 
     let _renderItem = ({item, index}: { item: IRecentRelease; index: number; }) => {
 
@@ -33,18 +34,36 @@ export function StackCarousel({
 
     return (
         <View style={styles.container}>
+            <View style={styles.header}>
+                <Text style={styles.carouselTitle}>
+                    {title}
+                </Text>
+                <SeeMoreButton navigateTo={{name: Screens.LATEST_EPISODES_PAGE.name}} />
+            </View>
             {(items && items.length > 0) ? (
-                <Carousel
-                    layout={"tinder"}
-                    ref={carouselRef}
-                    data={items}
-                    sliderWidth={windowWidth * .9}
-                    itemWidth={windowWidth * .9}
-                    renderItem={_renderItem}
-                    onSnapToItem = { index => setIndex(index) }
-                    activeSlideAlignment={'center'}
-                    inactiveSlideScale={1}
-                />
+                <>
+                    <Carousel
+                        layout={"stack"}
+                        ref={carouselRef}
+                        data={items}
+                        sliderWidth={windowWidth * .9}
+                        itemWidth={windowWidth * .9}
+                        renderItem={_renderItem}
+                        inactiveSlideOpacity={0.1}
+                        inactiveSlideScale={0.1}
+                        onSnapToItem={(index) => setActiveSlide(index) }
+                        useScrollView
+                        autoplay
+                    />
+                    <Pagination
+                        dotsLength={items.length}
+                        activeDotIndex={activeSlide}
+                        containerStyle={styles.paginationContainer}
+                        dotStyle={styles.dot}
+                        inactiveDotOpacity={0.4}
+                        inactiveDotScale={0.6}
+                    />
+                </>
             ) : (
                 <MessageComp
                     message="No Anime Found."
@@ -57,8 +76,7 @@ export function StackCarousel({
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 10,
-        height: windowHeight * .25,
+        height: windowHeight * .4,
         minWidth: windowWidth * .9
     },
     carouselTitle: {
@@ -74,12 +92,16 @@ const styles = StyleSheet.create({
         borderBottomWidth: 3,
         marginBottom: 15,
     },
-    carouselSeeMore: {
-        color: '#EAE2B7',
-        fontWeight: '500',
-        textAlign: 'right',
-        width: '50%',
-        paddingBottom: 5,
+    paginationContainer: { 
+        height: windowHeight * .05,
+        paddingTop: 0,
+        paddingBottom: 0
+    },
+    dot: {
+        width: 5,
+        height: 5,
+        marginHorizontal: 2,
+        backgroundColor: 'rgba(255, 255, 255, 0.92)'
     }
 });
 

@@ -1,5 +1,6 @@
 export type {
-    ThumbnailProps
+    ThumbnailProps,
+    EpisodeThumbnailProps
 }
 
 interface ThumbnailProps {
@@ -10,4 +11,12 @@ interface ThumbnailProps {
     picture_url: string,
     score: number,
     type: string
+}
+
+interface EpisodeThumbnailProps {
+    id?: number | string;
+    title: string;
+    episode?:  string;
+    url:  string;
+    picture_url: string
 }

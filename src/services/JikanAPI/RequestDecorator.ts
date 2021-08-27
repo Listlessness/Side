@@ -8,7 +8,7 @@ export default function handleResponse(target: any, name: string, descriptor: Ty
             return await original.apply(this, args)
                                 .catch((err: JikanErrorResponse) => {
                                             console.error("Encountered an exception - ", err);
-                                            return DEFAULT_ERROR_MSSG;
+                                            throw DEFAULT_ERROR_MSSG;
                                         });
         }
     }

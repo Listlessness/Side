@@ -1,17 +1,19 @@
-import React, { Component } from 'react';
-import { useRef } from 'react';
+import React from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { ThumbnailCarouselTypes } from './thumbnailCarousel.types';
 import Thumbnail from '../../Thumbnail/thumbnail.comp';
 import { TopItem } from '../../../utils/interfaces';
 import { MessageComp } from '../../MessageComp';
+import { SeeMoreButton } from '../../common';
+import { Screens } from '../../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 export function ThumbnailCarousel({
     items,
-    title
+    title,
+    topType
 }: ThumbnailCarouselTypes) {
 
     const carouselRef = React.useRef(null);
@@ -38,9 +40,7 @@ export function ThumbnailCarousel({
                 <Text style={styles.carouselTitle}>
                     {title}
                 </Text>
-                <Text style={styles.carouselSeeMore}>
-                    see more &gt;
-                </Text>
+                <SeeMoreButton navigateTo={{name: Screens.TOP_ANIME_PAGE.name, params: {topType: topType}}}/>
             </View>
             {(items && items.length > 0) ? (
                 <Carousel
@@ -67,7 +67,7 @@ export function ThumbnailCarousel({
 const styles = StyleSheet.create({
     container: {
         paddingTop: 10,
-        height: windowHeight * .45,
+        height: windowHeight * .4,
         minWidth: windowWidth * .9
     },
     carouselTitle: {
@@ -82,13 +82,6 @@ const styles = StyleSheet.create({
         borderBottomColor: '#E75414',
         borderBottomWidth: 3,
         marginBottom: 15,
-    },
-    carouselSeeMore: {
-        color: '#EAE2B7',
-        fontWeight: '500',
-        textAlign: 'right',
-        width: '50%',
-        paddingBottom: 5,
     }
 });
 

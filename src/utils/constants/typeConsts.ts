@@ -10,7 +10,14 @@ export {
     SeasonTypesObj,
     JikanDaysObj,
     JikanSearchTypeObj,
+    RECENT_RELEASE_TYPE
 };
+
+const enum RECENT_RELEASE_TYPE {
+    SUB = 1,
+    DUB = 2,
+    CHINESE = 3
+}
 
 const enum JikanTypesObj {
     Anime = 'anime',
