@@ -27,6 +27,7 @@ const __renderList = (ref: any, shouldShow: boolean, items: IRecentRelease[], on
                     episode={item.episode}
                 />
             )}
+            keyExtractor={(item, index) => `${item.title}-${index}`}
             getItemLayout={(data, index) => (
                 {length: windowHeight * .35, offset: (windowHeight * .35) * index, index}
               )}

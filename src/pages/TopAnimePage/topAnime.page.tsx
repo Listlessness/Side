@@ -33,6 +33,7 @@ const __renderList = (
                     type={item.type}
                 />
             )}
+            keyExtractor={(item, index) => `${item.title}-${index}`}
             onEndReached={onEndReached}
             onScroll={onScroll}
             onRefresh={__onRefresh}

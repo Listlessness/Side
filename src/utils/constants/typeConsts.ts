@@ -4,29 +4,24 @@ import { Days, Seasons, SearchTypes } from "../interfaces";
 export {
     MonthSeason,
     MonthNumSeason,
-    JikanTypesObj,
-    JikanAnimeSubTypesObj,
-    JikanMangaSubTypesObj,
-    SeasonTypesObj,
     JikanDaysObj,
-    JikanSearchTypeObj,
-    RECENT_RELEASE_TYPE
+    JikanSearchTypeObj
 };
 
-const enum RECENT_RELEASE_TYPE {
+export enum RECENT_RELEASE_TYPE {
     SUB = 1,
     DUB = 2,
     CHINESE = 3
 }
 
-const enum JikanTypesObj {
+export enum JikanTypesObj {
     Anime = 'anime',
     Manga = 'manga',
     People=  'people',
     Characters = 'characters'
 }
 
-const enum JikanAnimeSubTypesObj {
+export enum JikanAnimeSubTypesObj {
     Airing = 'airing',
     Upcoming = 'upcoming',
     TV = 'tv',
@@ -37,7 +32,7 @@ const enum JikanAnimeSubTypesObj {
     Favorite = 'favorite'
 }
 
-enum JikanMangaSubTypesObj {
+export enum JikanMangaSubTypesObj {
     Manga = 'manga',
     Novels = 'novels',
     Oneshots = 'oneshots',
@@ -48,7 +43,7 @@ enum JikanMangaSubTypesObj {
     Favorite = 'favorite'
 }
 
-enum SeasonTypesObj {
+export enum SeasonTypesObj {
     SPRING = 'spring',
     SUMMER = 'summer',
     FALL = 'fall',
