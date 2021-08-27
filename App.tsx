@@ -6,28 +6,29 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { LatestEpisodesPage } from './src/pages/LatestEpisodesPage';
 import { Button, Icon } from 'react-native-elements';
-import { JikanTypesObj, Screens } from './src/utils/constants';
+import { JikanTypesObj, RootStackParamList, Screens } from './src/utils/constants';
 import { ThemeProvider } from 'react-native-elements';
 
 const theme = {
   colors: {
-    primary: '##000E14',
+    primary: '#000E14',
     secondary: '#F77F00'
   },
 };
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 
 export default function App() {
 
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider style={styles.container}>
       <ThemeProvider theme={theme}>
         <NavigationContainer>
           <Stack.Navigator
+            initialRouteName={Screens.LANDING_PAGE.name}
             screenOptions={{
               headerStyle: styles.headerStyle,
               headerTintColor: '#fff',
@@ -59,7 +60,6 @@ export default function App() {
             <Stack.Screen 
               name={Screens.TOP_ANIME_PAGE.name}
               component={Screens.TOP_ANIME_PAGE.component}
-              initialParams={{ topType: JikanTypesObj.Anime }}
             />
           </Stack.Navigator>
         </NavigationContainer>
@@ -76,4 +76,7 @@ const styles = StyleSheet.create({
   headerTitleStyle:  {
     fontWeight: '500',
   },
+  container: {
+    backgroundColor: '#000E14'
+  }
 });

@@ -1,25 +1,19 @@
 import React from 'react'
 import { StyleSheet } from 'react-native';
 import { Button, Icon } from 'react-native-elements'
-import { useNavigation } from '@react-navigation/native';
-
-
 interface SeeMoreButtonProps {
-    navigateTo: {
-        name: string,
-        params?: {[index: string]: any}
-    }
+    onPress: () => void,
 }
 
 export function SeeMoreButton({
-    navigateTo
+    onPress
 }: SeeMoreButtonProps) {
-    const navigation = useNavigation();
+    
 
     return (
         <Button
             titleStyle={styles.carouselSeeMore}
-            onPress={() => navigation.navigate(navigateTo.name, navigateTo.params)}
+            onPress={onPress}
             icon={
                 <Icon
                     name="arrow-right"

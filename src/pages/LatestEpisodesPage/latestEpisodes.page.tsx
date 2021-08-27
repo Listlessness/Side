@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Dimensions, StyleSheet, View, FlatList } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { FAB, Icon, Tab, TabView, Text } from 'react-native-elements';
 import { RECENT_RELEASE_TYPE } from '../../utils';
 import { IRecentRelease } from 'gogoanime-api';
@@ -75,8 +74,8 @@ export function LatestEpisodesPage() {
 
 
     return (
-        <SafeAreaView style={styles.page}>
-            <Tab indicatorStyle={{backgroundColor: '#E75414'}} value={currIndex} onChange={__onChange}>
+        <View style={styles.page}>
+            <Tab value={currIndex} onChange={__onChange}>
                 <Tab.Item containerStyle={styles.tabs} titleStyle={styles.tabTitle} title="Sub" />
                 <Tab.Item containerStyle={styles.tabs} titleStyle={styles.tabTitle} title="Dub" />
                 <Tab.Item containerStyle={styles.tabs} titleStyle={styles.tabTitle} title="Chinese" />
@@ -106,7 +105,7 @@ export function LatestEpisodesPage() {
                 visible={fabVisibility}
             />
             
-        </SafeAreaView>
+        </View>
     );
 }
 
@@ -116,19 +115,22 @@ const styles = StyleSheet.create({
         backgroundColor: '#000E14',
         height: '100vh',
         maxWidth: '100vw',
-        overflow: 'hidden'
+        overflow: 'hidden',
     },
     tabTitle: {
         color: '#fff'
     },
     tabs: {
         height: '8vh',
-        // backgroundColor: 'rgb(231 84 20 / 17%)'
+        paddingRight: 10,
+        paddingLeft: 10
     },
     content: {
         paddingTop: '2vh',
         width: '100vw',
-        height: '80vh'
+        height: '80vh',
+        paddingRight: 10,
+        paddingLeft: 10
     },
     list: {
         alignItems: 'center',

@@ -3,10 +3,9 @@ import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { ThumbnailCarouselTypes } from './thumbnailCarousel.types';
 import Thumbnail from '../../Thumbnail/thumbnail.comp';
-import { TopItem } from '../../../utils/interfaces';
 import { MessageComp } from '../../MessageComp';
 import { SeeMoreButton } from '../../common';
-import { Screens } from '../../../utils';
+import { Screens, UseNavigation, TopItem } from './../../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -16,6 +15,8 @@ export function ThumbnailCarousel({
     topType
 }: ThumbnailCarouselTypes) {
 
+    const navigation = UseNavigation();
+    
     const carouselRef = React.useRef(null);
     const [currIndex, setIndex] = React.useState(0)
 
@@ -34,13 +35,17 @@ export function ThumbnailCarousel({
         );
     }
 
+    let __onPress = () => {
+        navigation.navigate(Screens.TOP_ANIME_PAGE.name, {topType: topType})
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.carouselTitle}>
                     {title}
                 </Text>
-                <SeeMoreButton navigateTo={{name: Screens.TOP_ANIME_PAGE.name, params: {topType: topType}}}/>
+                <SeeMoreButton onPress={__onPress}/>
             </View>
             {(items && items.length > 0) ? (
                 <Carousel
@@ -51,7 +56,7 @@ export function ThumbnailCarousel({
                     itemWidth={windowWidth * .3}
                     renderItem={_renderItem}
                     onSnapToItem = { index => setIndex(index) }
-                    activeSlideAlignment={'start'}
+                    activeSlideAlignment={'center'}
                     inactiveSlideScale={.8}
                 />
             ) : (
@@ -68,7 +73,7 @@ const styles = StyleSheet.create({
     container: {
         paddingTop: 10,
         height: windowHeight * .4,
-        minWidth: windowWidth * .9
+        width: windowWidth * .9
     },
     carouselTitle: {
         color: '#fff',

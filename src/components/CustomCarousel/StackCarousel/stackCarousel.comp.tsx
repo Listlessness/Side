@@ -6,7 +6,7 @@ import { MessageComp } from '../../MessageComp';
 import { IRecentRelease } from 'gogoanime-api';
 import StackItem from '../../StackItem/stackItem.comp';
 import { SeeMoreButton } from '../../common';
-import { Screens } from './../../../utils/constants';
+import { Screens, UseNavigation } from './../../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -15,11 +15,12 @@ export function StackCarousel({
     title
 }: StackCarouselTypes) {
 
+    const navigation = UseNavigation();
+
     const carouselRef = React.useRef(null);
     const [activeSlide, setActiveSlide] = React.useState(0);
 
     let _renderItem = ({item, index}: { item: IRecentRelease; index: number; }) => {
-
         return (
             <StackItem
                 key={index}
@@ -32,13 +33,17 @@ export function StackCarousel({
         );
     }
 
+    let __onPress = () => {
+        navigation.navigate(Screens.LATEST_EPISODES_PAGE.name)
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.carouselTitle}>
                     {title}
                 </Text>
-                <SeeMoreButton navigateTo={{name: Screens.LATEST_EPISODES_PAGE.name}} />
+                <SeeMoreButton onPress={__onPress} />
             </View>
             {(items && items.length > 0) ? (
                 <>

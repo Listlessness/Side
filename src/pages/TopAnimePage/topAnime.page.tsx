@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Dimensions, StyleSheet, View, FlatList } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, View, FlatList } from 'react-native';
 import { FAB, Icon, Tab, TabView } from 'react-native-elements';
-import { JikanAnimeSubTypesObj, JikanTypesObj, RECENT_RELEASE_TYPE, SubTypes, TopItem } from '../../utils';
+import { JikanAnimeSubTypesObj, JikanTypesObj, SubTypes, TopItem } from '../../utils';
 import { MessageComp } from '../../components/MessageComp';
 import Thumbnail from './../../components/Thumbnail/thumbnail.comp';
 import JikanAPI from '../../services/JikanAPI';
+import { TopAnimeProps } from './topAnime.page.types';
 
 const __renderList = (
     ref: any,
@@ -43,7 +43,7 @@ const __renderList = (
     )
 }
 
-export function TopAnimePage({ route, navigation }: {[index: string]: any}) {
+export function TopAnimePage({ route, navigation }: TopAnimeProps) {
 
     const typeTopValue = {
         [JikanAnimeSubTypesObj.Airing.toString()]: 0,
@@ -67,14 +67,10 @@ export function TopAnimePage({ route, navigation }: {[index: string]: any}) {
 
     const [refreshing, setRefreshing] = React.useState(false);
 
-    const __fetchData = async () => {
-        await JikanAPI.fetchTop(JikanTypesObj.Anime, currPage, topType).then(resp => {
+    useEffect(() => {
+        JikanAPI.fetchTop(JikanTypesObj.Anime, currPage, topType).then(resp => {
             setItems(currPage === 1 ? resp.top : items.concat(resp.top))
         })
-    }
-
-    useEffect(() => {
-        __fetchData()
     }, [topType, currPage])
 
     let __onChange = (index: number) => {
@@ -102,12 +98,14 @@ export function TopAnimePage({ route, navigation }: {[index: string]: any}) {
 
     const __onRefresh = async () => {
         setRefreshing(true);
-        await __fetchData().then(() => setRefreshing(false))
+        await JikanAPI.fetchTop(JikanTypesObj.Anime, currPage, topType).then(resp => {
+            setItems(currPage === 1 ? resp.top : items.concat(resp.top))
+        }).then(() => setRefreshing(false))
     }
 
     return (
-        <SafeAreaView style={styles.page}>
-            <Tab indicatorStyle={{backgroundColor: '#E75414'}} value={currValue} onChange={__onChange}>
+        <View style={styles.page}>
+            <Tab value={currValue} onChange={__onChange}>
                 <Tab.Item containerStyle={styles.tabs} titleStyle={styles.tabTitle} title="Airing" />
                 <Tab.Item containerStyle={styles.tabs} titleStyle={styles.tabTitle} title="Upcoming" />
             </Tab>
@@ -149,7 +147,7 @@ export function TopAnimePage({ route, navigation }: {[index: string]: any}) {
                 visible={fabVisibility}
             />
             
-        </SafeAreaView>
+        </View>
     );
 }
 
@@ -166,12 +164,15 @@ const styles = StyleSheet.create({
     },
     tabs: {
         height: '8vh',
-        // backgroundColor: 'rgb(231 84 20 / 17%)'
+        paddingRight: 10,
+        paddingLeft: 10
     },
     content: {
         paddingTop: '2vh',
         width: '100vw',
-        height: '80vh'
+        height: '80vh',
+        paddingRight: 10,
+        paddingLeft: 10
     },
     list: {
         alignItems: 'center',
