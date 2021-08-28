@@ -34,7 +34,7 @@ export function StackCarousel({
     }
 
     let __onPress = () => {
-        navigation.navigate(Screens.LATEST_EPISODES_PAGE.name)
+        navigation.navigate("Latest Episodes")
     }
 
     return (

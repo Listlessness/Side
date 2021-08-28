@@ -3,9 +3,13 @@ import { LatestEpisodesPage } from "../../pages/LatestEpisodesPage";
 import { SubTypes } from "../interfaces";
 import { TopAnimePage } from './../../pages/TopAnimePage/topAnime.page';
 
-type ScreenProps = {name: keyof RootStackParamList, component: any};
+export type RootStackParamList = {
+    "Home": undefined;
+    "Latest Episodes": undefined;
+    "Top Anime": { topType: SubTypes }
+};
 
-export const Screens : {LANDING_PAGE: ScreenProps, LATEST_EPISODES_PAGE: ScreenProps, TOP_ANIME_PAGE: ScreenProps} = {
+export const Screens = {
     LANDING_PAGE: {
         name: "Home",
         component: LandingPage,
@@ -19,11 +23,3 @@ export const Screens : {LANDING_PAGE: ScreenProps, LATEST_EPISODES_PAGE: ScreenP
         component: TopAnimePage
     }
 }
-
-Screens
-
-export type RootStackParamList = {
-    "Home": undefined;
-    "Latest Episodes": undefined;
-    "Top Anime": { topType: SubTypes }
-};

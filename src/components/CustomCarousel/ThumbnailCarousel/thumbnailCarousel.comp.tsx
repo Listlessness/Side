@@ -36,7 +36,7 @@ export function ThumbnailCarousel({
     }
 
     let __onPress = () => {
-        navigation.navigate(Screens.TOP_ANIME_PAGE.name, {topType: topType})
+        navigation.navigate("Top Anime", {topType: topType})
     }
 
     return (

@@ -28,7 +28,7 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName={Screens.LANDING_PAGE.name}
+            initialRouteName={"Home"}
             screenOptions={{
               headerStyle: styles.headerStyle,
               headerTintColor: '#fff',
@@ -36,7 +36,7 @@ export default function App() {
             }}
           >
             <Stack.Screen
-              name={Screens.LANDING_PAGE.name}
+              name={"Home"}
               component={Screens.LANDING_PAGE.component}
               options={{
                 headerRight: () => (
@@ -54,11 +54,11 @@ export default function App() {
               }}
             />
             <Stack.Screen 
-              name={Screens.LATEST_EPISODES_PAGE.name}
+              name={"Latest Episodes"}
               component={Screens.LATEST_EPISODES_PAGE.component}
             />
             <Stack.Screen 
-              name={Screens.TOP_ANIME_PAGE.name}
+              name={"Top Anime"}
               component={Screens.TOP_ANIME_PAGE.component}
             />
           </Stack.Navigator>
