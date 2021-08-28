@@ -120,12 +120,12 @@ const styles = StyleSheet.create({
         color: '#fff'
     },
     tabs: {
-        height: '8vh',
+        height: windowHeight * .08,
         paddingRight: 10,
         paddingLeft: 10
     },
     content: {
-        paddingTop: '2vh',
+        paddingTop: 10,
         width: windowWidth,
         height: windowHeight * .8,
         paddingRight: 10,

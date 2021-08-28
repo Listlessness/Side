@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
         color: '#fff'
     },
     tabs: {
-        height: '8vh',
+        height: windowHeight * .08,
         paddingRight: 10,
         paddingLeft: 10
     },
