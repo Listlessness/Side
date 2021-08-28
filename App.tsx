@@ -3,7 +3,7 @@ import { Dimensions, StyleSheet } from 'react-native';
 import { LandingPage } from './src/pages/LandingPage';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { LatestEpisodesPage } from './src/pages/LatestEpisodesPage';
 import { Button, Icon } from 'react-native-elements';
 import { JikanTypesObj, RootStackParamList, Screens } from './src/utils/constants';
@@ -18,7 +18,7 @@ const theme = {
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 
 export default function App() {

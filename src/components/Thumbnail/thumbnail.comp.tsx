@@ -24,11 +24,10 @@ function Thumbnail({
                         blurRadius={5}
                         source={{uri: picture_url}}
                     >
-                        <FastImage
+                        <Image
                             style={styles.picture}
                             source={{uri: picture_url}}
                             resizeMode="contain"
-                            fallback
                         />
                     </ImageBackground>
                     <View style={styles.info}>
