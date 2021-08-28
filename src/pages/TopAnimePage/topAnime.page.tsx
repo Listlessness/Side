@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
+import { Dimensions, StyleSheet, View, FlatList } from 'react-native';
 import { FAB, Icon, Tab, TabView } from 'react-native-elements';
 import { JikanAnimeSubTypesObj, JikanTypesObj, SubTypes, TopItem } from '../../utils';
 import { MessageComp } from '../../components/MessageComp';
 import Thumbnail from './../../components/Thumbnail/thumbnail.comp';
 import JikanAPI from '../../services/JikanAPI';
 import { TopAnimeProps } from './topAnime.page.types';
+
+const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 const __renderList = (
     ref: any,
@@ -155,8 +157,7 @@ const styles = StyleSheet.create({
     page: {
         flex: 1,
         backgroundColor: '#000E14',
-        height: '100vh',
-        maxWidth: '100vw',
+        width: windowWidth,
         overflow: 'hidden'
     },
     tabTitle: {
@@ -168,9 +169,9 @@ const styles = StyleSheet.create({
         paddingLeft: 10
     },
     content: {
-        paddingTop: '2vh',
-        width: '100vw',
-        height: '80vh',
+        paddingTop: 10,
+        width: windowWidth,
+        height: windowHeight * .8,
         paddingRight: 10,
         paddingLeft: 10
     },

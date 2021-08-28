@@ -6,7 +6,7 @@ import { MessageComp } from '../../MessageComp';
 import { IRecentRelease } from 'gogoanime-api';
 import StackItem from '../../StackItem/stackItem.comp';
 import { SeeMoreButton } from '../../common';
-import { Screens, UseNavigation } from './../../../utils';
+import { UseNavigation } from './../../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 

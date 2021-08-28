@@ -20,13 +20,11 @@ function StackItem({
                         resizeMode="cover"
                         blurRadius={5}
                         source={{uri: picture_url}}
-                        loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
                     >
                         <ImageBackground
                             style={styles.picture}
                             resizeMode="contain"
                             source={{uri: picture_url}}
-                            loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
                         >
                             <View style={styles.info}>
                                 <Text style={styles.title}>

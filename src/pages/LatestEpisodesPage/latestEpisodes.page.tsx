@@ -113,8 +113,7 @@ const styles = StyleSheet.create({
     page: {
         flex: 1,
         backgroundColor: '#000E14',
-        height: '100vh',
-        maxWidth: '100vw',
+        width: windowWidth,
         overflow: 'hidden',
     },
     tabTitle: {
@@ -127,8 +126,8 @@ const styles = StyleSheet.create({
     },
     content: {
         paddingTop: '2vh',
-        width: '100vw',
-        height: '80vh',
+        width: windowWidth,
+        height: windowHeight * .8,
         paddingRight: 10,
         paddingLeft: 10
     },

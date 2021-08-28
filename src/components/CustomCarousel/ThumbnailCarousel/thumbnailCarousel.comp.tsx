@@ -5,7 +5,7 @@ import { ThumbnailCarouselTypes } from './thumbnailCarousel.types';
 import Thumbnail from '../../Thumbnail/thumbnail.comp';
 import { MessageComp } from '../../MessageComp';
 import { SeeMoreButton } from '../../common';
-import { Screens, UseNavigation, TopItem } from './../../../utils';
+import { UseNavigation, TopItem } from './../../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 

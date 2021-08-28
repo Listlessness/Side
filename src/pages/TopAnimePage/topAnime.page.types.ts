@@ -1,8 +1,8 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../utils";
 
 export type {
     TopAnimeProps
 }
 
-type TopAnimeProps = NativeStackScreenProps<RootStackParamList, 'Top Anime'>;
+type TopAnimeProps = StackScreenProps<RootStackParamList, 'Top Anime'>;

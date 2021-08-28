@@ -2,6 +2,7 @@ import React from 'react';
 import { ThumbnailProps } from './thumbnail.types';
 import { Text, View, Image, StyleSheet, Dimensions, ImageBackground } from 'react-native';
 import { Button } from 'react-native-elements';
+import FastImage from 'react-native-fast-image';
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 function Thumbnail({
@@ -22,13 +23,12 @@ function Thumbnail({
                         resizeMode="cover"
                         blurRadius={5}
                         source={{uri: picture_url}}
-                        loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
                     >
-                        <Image
+                        <FastImage
                             style={styles.picture}
                             source={{uri: picture_url}}
                             resizeMode="contain"
-                            loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
+                            fallback
                         />
                     </ImageBackground>
                     <View style={styles.info}>
