@@ -3,10 +3,10 @@ import { StyleSheet, ScrollView } from 'react-native';
 import { ThumbnailCarousel, StackCarousel, StackItem, Thumbnail } from '../../components';
 import { JikanService, GogoAnimeService } from '../../services';
 import { TopItem, JikanTypesObj, JikanAnimeSubTypesObj, SubTypes } from '../../utils';
-import { IRecentRelease } from 'gogoanime-api';
+import { GogoRecentRelease } from 'gogoanime-api';
 import { LandingPageProps } from './landing.page.types';
 
-const __renderStackItem = ({item, index}: { item: IRecentRelease; index: number; }) => {
+const __renderStackItem = ({item, index}: { item: GogoRecentRelease; index: number; }) => {
     return (
         <StackItem
             key={index}

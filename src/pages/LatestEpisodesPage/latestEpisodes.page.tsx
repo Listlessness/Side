@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Dimensions, StyleSheet, View, FlatList } from 'react-native';
 import { FAB, Icon, Tab, TabView, Text } from 'react-native-elements';
 import { ListItemsState, RECENT_RELEASE_TYPE } from '../../utils';
-import { IRecentRelease } from 'gogoanime-api';
+import { GogoRecentRelease } from 'gogoanime-api';
 import { EpisodeThumbnail, FlatListComp } from '../../components';
 import { GogoAnimeService } from '../../services';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-const __renderItem = ({item, index}: {item: IRecentRelease, index: number}) => (
+const __renderItem = ({item, index}: {item: GogoRecentRelease, index: number}) => (
     <EpisodeThumbnail
         key={index}
         id={item.title}
@@ -19,9 +19,9 @@ const __renderItem = ({item, index}: {item: IRecentRelease, index: number}) => (
     />
 )
 
-const __keyExtractor = (item: IRecentRelease, index: number) => `${item.title}-${index}`;
+const __keyExtractor = (item: GogoRecentRelease, index: number) => `${item.title}-${index}`;
 
-const __getItemLayout = (data: IRecentRelease[] | null | undefined, index: number) => (
+const __getItemLayout = (data: GogoRecentRelease[] | null | undefined, index: number) => (
     {length: windowHeight * .35, offset: (windowHeight * .35) * index, index}
 )
 
@@ -33,7 +33,7 @@ export function LatestEpisodesPage() {
     const [currPage, setPage] = useState(1);
     const [currPagination, setPagination] = useState<number[]>([]);
     
-    const [itemState, setItemState] = useState<ListItemsState<IRecentRelease>>(
+    const [itemState, setItemState] = useState<ListItemsState<GogoRecentRelease>>(
         {
             messageText: "Fetching anime ...",
             items: []
