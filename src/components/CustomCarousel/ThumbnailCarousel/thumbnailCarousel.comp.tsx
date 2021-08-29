@@ -11,8 +11,7 @@ export function ThumbnailCarousel<T>({
     fetchItems,
     title,
     renderItem,
-    onPress,
-    messageText
+    onPress
 }: ThumbnailCarouselProps<T>) {
     
     const carouselRef = useRef(null);

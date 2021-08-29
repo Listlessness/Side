@@ -104,7 +104,7 @@ export function TopAnimePage({ route, navigation }: TopAnimeProps) {
     }
 
     const __createList = (value: SubTypes) => {
-        return <FlatListComp<TopItem>
+        return <FlatListComp
             listRef={listRef}
             shouldShow={valueToType[currValue] === value}
             items={itemState.items}

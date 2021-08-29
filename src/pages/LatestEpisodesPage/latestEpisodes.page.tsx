@@ -85,7 +85,7 @@ export function LatestEpisodesPage() {
     }
 
     const __createList = (releaseType: number) => {
-        return <FlatListComp<IRecentRelease>
+        return <FlatListComp
             listRef={listRef}
             shouldShow={(currIndex + 1) === releaseType}
             items={itemState.items}

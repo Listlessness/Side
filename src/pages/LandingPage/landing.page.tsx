@@ -45,7 +45,7 @@ export function LandingPage({ route, navigation }: LandingPageProps) {
 
     return (
         <ScrollView style={styles.landingPage} contentContainerStyle={styles.content}>
-            <StackCarousel<IRecentRelease>
+            <StackCarousel
                 title="Latest Episodes"
                 fetchItems={__fetchStackItems}
                 renderItem={__renderStackItem}
@@ -53,7 +53,7 @@ export function LandingPage({ route, navigation }: LandingPageProps) {
                     navigation.navigate("Latest Episodes")
                 }}
             />
-            <ThumbnailCarousel<TopItem>
+            <ThumbnailCarousel
                 title="Top Airing Anime"
                 fetchItems={() => __fetchThumbnailItems(JikanAnimeSubTypesObj.Airing)}
                 renderItem={__renderThumbnailItem}
@@ -61,7 +61,7 @@ export function LandingPage({ route, navigation }: LandingPageProps) {
                     navigation.navigate("Top Anime", {topType: JikanAnimeSubTypesObj.Airing})
                 }}
             />
-            <ThumbnailCarousel<TopItem>
+            <ThumbnailCarousel
                 title="Top Upcoming Anime"
                 fetchItems={() => __fetchThumbnailItems(JikanAnimeSubTypesObj.Upcoming)}
                 renderItem={__renderThumbnailItem}

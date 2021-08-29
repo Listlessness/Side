@@ -6,5 +6,7 @@ interface StackCarouselProps<T> {
     title: string,
     fetchItems: () => Promise<T[]>,
     onPress: () => void,
-    renderItem: ({item, index}: { item: T; index: number; }) => JSX.Element
+    renderItem: (arg: RenderItemArg<T>) => JSX.Element
 }
+
+type RenderItemArg<T> = { item: T; index: number; }

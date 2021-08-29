@@ -8,6 +8,7 @@ interface ThumbnailCarouselProps<T> {
     fetchItems: (...args: any[]) => Promise<T[]>,
     title: string,
     onPress: () => void,
-    renderItem: ({item, index}: { item: T; index: number; }) => JSX.Element,
-    messageText?: string
+    renderItem: (arg: RenderItemArg<T>) => JSX.Element
 }
+
+type RenderItemArg<T> = { item: T; index: number; }
