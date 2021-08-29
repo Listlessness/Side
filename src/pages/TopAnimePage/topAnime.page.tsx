@@ -21,7 +21,7 @@ const __renderItem = ({item, index}: {item: TopItem, index: number}) => (
 
 const __keyExtractor = (item: TopItem, index: number) => `${item.title}-${index}`;
 
-const __getItemLayout = (data: IRecentRelease[] | null | undefined, index: number) => (
+const __getItemLayout = (data: TopItem[] | null | undefined, index: number) => (
     {length: windowHeight * .3, offset: (windowHeight * .3) * index, index}
 )
 
