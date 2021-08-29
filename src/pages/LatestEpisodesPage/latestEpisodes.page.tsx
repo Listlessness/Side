@@ -3,54 +3,49 @@ import { Dimensions, StyleSheet, View, FlatList } from 'react-native';
 import { FAB, Icon, Tab, TabView, Text } from 'react-native-elements';
 import { RECENT_RELEASE_TYPE } from '../../utils';
 import { IRecentRelease } from 'gogoanime-api';
-import { MessageComp } from '../../components/MessageComp';
-import GogoAnimeAPI from '../../services/GogoanimeAPI';
-import EpisodeThumbnail from '../../components/Thumbnail/episodeThumbnail.comp';
+import { EpisodeThumbnail, FlatListComp } from '../../components';
+import { GogoAnimeService } from '../../services';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-const __renderList = (ref: any, shouldShow: boolean, items: IRecentRelease[], onEndReached: (info: {distanceFromEnd: number}) => void, onScroll: () => void) => {
-    return shouldShow && (
-        <FlatList
-            ref={ref}
-            contentContainerStyle={styles.list}
-            numColumns={3}
-            data={items}
-            renderItem={({item, index}) => (
-                <EpisodeThumbnail
-                    key={index}
-                    id={item.title}
-                    title={item.title}
-                    url={item.link}
-                    picture_url={item.thumbnail}
-                    episode={item.episode}
-                />
-            )}
-            keyExtractor={(item, index) => `${item.title}-${index}`}
-            getItemLayout={(data, index) => (
-                {length: windowHeight * .35, offset: (windowHeight * .35) * index, index}
-              )}
-            onEndReached={onEndReached}
-            onScroll={onScroll}
-            ListEmptyComponent={<View style={styles.content}><MessageComp message="No Anime Found." /></View>}
-        />
-    )
-}
+const __renderItem = ({item, index}: {item: IRecentRelease, index: number}) => (
+    <EpisodeThumbnail
+        key={index}
+        id={item.title}
+        title={item.title}
+        url={item.link}
+        picture_url={item.thumbnail}
+        episode={item.episode}
+    />
+)
+
+const __keyExtractor = (item: IRecentRelease, index: number) => `${item.title}-${index}`;
+
+const __getItemLayout = (data: IRecentRelease[] | null | undefined, index: number) => (
+    {length: windowHeight * .35, offset: (windowHeight * .35) * index, index}
+)
 
 export function LatestEpisodesPage() {
 
     const listRef = React.createRef<FlatList>();
-    const [currIndex, setIndex] = React.useState(0);
-    const [currPage, setPage] = React.useState(1);
-    const [currPagination, setPagination] = React.useState<number[]>([]);
-    const [items, setItems] = React.useState<IRecentRelease[]>([]);
-    const [fabVisibility, setFabVisibility] = React.useState(false);
+
+    const [currIndex, setIndex] = useState(0);
+    const [currPage, setPage] = useState(1);
+    const [currPagination, setPagination] = useState<number[]>([]);
+    const [items, setItems] = useState<IRecentRelease[]>([]);
+
+    const [fabVisibility, setFabVisibility] = useState(false);
+
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
-        GogoAnimeAPI.fetchRecentlyAddedEpisodes(currPage, currIndex + 1).then(resp => {
+        GogoAnimeService.fetchRecentlyAddedEpisodes(currPage, currIndex + 1).then(resp => {
             setItems(currPage === 1 ? resp.data : items.concat(resp.data))
             setPagination(resp.paginations)
         })
+
+        return () => {if (refreshing) setRefreshing(false)}
+
     }, [currIndex, currPage])
 
     const __onChange = (index: number) => {
@@ -72,6 +67,25 @@ export function LatestEpisodesPage() {
         setFabVisibility(true)
     }
 
+    const __onRefresh = async () => {
+        setRefreshing(true);
+        setPage(1)
+    }
+
+    const __createList = (releaseType: number) => {
+        return <FlatListComp<IRecentRelease>
+            ref={listRef}
+            shouldShow={(currIndex + 1) === releaseType}
+            items={items}
+            renderItem={__renderItem}
+            keyExtractor={__keyExtractor}
+            getItemLayout={__getItemLayout}
+            onEndReached={__onEndReached}
+            onScroll={__onScroll}
+            onRefresh={__onRefresh}
+            refreshing={refreshing}
+        />
+    }
 
     return (
         <View style={styles.page}>
@@ -82,13 +96,13 @@ export function LatestEpisodesPage() {
             </Tab>
             <TabView value={currIndex} onChange={__onChange} >
                 <TabView.Item style={styles.content} >
-                    {__renderList(listRef, (currIndex + 1) === RECENT_RELEASE_TYPE.SUB, items, __onEndReached, __onScroll)}
+                    {__createList(RECENT_RELEASE_TYPE.SUB)}
                 </TabView.Item>
                 <TabView.Item style={styles.content} collapsable={true}>
-                    {__renderList(listRef, (currIndex + 1) === RECENT_RELEASE_TYPE.DUB, items, __onEndReached, __onScroll)}
+                    {__createList(RECENT_RELEASE_TYPE.DUB)}
                 </TabView.Item>
                 <TabView.Item style={styles.content} collapsable={true}>
-                    {__renderList(listRef, (currIndex + 1) === RECENT_RELEASE_TYPE.CHINESE, items, __onEndReached, __onScroll)}
+                    {__createList(RECENT_RELEASE_TYPE.CHINESE)}
                 </TabView.Item>
             </TabView>
             

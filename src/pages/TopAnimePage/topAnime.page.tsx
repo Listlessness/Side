@@ -2,48 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { Dimensions, StyleSheet, View, FlatList } from 'react-native';
 import { FAB, Icon, Tab, TabView } from 'react-native-elements';
 import { JikanAnimeSubTypesObj, JikanTypesObj, SubTypes, TopItem } from '../../utils';
-import { MessageComp } from '../../components/MessageComp';
-import Thumbnail from './../../components/Thumbnail/thumbnail.comp';
-import JikanAPI from '../../services/JikanAPI';
+import { Thumbnail, FlatListComp } from '../../components';
+import { JikanService } from '../../services';
 import { TopAnimeProps } from './topAnime.page.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-const __renderList = (
-    ref: any,
-    shouldShow: boolean,
-    items: TopItem[],
-    onEndReached: (info: {distanceFromEnd: number}) => void,
-    onScroll: () => void,
-    __onRefresh: () => void,
-    refreshing: boolean
-) => {
-    return shouldShow && (
-        <FlatList
-            ref={ref}
-            contentContainerStyle={styles.list}
-            columnWrapperStyle={styles.column}
-            numColumns={3}
-            data={items}
-            renderItem={({item, index}) => (
-                <Thumbnail
-                    id={index}
-                    title={item.title}
-                    url={item.url}
-                    picture_url={item.image_url}
-                    score={item.score}
-                    type={item.type}
-                />
-            )}
-            keyExtractor={(item, index) => `${item.title}-${index}`}
-            onEndReached={onEndReached}
-            onScroll={onScroll}
-            onRefresh={__onRefresh}
-            refreshing={refreshing}
-            ListEmptyComponent={<View style={styles.content}><MessageComp message="No Anime Found." /></View>}
-        />
-    )
-}
+const __renderItem = ({item, index}: {item: TopItem, index: number}) => (
+    <Thumbnail
+        id={index}
+        title={item.title}
+        url={item.url}
+        picture_url={item.image_url}
+        score={item.score}
+        type={item.type}
+    />
+)
+
+const __keyExtractor = (item: TopItem, index: number) => `${item.title}-${index}`;
 
 export function TopAnimePage({ route, navigation }: TopAnimeProps) {
 
@@ -70,9 +46,12 @@ export function TopAnimePage({ route, navigation }: TopAnimeProps) {
     const [refreshing, setRefreshing] = React.useState(false);
 
     useEffect(() => {
-        JikanAPI.fetchTop(JikanTypesObj.Anime, currPage, topType).then(resp => {
+        JikanService.fetchTop(JikanTypesObj.Anime, currPage, topType).then(resp => {
             setItems(currPage === 1 ? resp.top : items.concat(resp.top))
         })
+
+        return () => {if (refreshing) setRefreshing(false)}
+
     }, [topType, currPage])
 
     let __onChange = (index: number) => {
@@ -100,9 +79,21 @@ export function TopAnimePage({ route, navigation }: TopAnimeProps) {
 
     const __onRefresh = async () => {
         setRefreshing(true);
-        await JikanAPI.fetchTop(JikanTypesObj.Anime, currPage, topType).then(resp => {
-            setItems(currPage === 1 ? resp.top : items.concat(resp.top))
-        }).then(() => setRefreshing(false))
+        setPage(1)
+    }
+
+    const __createList = (value: SubTypes) => {
+        return <FlatListComp<TopItem>
+            ref={listRef}
+            shouldShow={valueToType[currValue] === value}
+            items={items}
+            renderItem={__renderItem}
+            keyExtractor={(item, index) => `${item.title}-${index}`}
+            onEndReached={__onEndReached}
+            onScroll={__onScroll}
+            onRefresh={__onRefresh}
+            refreshing={refreshing}
+        />
     }
 
     return (
@@ -113,26 +104,10 @@ export function TopAnimePage({ route, navigation }: TopAnimeProps) {
             </Tab>
             <TabView value={currValue} onChange={__onChange} >
                 <TabView.Item style={styles.content} >
-                    {__renderList(
-                            listRef,
-                            valueToType[currValue] === JikanAnimeSubTypesObj.Airing,
-                            items,
-                            __onEndReached,
-                            __onScroll,
-                            __onRefresh,
-                            refreshing
-                        )}
+                    {__createList(JikanAnimeSubTypesObj.Airing)}
                 </TabView.Item>
                 <TabView.Item style={styles.content}>
-                {__renderList(
-                            listRef,
-                            valueToType[currValue] === JikanAnimeSubTypesObj.Upcoming,
-                            items,
-                            __onEndReached,
-                            __onScroll,
-                            __onRefresh,
-                            refreshing
-                        )}
+                    {__createList(JikanAnimeSubTypesObj.Upcoming)}
                 </TabView.Item>
             </TabView>
 

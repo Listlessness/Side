@@ -2,10 +2,8 @@ import React from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { StackCarouselTypes } from './stackCarousel.types';
-import { MessageComp } from '../../MessageComp';
+import { MessageComp, StackItem , SeeMoreButton} from '../../index';
 import { IRecentRelease } from 'gogoanime-api';
-import StackItem from '../../StackItem/stackItem.comp';
-import { SeeMoreButton } from '../../common';
 import { UseNavigation } from './../../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');

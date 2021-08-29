@@ -2,9 +2,7 @@ import React from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { ThumbnailCarouselTypes } from './thumbnailCarousel.types';
-import Thumbnail from '../../Thumbnail/thumbnail.comp';
-import { MessageComp } from '../../MessageComp';
-import { SeeMoreButton } from '../../common';
+import { MessageComp, Thumbnail, SeeMoreButton } from '../../';
 import { UseNavigation, TopItem } from './../../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');

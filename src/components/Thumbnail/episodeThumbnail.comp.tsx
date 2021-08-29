@@ -5,7 +5,7 @@ import { Button } from 'react-native-elements';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-function EpisodeThumbnail({
+export function EpisodeThumbnail({
     id,
     title,
     episode,
@@ -76,6 +76,4 @@ const styles = StyleSheet.create({
         fontWeight: '500'
     }
 });
-
-export default EpisodeThumbnail;
 

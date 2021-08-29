@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Dimensions, StyleSheet, ScrollView, View } from 'react-native';
-import { ThumbnailCarousel } from '../../components/CustomCarousel/ThumbnailCarousel';
-import JikanAPI from '../../services/JikanAPI';
-import GogoAnimeAPI from '../../services/GogoanimeAPI';
+import { Dimensions, StyleSheet, ScrollView } from 'react-native';
+import { ThumbnailCarousel, StackCarousel } from '../../components';
+import { JikanService, GogoAnimeService } from '../../services';
 import { TopItem, JikanTypesObj, JikanAnimeSubTypesObj } from '../../utils';
 import { IRecentRelease } from 'gogoanime-api';
-import { StackCarousel } from '../../components/CustomCarousel/StackCarousel';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -18,20 +16,20 @@ export function LandingPage() {
     const [topUpcomingList, setTopUpcomingList] = useState<TopItem[]>([]);
 
     useEffect(() => {
-        GogoAnimeAPI.fetchRecentlyAddedEpisodes().then(resp => {
+        GogoAnimeService.fetchRecentlyAddedEpisodes().then(resp => {
             setNewEpisodeList(resp.data.slice(0,7));
         })
     }, [newEpisodeList.length])
 
 
     useEffect(() => {
-        JikanAPI.fetchTop(JikanTypesObj.Anime, 1, JikanAnimeSubTypesObj.Airing).then(resp => {
+        JikanService.fetchTop(JikanTypesObj.Anime, 1, JikanAnimeSubTypesObj.Airing).then(resp => {
             setTopAiringList(resp.top.slice(0,10));
         })
     }, [topAiringList.length])
 
     useEffect(() => {
-        JikanAPI.fetchTop(JikanTypesObj.Anime, 1, JikanAnimeSubTypesObj.Upcoming).then(resp => {
+        JikanService.fetchTop(JikanTypesObj.Anime, 1, JikanAnimeSubTypesObj.Upcoming).then(resp => {
             setTopUpcomingList(resp.top.slice(0,10));
         })
     }, [topUpcomingList.length])

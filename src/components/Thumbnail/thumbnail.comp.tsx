@@ -2,10 +2,10 @@ import React from 'react';
 import { ThumbnailProps } from './thumbnail.types';
 import { Text, View, Image, StyleSheet, Dimensions, ImageBackground } from 'react-native';
 import { Button } from 'react-native-elements';
-import FastImage from 'react-native-fast-image';
+
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-function Thumbnail({
+export function Thumbnail({
     id,
     title,
     score,
@@ -96,6 +96,4 @@ const styles = StyleSheet.create({
         fontWeight: '500',
     }
 });
-
-export default Thumbnail;
 

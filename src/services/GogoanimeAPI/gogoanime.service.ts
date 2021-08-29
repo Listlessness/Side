@@ -1,6 +1,6 @@
 import { GoGoAnime, IPagination, IRecentRelease } from 'gogoanime-api';
 
-export class GogoAnimeAPI {
+class GogoAnimeAPI {
     gogoanime: GoGoAnime;
 
     constructor() {
@@ -13,3 +13,5 @@ export class GogoAnimeAPI {
         })
     }
 }
+
+export const GogoAnimeService = new GogoAnimeAPI();

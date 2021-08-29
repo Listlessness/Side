@@ -4,7 +4,7 @@ import { Text, View, ImageBackground, StyleSheet, Dimensions } from 'react-nativ
 import { Button } from 'react-native-elements';
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-function StackItem({
+export function StackItem({
     id,
     title,
     description,
@@ -79,6 +79,4 @@ const styles = StyleSheet.create({
         fontWeight: '500',
     }
 });
-
-export default StackItem;
 

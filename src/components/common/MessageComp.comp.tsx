@@ -1,9 +1,12 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import { MessageCompProps } from './MessageComp.types';
+
+interface MessageCompProps {
+    message?: string
+}
 
 export function MessageComp({
-    message
+    message = "No Anime Found."
 }: MessageCompProps) {
     return (
         <View style={styles.container}>

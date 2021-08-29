@@ -7,8 +7,7 @@ import axios, { AxiosInstance } from 'axios';
 import { anime_request_endpoints, endpoints } from './endpoints';
 import handleResponse from './RequestDecorator';
 
-
-export class JikanService {
+class JikanAPI {
     jikanRequest: AxiosInstance;
 
     constructor() {
@@ -110,4 +109,6 @@ export class JikanService {
         }).then(resp => resp.data as SearchResult);
     }
 };
+
+export const JikanService = new JikanAPI()
 

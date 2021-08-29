@@ -1,3 +1,1 @@
-import { GogoAnimeAPI } from './gogoanime.service';
-
-export default new GogoAnimeAPI();
+export * from './gogoanime.service';

@@ -1,3 +1,1 @@
-import { JikanService } from './jikan.service';
-
-export default new JikanService();
+export * from './jikan.service'
