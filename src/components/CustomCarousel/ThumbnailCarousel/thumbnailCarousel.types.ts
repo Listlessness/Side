@@ -1,11 +1,13 @@
 import { SubTypes } from "../../../utils";
 
 export type {
-    ThumbnailCarouselTypes
+    ThumbnailCarouselProps
 }
 
-interface ThumbnailCarouselTypes {
-    items?: Array<any>;
-    title: string;
-    topType: SubTypes
+interface ThumbnailCarouselProps<T> {
+    fetchItems: (...args: any[]) => Promise<T[]>,
+    title: string,
+    onPress: () => void,
+    renderItem: ({item, index}: { item: T; index: number; }) => JSX.Element,
+    messageText?: string
 }

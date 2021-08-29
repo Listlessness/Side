@@ -5,7 +5,7 @@ export type {
 
 interface FlatListProps<T> {
     messageText?: string,
-    ref: any,
+    listRef: any,
     shouldShow: boolean,
     items: T[],
     numColumns?: number,

@@ -28,13 +28,15 @@ const styles = StyleSheet.create({
     },
     box: {
         backgroundColor: '#00151F',
-        height: '20%',
-        minWidth: '50%',
+        height: 'auto',
+        width: '50%',
         justifyContent: 'center',
         alignItems: 'center'
    },
     message: {
         color: '#fff',
-        fontWeight: '500'
+        fontWeight: '500',
+        padding: 10,
+        textAlign: 'center'
     }
 });

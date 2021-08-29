@@ -1,54 +1,73 @@
-import React, { useState, useEffect } from 'react';
-import { Dimensions, StyleSheet, ScrollView } from 'react-native';
-import { ThumbnailCarousel, StackCarousel } from '../../components';
+import React from 'react';
+import { StyleSheet, ScrollView } from 'react-native';
+import { ThumbnailCarousel, StackCarousel, StackItem, Thumbnail } from '../../components';
 import { JikanService, GogoAnimeService } from '../../services';
-import { TopItem, JikanTypesObj, JikanAnimeSubTypesObj } from '../../utils';
+import { TopItem, JikanTypesObj, JikanAnimeSubTypesObj, SubTypes } from '../../utils';
 import { IRecentRelease } from 'gogoanime-api';
+import { LandingPageProps } from './landing.page.types';
 
-const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
+const __renderStackItem = ({item, index}: { item: IRecentRelease; index: number; }) => {
+    return (
+        <StackItem
+            key={index}
+            id={item.id}
+            title={item.title}
+            picture_url={item.thumbnail}
+            url={item.link}
+            description={item.episode}
+        />
+    );
+}
 
-export function LandingPage() {
+const __renderThumbnailItem = ({item, index}: { item: TopItem; index: number; }) => {
+    return (
+        <Thumbnail
+            key={index}
+            id={item.title}
+            title={item.title}
+            url={item.url}
+            score={item.score}
+            picture_url={item.image_url}
+            type={item.type}
+        />
+    );
+}
 
-    const [newEpisodeList, setNewEpisodeList] = useState<IRecentRelease[]>([])
+const __fetchStackItems = () => GogoAnimeService.fetchRecentlyAddedEpisodes().then(resp => {
+    return resp.data.slice(0,10);
+})
 
-    const [topAiringList, setTopAiringList] = useState<TopItem[]>([]);
+const __fetchThumbnailItems = (subType: SubTypes) => JikanService.fetchTop(JikanTypesObj.Anime, 1, subType).then(resp => {
+    return resp.top.slice(0,10);
+})
 
-    const [topUpcomingList, setTopUpcomingList] = useState<TopItem[]>([]);
-
-    useEffect(() => {
-        GogoAnimeService.fetchRecentlyAddedEpisodes().then(resp => {
-            setNewEpisodeList(resp.data.slice(0,7));
-        })
-    }, [newEpisodeList.length])
-
-
-    useEffect(() => {
-        JikanService.fetchTop(JikanTypesObj.Anime, 1, JikanAnimeSubTypesObj.Airing).then(resp => {
-            setTopAiringList(resp.top.slice(0,10));
-        })
-    }, [topAiringList.length])
-
-    useEffect(() => {
-        JikanService.fetchTop(JikanTypesObj.Anime, 1, JikanAnimeSubTypesObj.Upcoming).then(resp => {
-            setTopUpcomingList(resp.top.slice(0,10));
-        })
-    }, [topUpcomingList.length])
+export function LandingPage({ route, navigation }: LandingPageProps) {
 
     return (
         <ScrollView style={styles.landingPage} contentContainerStyle={styles.content}>
-            <StackCarousel
+            <StackCarousel<IRecentRelease>
                 title="Latest Episodes"
-                items={newEpisodeList}
+                fetchItems={__fetchStackItems}
+                renderItem={__renderStackItem}
+                onPress={() => {
+                    navigation.navigate("Latest Episodes")
+                }}
             />
-            <ThumbnailCarousel
+            <ThumbnailCarousel<TopItem>
                 title="Top Airing Anime"
-                items={topAiringList}
-                topType={JikanAnimeSubTypesObj.Airing}
+                fetchItems={() => __fetchThumbnailItems(JikanAnimeSubTypesObj.Airing)}
+                renderItem={__renderThumbnailItem}
+                onPress={() => {
+                    navigation.navigate("Top Anime", {topType: JikanAnimeSubTypesObj.Airing})
+                }}
             />
-            <ThumbnailCarousel
+            <ThumbnailCarousel<TopItem>
                 title="Top Upcoming Anime"
-                items={topUpcomingList}
-                topType={JikanAnimeSubTypesObj.Upcoming}
+                fetchItems={() => __fetchThumbnailItems(JikanAnimeSubTypesObj.Upcoming)}
+                renderItem={__renderThumbnailItem}
+                onPress={() => {
+                    navigation.navigate("Top Anime", {topType: JikanAnimeSubTypesObj.Upcoming})
+                }}
             />
         </ScrollView>
     );

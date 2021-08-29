@@ -1,41 +1,43 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import { ThumbnailCarouselTypes } from './thumbnailCarousel.types';
-import { MessageComp, Thumbnail, SeeMoreButton } from '../../';
-import { UseNavigation, TopItem } from './../../../utils';
+import { ThumbnailCarouselProps } from './thumbnailCarousel.types';
+import { MessageComp, SeeMoreButton } from '../../';
+import { ListItemsState } from '../../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-export function ThumbnailCarousel({
-    items,
+export function ThumbnailCarousel<T>({
+    fetchItems,
     title,
-    topType
-}: ThumbnailCarouselTypes) {
-
-    const navigation = UseNavigation();
+    renderItem,
+    onPress,
+    messageText
+}: ThumbnailCarouselProps<T>) {
     
-    const carouselRef = React.useRef(null);
-    const [currIndex, setIndex] = React.useState(0)
+    const carouselRef = useRef(null);
 
-    let _renderItem = ({item, index}: { item: TopItem; index: number; }) => {
+    const [currIndex, setIndex] = useState(0)
 
-        return (
-            <Thumbnail
-                key={index}
-                id={item.title}
-                title={item.title}
-                url={item.url}
-                score={item.score}
-                picture_url={item.image_url}
-                type={item.type}
-            />
-        );
-    }
+    const [itemState, setItemState] = useState<ListItemsState<T>>(
+        {
+            messageText: "Fetching anime ...",
+            items: []
+        })
 
-    let __onPress = () => {
-        navigation.navigate("Top Anime", {topType: topType})
-    }
+    useEffect(() => {
+        fetchItems().then( resp => {
+            setItemState({
+                messageText: undefined,
+                items: resp
+            })
+        }).catch(reason => {
+            setItemState({
+                messageText: reason,
+                items: []
+            })
+        })
+    }, [itemState.items.length])
 
     return (
         <View style={styles.container}>
@@ -43,23 +45,23 @@ export function ThumbnailCarousel({
                 <Text style={styles.carouselTitle}>
                     {title}
                 </Text>
-                <SeeMoreButton onPress={__onPress}/>
+                <SeeMoreButton onPress={onPress}/>
             </View>
-            {(items && items.length > 0) ? (
+            {(itemState.items && itemState.items.length > 0) ? (
                 <Carousel
                     layout={"default"}
                     ref={carouselRef}
-                    data={items}
+                    data={itemState.items}
                     sliderWidth={windowWidth * .9}
                     itemWidth={windowWidth * .3}
-                    renderItem={_renderItem}
+                    renderItem={renderItem}
                     onSnapToItem = { index => setIndex(index) }
                     activeSlideAlignment={'center'}
                     inactiveSlideScale={.8}
                 />
             ) : (
                 <MessageComp
-                    message="No Anime Found."
+                    message={itemState.messageText}
                 />
             )}
         </View>

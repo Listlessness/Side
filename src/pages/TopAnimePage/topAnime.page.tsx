@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Dimensions, StyleSheet, View, FlatList } from 'react-native';
 import { FAB, Icon, Tab, TabView } from 'react-native-elements';
-import { JikanAnimeSubTypesObj, JikanTypesObj, SubTypes, TopItem } from '../../utils';
+import { JikanAnimeSubTypesObj, JikanTypesObj, ListItemsState, SubTypes, TopItem } from '../../utils';
 import { Thumbnail, FlatListComp } from '../../components';
 import { JikanService } from '../../services';
 import { TopAnimeProps } from './topAnime.page.types';
@@ -21,6 +21,10 @@ const __renderItem = ({item, index}: {item: TopItem, index: number}) => (
 
 const __keyExtractor = (item: TopItem, index: number) => `${item.title}-${index}`;
 
+const __getItemLayout = (data: IRecentRelease[] | null | undefined, index: number) => (
+    {length: windowHeight * .3, offset: (windowHeight * .3) * index, index}
+)
+
 export function TopAnimePage({ route, navigation }: TopAnimeProps) {
 
     const typeTopValue = {
@@ -39,7 +43,13 @@ export function TopAnimePage({ route, navigation }: TopAnimeProps) {
 
     const [currValue, setValue] = useState(typeTopValue[topType ? topType.toString() : JikanAnimeSubTypesObj.Airing.toString()]);
     const [currPage, setPage] = React.useState(1);
-    const [items, setItems] = useState<TopItem[]>([]);
+
+    const [itemState, setItemState] = useState<ListItemsState<TopItem>>(
+        {
+            messageText: "Fetching anime ...",
+            items: []
+        }
+    )
 
     const [fabVisibility, setFabVisibility] = React.useState(false);
 
@@ -47,7 +57,15 @@ export function TopAnimePage({ route, navigation }: TopAnimeProps) {
 
     useEffect(() => {
         JikanService.fetchTop(JikanTypesObj.Anime, currPage, topType).then(resp => {
-            setItems(currPage === 1 ? resp.top : items.concat(resp.top))
+            setItemState({
+                messageText: undefined,
+                items: currPage === 1 ? resp.top : itemState.items.concat(resp.top)
+            })
+        }).catch(reason => {
+            setItemState({
+                messageText: reason,
+                items: []
+            })
         })
 
         return () => {if (refreshing) setRefreshing(false)}
@@ -58,7 +76,10 @@ export function TopAnimePage({ route, navigation }: TopAnimeProps) {
         navigation.setParams({
             topType: valueToType[index],
         });
-        setItems([]);
+        setItemState({
+            messageText: "Fetching anime ...",
+            items: []
+        })
         setPage(1);
         setValue(index);
     }
@@ -84,11 +105,13 @@ export function TopAnimePage({ route, navigation }: TopAnimeProps) {
 
     const __createList = (value: SubTypes) => {
         return <FlatListComp<TopItem>
-            ref={listRef}
+            listRef={listRef}
             shouldShow={valueToType[currValue] === value}
-            items={items}
+            items={itemState.items}
+            messageText={itemState.messageText}
             renderItem={__renderItem}
-            keyExtractor={(item, index) => `${item.title}-${index}`}
+            keyExtractor={__keyExtractor}
+            getItemLayout={__getItemLayout}
             onEndReached={__onEndReached}
             onScroll={__onScroll}
             onRefresh={__onRefresh}

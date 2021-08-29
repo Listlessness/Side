@@ -7,7 +7,7 @@ import { FlatListProps } from "./flatList.types"
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 export function FlatListComp<T>({
-    ref,
+    listRef,
     shouldShow,
     items,
     numColumns = 3,
@@ -23,7 +23,7 @@ export function FlatListComp<T>({
     
     return shouldShow ? (
         <FlatList
-            ref={ref}
+            ref={listRef}
             contentContainerStyle={styles.list}
             columnWrapperStyle={styles.column}
             numColumns={numColumns !== undefined ? numColumns : 3}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Dimensions, StyleSheet, View, FlatList } from 'react-native';
 import { FAB, Icon, Tab, TabView, Text } from 'react-native-elements';
-import { RECENT_RELEASE_TYPE } from '../../utils';
+import { ListItemsState, RECENT_RELEASE_TYPE } from '../../utils';
 import { IRecentRelease } from 'gogoanime-api';
 import { EpisodeThumbnail, FlatListComp } from '../../components';
 import { GogoAnimeService } from '../../services';
@@ -32,7 +32,13 @@ export function LatestEpisodesPage() {
     const [currIndex, setIndex] = useState(0);
     const [currPage, setPage] = useState(1);
     const [currPagination, setPagination] = useState<number[]>([]);
-    const [items, setItems] = useState<IRecentRelease[]>([]);
+    
+    const [itemState, setItemState] = useState<ListItemsState<IRecentRelease>>(
+        {
+            messageText: "Fetching anime ...",
+            items: []
+        }
+    )
 
     const [fabVisibility, setFabVisibility] = useState(false);
 
@@ -40,7 +46,10 @@ export function LatestEpisodesPage() {
 
     useEffect(() => {
         GogoAnimeService.fetchRecentlyAddedEpisodes(currPage, currIndex + 1).then(resp => {
-            setItems(currPage === 1 ? resp.data : items.concat(resp.data))
+            setItemState({
+                messageText: undefined,
+                items: currPage === 1 ? resp.data : resp.data.concat(resp.data)
+            })
             setPagination(resp.paginations)
         })
 
@@ -49,7 +58,10 @@ export function LatestEpisodesPage() {
     }, [currIndex, currPage])
 
     const __onChange = (index: number) => {
-        setItems([]);
+        setItemState({
+            messageText: "Fetching anime ...",
+            items: []
+        })
         setPage(1);
         setIndex(index)
     }
@@ -74,9 +86,10 @@ export function LatestEpisodesPage() {
 
     const __createList = (releaseType: number) => {
         return <FlatListComp<IRecentRelease>
-            ref={listRef}
+            listRef={listRef}
             shouldShow={(currIndex + 1) === releaseType}
-            items={items}
+            items={itemState.items}
+            messageText={itemState.messageText}
             renderItem={__renderItem}
             keyExtractor={__keyExtractor}
             getItemLayout={__getItemLayout}

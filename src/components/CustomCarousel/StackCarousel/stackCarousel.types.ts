@@ -1,8 +1,10 @@
 export type {
-    StackCarouselTypes
+    StackCarouselProps
 }
 
-interface StackCarouselTypes {
-    items?: Array<any>;
-    title: string
+interface StackCarouselProps<T> {
+    title: string,
+    fetchItems: () => Promise<T[]>,
+    onPress: () => void,
+    renderItem: ({item, index}: { item: T; index: number; }) => JSX.Element
 }

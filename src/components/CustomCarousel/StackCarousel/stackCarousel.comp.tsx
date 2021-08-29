@@ -1,39 +1,44 @@
-import React from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { StackCarouselTypes } from './stackCarousel.types';
-import { MessageComp, StackItem , SeeMoreButton} from '../../index';
-import { IRecentRelease } from 'gogoanime-api';
-import { UseNavigation } from './../../../utils';
+import { StackCarouselProps } from './stackCarousel.types';
+import { MessageComp , SeeMoreButton} from '../../index';
+import { GogoAnimeService } from '../../../services';
+import { ListItemsState } from '../../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-export function StackCarousel({
-    items,
-    title
-}: StackCarouselTypes) {
+export function StackCarousel<T>({
+    fetchItems,
+    title,
+    renderItem,
+    onPress
+}: StackCarouselProps<T>) {
 
-    const navigation = UseNavigation();
+    const carouselRef = useRef(null);
 
-    const carouselRef = React.useRef(null);
-    const [activeSlide, setActiveSlide] = React.useState(0);
+    const [activeSlide, setActiveSlide] = useState(0);
 
-    let _renderItem = ({item, index}: { item: IRecentRelease; index: number; }) => {
-        return (
-            <StackItem
-                key={index}
-                id={item.id}
-                title={item.title}
-                picture_url={item.thumbnail}
-                url={item.link}
-                description={item.episode}
-            />
-        );
-    }
+    const [itemState, setItemState] = useState<ListItemsState<T>>(
+        {
+            messageText: "Fetching anime ...",
+            items: []
+        }
+    )
 
-    let __onPress = () => {
-        navigation.navigate("Latest Episodes")
-    }
+    useEffect(() => {
+        fetchItems().then( resp => {
+            setItemState({
+                messageText: undefined,
+                items: resp
+            })
+        }).catch(reason => {
+            setItemState({
+                messageText: reason,
+                items: []
+            })
+        })
+    }, [itemState.items.length])
 
     return (
         <View style={styles.container}>
@@ -41,17 +46,17 @@ export function StackCarousel({
                 <Text style={styles.carouselTitle}>
                     {title}
                 </Text>
-                <SeeMoreButton onPress={__onPress} />
+                <SeeMoreButton onPress={onPress} />
             </View>
-            {(items && items.length > 0) ? (
+            {(itemState.items && itemState.items.length > 0) ? (
                 <>
                     <Carousel
                         layout={"stack"}
                         ref={carouselRef}
-                        data={items}
+                        data={itemState.items}
                         sliderWidth={windowWidth * .9}
                         itemWidth={windowWidth * .9}
-                        renderItem={_renderItem}
+                        renderItem={renderItem}
                         inactiveSlideOpacity={0.1}
                         inactiveSlideScale={0.1}
                         onSnapToItem={(index) => setActiveSlide(index) }
@@ -59,7 +64,7 @@ export function StackCarousel({
                         autoplay
                     />
                     <Pagination
-                        dotsLength={items.length}
+                        dotsLength={itemState.items.length}
                         activeDotIndex={activeSlide}
                         containerStyle={styles.paginationContainer}
                         dotStyle={styles.dot}
@@ -69,7 +74,7 @@ export function StackCarousel({
                 </>
             ) : (
                 <MessageComp
-                    message="No Anime Found."
+                    message={itemState.messageText}
                 />
             )}
         </View>
