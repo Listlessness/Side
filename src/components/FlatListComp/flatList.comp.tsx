@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, StyleSheet, View, FlatList } from 'react-native';
-import { MessageComp } from '..';
+import { MessageComp } from '../index';
 import { TopItem } from "../../utils"
 import { FlatListProps } from "./flatList.types"
 

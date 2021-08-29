@@ -1,1 +1,3 @@
-export * from './jikan.service'
+import { JikanAPI } from './jikan.service';
+
+export const JikanService = new JikanAPI();

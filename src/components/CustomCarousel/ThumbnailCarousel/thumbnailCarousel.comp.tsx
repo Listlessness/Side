@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { ThumbnailCarouselProps } from './thumbnailCarousel.types';
-import { MessageComp, SeeMoreButton } from '../../';
+import { MessageComp, SeeMoreButton } from '../../index';
 import { ListItemsState } from '../../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
