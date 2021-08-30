@@ -120,9 +120,14 @@ export class GoGoAnime {
     end: number
   ): Promise<Array<GogoEntityBasic>> {
     const res = await axios.get(
-      this.getUrlWithApi('/ajax/load-list-episode', ),
+      this.getUrlWithApi('/ajax/load-list-episode'),
       {
-        params: { keyword }
+        params: {
+          id: movieId,
+          default_ep: 0,
+          ep_start: start,
+          ep_end: end
+        }
       }
     );
     const $ = cheerio.load(res.data);
@@ -198,24 +203,16 @@ export class GoGoAnime {
     };
   }
 
-  getUrlWithBase(path: string, params?: GogoUrlParamsType): string {
-    return this.getUrl(this.baseUrl, path, params);
+  getUrlWithBase(path: string): string {
+    return this.getUrl(this.baseUrl, path);
   }
 
-  getUrlWithApi(path: string, params?: GogoUrlParamsType): string {
-    return this.getUrl(this.apiBaseUrl, path, params);
+  getUrlWithApi(path: string): string {
+    return this.getUrl(this.apiBaseUrl, path);
   }
 
-  getUrl(base: string, path: string, params?: GogoUrlParamsType): string {
+  getUrl(base: string, path: string): string {
     const url = new URL(path, base);
-
-    if (params) {
-      Object.entries(params).forEach(([key, value]) => {
-        if (value !== undefined) {
-          url.searchParams.set(key, String(value));
-        }
-      });
-    }
 
     return url.toString();
   }
