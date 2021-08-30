@@ -31,7 +31,7 @@ export function Thumbnail({
                         />
                     </ImageBackground>
                     <View style={styles.info}>
-                        <Text style={styles.title}>
+                        <Text numberOfLines={1} style={styles.title}>
                             {title}
                         </Text>
                         <View style={styles.meta}>
@@ -76,9 +76,6 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     title: {
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
         color: '#F5F1DB',
         fontWeight: '500',
     },

@@ -33,8 +33,9 @@ export function StackCarousel<T>({
                 items: resp
             })
         }).catch(reason => {
+            console.log("REASON", reason)
             setItemState({
-                messageText: reason,
+                messageText: reason.toString(),
                 items: []
             })
         })

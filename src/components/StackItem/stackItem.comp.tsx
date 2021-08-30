@@ -27,7 +27,7 @@ export function StackItem({
                             source={{uri: picture_url}}
                         >
                             <View style={styles.info}>
-                                <Text style={styles.title}>
+                                <Text numberOfLines={1} style={styles.title}>
                                     {title}
                                 </Text>
                                 <Text style={styles.episode}>
@@ -68,9 +68,6 @@ const styles = StyleSheet.create({
         paddingLeft: 10
     },
     title: {
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
         color: '#F5F1DB',
         fontWeight: '500',
     },

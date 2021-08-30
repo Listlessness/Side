@@ -32,7 +32,7 @@ export function ThumbnailCarousel<T>({
             })
         }).catch(reason => {
             setItemState({
-                messageText: reason,
+                messageText: reason.toString(),
                 items: []
             })
         })

@@ -28,7 +28,12 @@ export class GoGoAnime {
     type?: number,
   ): Promise<GogoPagination<GogoRecentRelease>> {
     const res = await axios.get(
-      this.getUrlWithApi('/ajax/page-recent-release.html', { page, type })
+      this.getUrlWithApi('/ajax/page-recent-release.html'),
+      {
+        params: {
+          page, type
+        }
+      }
     );
     const $ = cheerio.load(res.data);
 
@@ -69,7 +74,10 @@ export class GoGoAnime {
     keyword: string
   ): Promise<Array<GogoEntity>> {
     const res = await axios.get<{ content: string }>(
-      this.getUrlWithApi('/site/loadAjaxSearch', { keyword })
+      this.getUrlWithApi('/site/loadAjaxSearch'),
+      {
+        params: { keyword }
+      }
     );
     const content = res.data.content.replace(/\\/g, '');
     const $ = cheerio.load(content);
@@ -109,17 +117,13 @@ export class GoGoAnime {
   async animeEpisodes(
     movieId: string,
     start: number,
-    end: number,
-    axiosConfig?: AxiosRequestConfig
+    end: number
   ): Promise<Array<GogoEntityBasic>> {
     const res = await axios.get(
-      this.getUrlWithApi('/ajax/load-list-episode', {
-        id: movieId,
-        default_ep: 0,
-        ep_start: start,
-        ep_end: end
-      }),
-      axiosConfig
+      this.getUrlWithApi('/ajax/load-list-episode', ),
+      {
+        params: { keyword }
+      }
     );
     const $ = cheerio.load(res.data);
 

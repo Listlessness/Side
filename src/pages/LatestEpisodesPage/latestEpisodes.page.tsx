@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Dimensions, StyleSheet, View, FlatList } from 'react-native';
 import { FAB, Icon, Tab, TabView, Text } from 'react-native-elements';
 import { ListItemsState, RECENT_RELEASE_TYPE } from '../../utils';
-import { GogoRecentRelease } from 'gogoanime-api';
+
 import { EpisodeThumbnail, FlatListComp } from '../../components';
 import { GogoAnimeService } from '../../services';
+import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -51,6 +52,11 @@ export function LatestEpisodesPage() {
                 items: currPage === 1 ? resp.data : resp.data.concat(resp.data)
             })
             setPagination(resp.paginations)
+        }).catch(reason => {
+            setItemState({
+                messageText: reason.toString(),
+                items: []
+            })
         })
 
         return () => {if (refreshing) setRefreshing(false)}

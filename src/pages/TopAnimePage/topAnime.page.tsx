@@ -63,7 +63,7 @@ export function TopAnimePage({ route, navigation }: TopAnimeProps) {
             })
         }).catch(reason => {
             setItemState({
-                messageText: reason,
+                messageText: reason.toString(),
                 items: []
             })
         })
