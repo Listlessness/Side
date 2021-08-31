@@ -4,7 +4,12 @@ import { Days, Seasons, SearchTypes } from "../interfaces";
 export {
     MonthSeason,
     MonthNumSeason,
-    JikanDaysObj
+    JikanDaysObj,
+    JikanSearchAnimeSubType,
+    JikanSearchRated,
+    JikanSearchGenre,
+    JikanSearchOrderBy,
+    JikanSearchSort
 };
 
 export enum RECENT_RELEASE_TYPE {
@@ -13,14 +18,14 @@ export enum RECENT_RELEASE_TYPE {
     CHINESE = 3
 }
 
-export enum JikanTypesObj {
+export enum JikanTypes {
     Anime = 'anime',
     Manga = 'manga',
     People=  'people',
     Characters = 'characters'
 }
 
-export enum JikanAnimeSubTypesObj {
+export enum JikanAnimeSubTypes {
     Airing = 'airing',
     Upcoming = 'upcoming',
     TV = 'tv',
@@ -31,7 +36,7 @@ export enum JikanAnimeSubTypesObj {
     Favorite = 'favorite'
 }
 
-export enum JikanMangaSubTypesObj {
+export enum JikanMangaSubTypes {
     Manga = 'manga',
     Novels = 'novels',
     Oneshots = 'oneshots',
@@ -42,66 +47,138 @@ export enum JikanMangaSubTypesObj {
     Favorite = 'favorite'
 }
 
-export enum SeasonTypesObj {
+export enum SeasonTypes {
     SPRING = 'spring',
     SUMMER = 'summer',
     FALL = 'fall',
     WINTER = 'winter'
 }
 
-export enum JikanSearchTypeObj {
+export enum JikanSearchType {
     ANIME = 'anime',
     CHARACTER = 'character',
     PERSON = 'person',
     MANGA = 'manga',
 }
 
-export enum JikanSearchAnimeSubTypeObj {
-    MOVIE = 'movie',
-    MUSIC = 'music',
-    ONA = 'ona',
-    OVA = 'ova',
-    SPECIAL = 'special',
-    TV = 'tv'
+const JikanSearchAnimeSubType = {
+    MOVIE : 'movie',
+    MUSIC : 'music',
+    ONA : 'ona',
+    OVA : 'ova',
+    SPECIAL : 'special',
+    TV : 'tv'
 }
 
-export enum JikanSearchMangaSubTypeObj {
-    MANGA = 'manga',
-    DOUJIN = 'doujin',
-    MANHUA = 'manhua',
-    MANHWA = 'manhwa',
-    MUSIC = 'music',
-    ONESHOT = 'oneshot'
+const JikanSearchMangaSubType = {
+    MANGA : 'manga',
+    DOUJIN : 'doujin',
+    MANHUA : 'manhua',
+    MANHWA : 'manhwa',
+    MUSIC : 'music',
+    ONESHOT : 'oneshot'
+}
+
+const JikanSearchRated = {
+    G : 'g',
+    PG : 'pg',
+    PG13 : 'pg13',
+    R17 : 'r17',
+    R : 'r',
+    RX : 'rx',
+}
+
+const JikanSearchGenre = {
+    ACTION : 1,
+    ADVENTURE : 2,
+    CARS : 3,
+    COMEDY : 4,
+    DEMENTIA : 5,
+    DEMONS : 6,
+    MYSTERY : 7,
+    DRAMA : 8,
+    ECCHI : 9,
+    FANTASY : 10,
+    GAME : 11,
+    HENTAI : 12,
+    HISTORICAL : 13,
+    HORROR : 14,
+    KIDS : 15,
+    MAGIC : 16,
+    'MARTIAL ARTS' : 17,
+    MECHA : 18,
+    MUSIC : 19,
+    PARODY : 20,
+    SAMURAI : 21,
+    ROMANCE : 22,
+    SCHOOL : 23,
+    'SCI FI' : 24,
+    SHOUJO : 25,
+    'SHOUJO AI' : 26,
+    SHOUNEN : 27,
+    'SHOUNEN AI' : 28,
+    SPACE : 29,
+    SPORTS : 30,
+    'SUPER POWER' : 31,
+    VAMPIRE : 32,
+    YAOI : 33,
+    YURI : 34,
+    HAREM : 35,
+    'SLICE OF LIFE' : 36,
+    SUPERNATURAL : 37,
+    MILITARY : 38,
+    POLICE : 39,
+    PSYCHOLOGICAL : 40,
+    THRILLER : 41,
+    SEINEN : 42,
+    JOSEI : 43
+}
+
+const JikanSearchOrderBy =  {
+    TITLE : 'title',
+    START_DATE : 'start_date',
+    END_DATE : 'end_date',
+    SCORE : 'score',
+    TYPE : 'type',
+    MEMBER : 'members',
+    // ID : 'id',
+    EPISODES : 'episodes',
+    RATING : 'rating'
+}
+
+const JikanSearchSort = {
+    ASCENDING : 'ascending',
+    DESCENDING : 'descending'
 }
 
 const MonthSeason: { [index: string] : Seasons } = {
-    'january': SeasonTypesObj.WINTER,
-    'february': SeasonTypesObj.WINTER,
-    'march': SeasonTypesObj.WINTER,
-    'april': SeasonTypesObj.SPRING,
-    'may': SeasonTypesObj.SPRING,
-    'june': SeasonTypesObj.SPRING,
-    'july': SeasonTypesObj.SUMMER,
-    'august': SeasonTypesObj.SUMMER,
-    'september': SeasonTypesObj.SUMMER,
-    'october': SeasonTypesObj.FALL,
-    'november': SeasonTypesObj.FALL,
-    'december': SeasonTypesObj.FALL,
+    'january': SeasonTypes.WINTER,
+    'february': SeasonTypes.WINTER,
+    'march': SeasonTypes.WINTER,
+    'april': SeasonTypes.SPRING,
+    'may': SeasonTypes.SPRING,
+    'june': SeasonTypes.SPRING,
+    'july': SeasonTypes.SUMMER,
+    'august': SeasonTypes.SUMMER,
+    'september': SeasonTypes.SUMMER,
+    'october': SeasonTypes.FALL,
+    'november': SeasonTypes.FALL,
+    'december': SeasonTypes.FALL,
 }
 
 const MonthNumSeason: { [index: number] : Seasons } = {
-    0: SeasonTypesObj.WINTER,
-    1: SeasonTypesObj.WINTER,
-    2: SeasonTypesObj.WINTER,
-    3: SeasonTypesObj.SPRING,
-    4: SeasonTypesObj.SPRING,
-    5: SeasonTypesObj.SPRING,
-    6: SeasonTypesObj.SUMMER,
-    7: SeasonTypesObj.SUMMER,
-    8: SeasonTypesObj.SUMMER,
-    9: SeasonTypesObj.FALL,
-    10: SeasonTypesObj.FALL,
-    11: SeasonTypesObj.FALL,
+    0: SeasonTypes.WINTER,
+    1: SeasonTypes.WINTER,
+    2: SeasonTypes.WINTER,
+    3: SeasonTypes.SPRING,
+    4: SeasonTypes.SPRING,
+    5: SeasonTypes.SPRING,
+    6: SeasonTypes.SUMMER,
+    7: SeasonTypes.SUMMER,
+    8: SeasonTypes.SUMMER,
+    9: SeasonTypes.FALL,
+    10: SeasonTypes.FALL,
+    11: SeasonTypes.FALL,
 }
 
 const JikanDaysObj: { [index: string] : Days } = {

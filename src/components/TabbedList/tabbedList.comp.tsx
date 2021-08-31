@@ -60,7 +60,7 @@ export class TabbedList<T> extends PureComponent<TabbedListProps<T>, TabbedListS
                 <Tab.Item key={index} containerStyle={styles.tabs} titleStyle={styles.tabTitle} title={tabItem.title} />
             );
             this.TAB_ITEMS.tabViewItems.push(
-                <TabView.Item key={index} style={styles.content} >
+                <TabView.Item onMoveShouldSetResponder={(e) => {e.stopPropagation(); return false}} key={index} style={styles.content} >
                         {this.__createList(tabItem.shouldShowCheck())}
                 </TabView.Item>
             );
@@ -94,25 +94,16 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#000E14',
         width: windowWidth,
-        overflow: 'hidden',
     },
     tabTitle: {
         color: '#fff'
     },
     tabs: {
         height: windowHeight * .08,
-        paddingRight: 10,
-        paddingLeft: 10
     },
     content: {
-        paddingTop: 10,
         width: windowWidth,
+        paddingTop: 20,
         height: windowHeight * .8,
-        paddingRight: 10,
-        paddingLeft: 10
-    },
-    list: {
-        alignItems: 'center',
-        justifyContent: 'center'
     }
 });

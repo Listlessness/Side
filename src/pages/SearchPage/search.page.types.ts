@@ -14,7 +14,7 @@ interface SearchPageProps<T> extends LEPBaseProps{
 
 interface SearchPageState<T> {
     queryText: string,
-    filters?: Filters,
+    filters: Filters,
     currPage: number,
     messageText: string | undefined,
     items: T[],

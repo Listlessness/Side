@@ -1,6 +1,6 @@
 import React, { useState, useEffect, PureComponent } from 'react';
 import { Dimensions } from 'react-native';
-import { JikanAnimeSubTypesObj, JikanTypesObj, SubTypes, TopItem } from '../../utils';
+import { JikanAnimeSubTypes, JikanTypes, SubTypes, TopItem } from '../../utils';
 import { Thumbnail, TabListItem, TabbedList } from '../../components';
 import { JikanService } from '../../services';
 import { TopAnimeProps, TopAnimeState } from './topAnime.page.types';
@@ -20,19 +20,19 @@ export class TopAnimePage extends PureComponent<Props, State> {
         super(props)
 
         this.typeTopValue = {
-            [JikanAnimeSubTypesObj.Airing.toString()]: 0,
-            [JikanAnimeSubTypesObj.Upcoming.toString()]: 1,
+            [JikanAnimeSubTypes.Airing.toString()]: 0,
+            [JikanAnimeSubTypes.Upcoming.toString()]: 1,
         }
     
         this.valueToType = {
-            0: JikanAnimeSubTypesObj.Airing,
-            1: JikanAnimeSubTypesObj.Upcoming,
+            0: JikanAnimeSubTypes.Airing,
+            1: JikanAnimeSubTypes.Upcoming,
         }
         
         const { topType } = this.props.route.params;
 
         this.state = {
-            currIndex: this.typeTopValue[topType ? topType.toString() : JikanAnimeSubTypesObj.Airing.toString()],
+            currIndex: this.typeTopValue[topType ? topType.toString() : JikanAnimeSubTypes.Airing.toString()],
             currPage: 1,
             messageText: undefined,
             items: [],
@@ -43,11 +43,11 @@ export class TopAnimePage extends PureComponent<Props, State> {
         this.tabListItems = [
             {
                 title: 'Airing',
-                shouldShowCheck: this.__shouldShowCheck.bind(this, JikanAnimeSubTypesObj.Airing)
+                shouldShowCheck: this.__shouldShowCheck.bind(this, JikanAnimeSubTypes.Airing)
             },
             {
                 title: 'Upcoming',
-                shouldShowCheck: this.__shouldShowCheck.bind(this, JikanAnimeSubTypesObj.Upcoming)
+                shouldShowCheck: this.__shouldShowCheck.bind(this, JikanAnimeSubTypes.Upcoming)
             }
         ]
     }
@@ -64,7 +64,7 @@ export class TopAnimePage extends PureComponent<Props, State> {
             messageText: "Fetching anime ..."
         })
 
-        JikanService.fetchTop(JikanTypesObj.Anime, currPage, topType).then(resp => {
+        JikanService.fetchTop(JikanTypes.Anime, currPage, topType).then(resp => {
             this.setState({
                 messageText: undefined,
                 items: currPage === 1 ? resp.top : items.concat(resp.top),

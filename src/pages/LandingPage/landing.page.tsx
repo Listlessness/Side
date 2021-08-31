@@ -4,7 +4,7 @@ import { Button, Icon } from 'react-native-elements';
 import { ThumbnailCarousel, StackCarousel, StackItem, Thumbnail } from '../../components';
 import { JikanService, GogoAnimeService } from '../../services';
 import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
-import { TopItem, JikanTypesObj, JikanAnimeSubTypesObj, SubTypes } from '../../utils';
+import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes } from '../../utils';
 import { LandingPageProps } from './landing.page.types';
 
 const __renderStackItem = ({item, index}: { item: GogoRecentRelease; index: number; }) => {
@@ -38,7 +38,7 @@ const __fetchStackItems = () => GogoAnimeService.fetchRecentlyAddedEpisodes().th
     return resp.data.slice(0,10);
 })
 
-const __fetchThumbnailItems = (subType: SubTypes) => JikanService.fetchTop(JikanTypesObj.Anime, 1, subType).then(resp => {
+const __fetchThumbnailItems = (subType: SubTypes) => JikanService.fetchTop(JikanTypes.Anime, 1, subType).then(resp => {
     return resp.top.slice(0,10);
 })
 
@@ -78,18 +78,18 @@ export class LandingPage extends PureComponent<LandingPageProps> {
                 />
                 <ThumbnailCarousel
                     title="Top Airing Anime"
-                    fetchItems={() => __fetchThumbnailItems(JikanAnimeSubTypesObj.Airing)}
+                    fetchItems={() => __fetchThumbnailItems(JikanAnimeSubTypes.Airing)}
                     renderItem={__renderThumbnailItem}
                     onPress={() => {
-                        navigation.navigate("Top Anime", {topType: JikanAnimeSubTypesObj.Airing})
+                        navigation.navigate("Top Anime", {topType: JikanAnimeSubTypes.Airing})
                     }}
                 />
                 <ThumbnailCarousel
                     title="Top Upcoming Anime"
-                    fetchItems={() => __fetchThumbnailItems(JikanAnimeSubTypesObj.Upcoming)}
+                    fetchItems={() => __fetchThumbnailItems(JikanAnimeSubTypes.Upcoming)}
                     renderItem={__renderThumbnailItem}
                     onPress={() => {
-                        navigation.navigate("Top Anime", {topType: JikanAnimeSubTypesObj.Upcoming})
+                        navigation.navigate("Top Anime", {topType: JikanAnimeSubTypes.Upcoming})
                     }}
                 />
             </ScrollView>

@@ -1,10 +1,11 @@
+import { Picker } from '@react-native-picker/picker';
 import React, { PureComponent } from 'react';
 import { createRef } from 'react';
 import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
-import { Button, Icon, SearchBar } from 'react-native-elements';
-import { Thumbnail, FlatListComp, CustomOverlay } from '../../components';
+import { Button, Icon, SearchBar, Text } from 'react-native-elements';
+import { Thumbnail, FlatListComp, CustomOverlay, CustomPicker, CustomButtonGroup } from '../../components';
 import { JikanService } from '../../services';
-import { JikanSearchTypeObj, SearchResultItem } from '../../utils';
+import { JikanSearchAnimeSubType, JikanSearchGenre, JikanSearchOrderBy, JikanSearchRated, JikanSearchSort, JikanSearchType, SearchResultItem } from '../../utils';
 import { SearchPageProps, SearchPageState } from './search.page.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
@@ -20,7 +21,7 @@ export class SearchPage extends PureComponent<Props, State> {
     
         this.state = {
             queryText: '',
-            filters: undefined,
+            filters: {},
             currPage: 1,
             messageText: undefined,
             items: [],
@@ -47,7 +48,7 @@ export class SearchPage extends PureComponent<Props, State> {
                 messageText: "Fetching anime ..."
             })
     
-            JikanService.DoSearch(queryText, JikanSearchTypeObj.ANIME, currPage, filters).then(resp => {
+            JikanService.DoSearch(queryText, JikanSearchType.ANIME, currPage, filters).then(resp => {
                 this.setState({
                     messageText: undefined,
                     items: currPage === 1 ? resp.results : items.concat(resp.results),
@@ -130,11 +131,44 @@ export class SearchPage extends PureComponent<Props, State> {
     )
 
     getFilters = () => {
+        const { genre, type, rated, order_by } = this.state.filters;
+
+        
+
         this.overlayRef.current?.setContent(
             <ScrollView
                 horizontal
             >
-
+                <CustomPicker
+                    title='Genre'
+                    selectedValue={genre}
+                    setSelectedValue={() => {}}
+                    listObject={JikanSearchGenre}
+                />
+                <CustomPicker
+                    title='Anime Type'
+                    selectedValue={type}
+                    setSelectedValue={() => {}}
+                    listObject={JikanSearchAnimeSubType}
+                />
+                <CustomPicker
+                    title='Rated'
+                    selectedValue={rated}
+                    setSelectedValue={() => {}}
+                    listObject={JikanSearchRated}
+                />
+                <CustomPicker
+                    title='Order By'
+                    selectedValue={order_by}
+                    setSelectedValue={() => {}}
+                    listObject={JikanSearchOrderBy}
+                />
+                <CustomButtonGroup
+                    title='Sort By'
+                    selectedIndex={1}
+                    setSelectedIndex={() => {}}
+                    buttons={[JikanSearchSort.ASCENDING, JikanSearchSort.DESCENDING]}
+                />
             </ScrollView>
         ).showOverlay()
     }
@@ -204,7 +238,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#000E14',
         width: windowWidth,
-        overflow: 'hidden',
     },
     tools: {
         padding: 15,

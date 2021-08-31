@@ -2,11 +2,14 @@ export interface Filters {
     end_date?: string;
     genre_exclude?: 0 | 1;
     genre?: number;
+    type?: string;
     limit?: number;
     rated?: Rated;
     score?: number;
     start_date?: string;
     status?: Status;
+    order_by?: string;
+    sort?: string;
 }
 type Rated = 'g' | 'pg' | 'pg13' | 'r17' | 'r' | 'rx';
 
