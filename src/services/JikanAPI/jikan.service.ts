@@ -102,7 +102,7 @@ export class JikanAPI {
             'page': page || 1
         }
 
-        if (filters?.genre !== undefined) params['genre'] = filters.genre;
+        if (filters !== undefined) params = Object.assign({}, params, filters);
 
         return this.jikanRequest.get<SearchResult>(path, {
             params: params

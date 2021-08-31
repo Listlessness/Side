@@ -1,5 +1,6 @@
 export type {
-    StackCarouselProps
+    StackCarouselProps,
+    StackCarouselState
 }
 
 interface StackCarouselProps<T> {
@@ -10,3 +11,9 @@ interface StackCarouselProps<T> {
 }
 
 type RenderItemArg<T> = { item: T; index: number; }
+
+interface StackCarouselState<T> {
+    activeSlide: number,
+    messageText: string | undefined,
+    items: T[]
+}

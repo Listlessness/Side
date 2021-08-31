@@ -2,7 +2,21 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../utils";
 
 export type {
-    TopAnimeProps
+    TopAnimeProps,
+    TopAnimeState
 }
 
-type TopAnimeProps = NativeStackScreenProps<RootStackParamList, 'Top Anime'>;
+type TAPBaseProps = NativeStackScreenProps<RootStackParamList, 'Top Anime'>;
+
+interface TopAnimeProps<T> extends TAPBaseProps{
+    
+}
+
+interface TopAnimeState<T> {
+    currIndex: number,
+    currPage: number,
+    messageText: string | undefined,
+    items: T[],
+    refreshing: boolean,
+    loadingMore: boolean
+}

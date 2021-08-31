@@ -1,85 +1,95 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {createRef, PureComponent} from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { StackCarouselProps } from './stackCarousel.types';
+import { StackCarouselProps, StackCarouselState } from './stackCarousel.types';
 import { MessageComp , SeeMoreButton} from '../../index';
-import { GogoAnimeService } from '../../../services';
-import { ListItemsState } from '../../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-export function StackCarousel<T>({
-    fetchItems,
-    title,
-    renderItem,
-    onPress
-}: StackCarouselProps<T>) {
 
-    const carouselRef = useRef(null);
+export class StackCarousel<T> extends PureComponent<StackCarouselProps<T>, StackCarouselState<T>> {
+    carouselRef: React.MutableRefObject<null>;
 
-    const [activeSlide, setActiveSlide] = useState(0);
+    constructor(props: StackCarouselProps<T>) {
+        super(props)
 
-    const [itemState, setItemState] = useState<ListItemsState<T>>(
-        {
-            messageText: "Fetching anime ...",
+        this.carouselRef = createRef();
+
+        this.state = {
+            activeSlide: 0,
+            messageText: undefined,
             items: []
         }
-    )
+    }
 
-    useEffect(() => {
-        fetchItems().then( resp => {
-            setItemState({
+    componentDidMount() {
+        this.setState({messageText: "Fetching anime ..."})
+        this.props.fetchItems().then( resp => {
+            this.setState({
                 messageText: undefined,
                 items: resp
             })
         }).catch(reason => {
-            console.log("REASON", reason)
-            setItemState({
-                messageText: reason.toString(),
-                items: []
+            this.setState({
+                messageText: reason.toString()
             })
         })
-    }, [itemState.items.length])
+    }
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.carouselTitle}>
-                    {title}
-                </Text>
-                <SeeMoreButton onPress={onPress} />
+    render() {
+
+        const {
+            title,
+            renderItem,
+            onPress
+        } = this.props;
+
+        const {
+            activeSlide,
+            messageText,
+            items
+        } = this.state;
+
+        return (
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.carouselTitle}>
+                        {title}
+                    </Text>
+                    <SeeMoreButton onPress={onPress} />
+                </View>
+                {(items && items.length > 0) ? (
+                    <>
+                        <Carousel
+                            layout={"stack"}
+                            ref={this.carouselRef}
+                            data={items}
+                            sliderWidth={windowWidth * .9}
+                            itemWidth={windowWidth * .9}
+                            renderItem={renderItem}
+                            inactiveSlideOpacity={0.1}
+                            inactiveSlideScale={0.1}
+                            onSnapToItem={(activeSlide) => this.setState({activeSlide}) }
+                            useScrollView
+                            autoplay
+                        />
+                        <Pagination
+                            dotsLength={items.length}
+                            activeDotIndex={activeSlide}
+                            containerStyle={styles.paginationContainer}
+                            dotStyle={styles.dot}
+                            inactiveDotOpacity={0.4}
+                            inactiveDotScale={0.6}
+                        />
+                    </>
+                ) : (
+                    <MessageComp
+                        message={messageText}
+                    />
+                )}
             </View>
-            {(itemState.items && itemState.items.length > 0) ? (
-                <>
-                    <Carousel
-                        layout={"stack"}
-                        ref={carouselRef}
-                        data={itemState.items}
-                        sliderWidth={windowWidth * .9}
-                        itemWidth={windowWidth * .9}
-                        renderItem={renderItem}
-                        inactiveSlideOpacity={0.1}
-                        inactiveSlideScale={0.1}
-                        onSnapToItem={(index) => setActiveSlide(index) }
-                        useScrollView
-                        autoplay
-                    />
-                    <Pagination
-                        dotsLength={itemState.items.length}
-                        activeDotIndex={activeSlide}
-                        containerStyle={styles.paginationContainer}
-                        dotStyle={styles.dot}
-                        inactiveDotOpacity={0.4}
-                        inactiveDotScale={0.6}
-                    />
-                </>
-            ) : (
-                <MessageComp
-                    message={itemState.messageText}
-                />
-            )}
-        </View>
-    )
+        )
+    }
 }
 
 

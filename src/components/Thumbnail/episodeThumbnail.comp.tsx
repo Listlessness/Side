@@ -1,46 +1,61 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { EpisodeThumbnailProps } from './thumbnail.types';
-import { Text, View, Image, StyleSheet, ImageBackground, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-export function EpisodeThumbnail({
-    id,
-    title,
-    episode,
-    url,
-    picture_url
-}: EpisodeThumbnailProps) {
-    return (
-        <Button key={id} containerStyle={styles.container} buttonStyle={{padding: 0}} type="clear"
-            icon={
-                <View style={styles.container}>
-                    <ImageBackground
-                        style={styles.picture}
-                        resizeMode="cover"
-                        source={{uri: picture_url}}
-                        loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
-                    >
-                        <View style={styles.info}>
-                            <Text style={styles.episode}>
-                                {episode}
-                            </Text>
-                        </View>
-                    </ImageBackground>
-                    <Text style={styles.title}>
-                            {title}
-                    </Text>
-                </View>
-            }
-        />
-    )
-}
 
+export class EpisodeThumbnail extends PureComponent<EpisodeThumbnailProps> {
+
+    constructor(props: EpisodeThumbnailProps) {
+        super(props)
+    }
+
+    render () {
+        const {id,
+            title,
+            episode,
+            url,
+            picture_url
+        } = this.props;
+        
+        return (
+            <Button key={id} containerStyle={styles.container} buttonStyle={{padding: 0}} type="clear"
+                icon={
+                    <View style={styles.container}>
+                        <ImageBackground
+                            style={styles.picture}
+                            resizeMode="cover"
+                            blurRadius={5}
+                            source={{uri: picture_url}}
+                            loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
+                        >
+                            <ImageBackground
+                                style={styles.picture}
+                                resizeMode="contain"
+                                source={{uri: picture_url}}
+                                loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
+                            >
+                                <View style={styles.info}>
+                                    <Text style={styles.episode}>
+                                        {episode}
+                                    </Text>
+                                </View>
+                            </ImageBackground>
+                        </ImageBackground>
+                        <Text  numberOfLines={2} style={styles.title}>
+                                {title}
+                        </Text>
+                    </View>
+                }
+            />
+        )
+    }
+}
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         width: windowWidth * .3,
         height: windowHeight * .35,
         justifyContent: 'center',
@@ -51,23 +66,19 @@ const styles = StyleSheet.create({
     },
     picture: {
         width: '100%',
-        height: '25vh',
+        height: windowHeight * .3,
         justifyContent: 'flex-end'
     },
     title: {
-        overflow: 'hidden',
         textAlign: 'center',
-        width: '100%',
-        height: '10vh',
         color: '#F5F1DB',
-        fontWeight: '500'
+        fontWeight: '500',
+        height: windowHeight * .05
     },
     info: {
-        height: '15%',
-        display: 'flex',
+        height: windowHeight * .05,
         flexDirection: 'column',
         justifyContent: 'center',
-        width: '100%',
         backgroundColor: "#000000c0"
     },
     episode: {

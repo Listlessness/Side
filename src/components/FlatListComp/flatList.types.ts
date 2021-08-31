@@ -1,11 +1,15 @@
 
 export type {
-    FlatListProps
+    FlatListProps,
+    FlatListState
+}
+
+interface FlatListState<T> {
+    fabVisibility: boolean
 }
 
 interface FlatListProps<T> {
     messageText?: string,
-    listRef: any,
     shouldShow: boolean,
     items: T[],
     numColumns?: number,
@@ -13,9 +17,9 @@ interface FlatListProps<T> {
     onEndReached?: (info: {distanceFromEnd: number}) => void,
     keyExtractor?: (item: T, index: number) => any,
     getItemLayout?: ((data: T[] | null | undefined, index: number) => { length: number; offset: number; index: number; }) | undefined,
-    onScroll?: () => void,
     onRefresh?: () => void,
-    refreshing?: boolean
+    refreshing?: boolean,
+    loadingMore?: boolean
 }
 
 type RenderItemArgs<T> = { item: T; index: number; }

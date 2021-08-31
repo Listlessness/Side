@@ -1,52 +1,65 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { ThumbnailProps } from './thumbnail.types';
-import { Text, View, Image, StyleSheet, Dimensions, ImageBackground } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Text, View, StyleSheet, Dimensions, ImageBackground, ActivityIndicator } from 'react-native';
+import { Button, Image } from 'react-native-elements';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-export function Thumbnail({
-    id,
-    title,
-    score,
-    description,
-    url,
-    type,
-    picture_url
-}: ThumbnailProps) {
-    return (
-        <Button key={id} containerStyle={styles.container} buttonStyle={{padding: 0}} type="clear"
-            icon={
-                <View key={id} style={styles.container}>
-                    <ImageBackground
-                        style={styles.background}
-                        resizeMode="cover"
-                        blurRadius={5}
-                        source={{uri: picture_url}}
-                    >
-                        <Image
-                            style={styles.picture}
+
+export class Thumbnail extends PureComponent<ThumbnailProps> {
+
+    constructor(props: ThumbnailProps) {
+        super(props)
+    }
+
+    render() {
+        const {
+            id,
+            title,
+            score,
+            description,
+            url,
+            type,
+            picture_url
+        } = this.props;
+
+        return (
+            <Button key={id} containerStyle={styles.container} buttonStyle={{padding: 0}} type="clear"
+                icon={
+                    <View key={id} style={styles.container}>
+                        <ImageBackground
+                            style={styles.background}
+                            resizeMode="cover"
+                            blurRadius={5}
                             source={{uri: picture_url}}
-                            resizeMode="contain"
-                        />
-                    </ImageBackground>
-                    <View style={styles.info}>
-                        <Text numberOfLines={1} style={styles.title}>
-                            {title}
-                        </Text>
-                        <View style={styles.meta}>
-                            <Text style={styles.score}>
-                                {score}
+                            loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
+                        >
+                            <Image
+                                style={styles.picture}
+                                source={{uri: picture_url}}
+                                resizeMode="contain"
+                                defaultSource={require('../../../assets/img/placeholderPic.jpg')}
+                                PlaceholderContent={<ActivityIndicator />}
+                            />
+                        </ImageBackground>
+                        <View style={styles.info}>
+                            <Text numberOfLines={1} style={styles.title}>
+                                {title}
                             </Text>
-                            <Text style={styles.type}>
-                                {type}
-                            </Text>
+                            <View style={styles.meta}>
+                                <Text style={styles.score}>
+                                    {score}
+                                </Text>
+                                <Text style={styles.type}>
+                                    {type}
+                                </Text>
+                            </View>
                         </View>
                     </View>
-                </View>
-            }
-        />
-    )
+                }
+            />
+        )
+    }
 }
 
 

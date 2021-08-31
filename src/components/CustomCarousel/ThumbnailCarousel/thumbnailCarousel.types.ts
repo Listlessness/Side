@@ -1,7 +1,6 @@
-import { SubTypes } from "../../../utils";
-
 export type {
-    ThumbnailCarouselProps
+    ThumbnailCarouselProps,
+    ThumbnailCarouselState
 }
 
 interface ThumbnailCarouselProps<T> {
@@ -12,3 +11,9 @@ interface ThumbnailCarouselProps<T> {
 }
 
 type RenderItemArg<T> = { item: T; index: number; }
+
+interface ThumbnailCarouselState<T> {
+    currIndex: number,
+    messageText: string | undefined,
+    items: T[]
+}

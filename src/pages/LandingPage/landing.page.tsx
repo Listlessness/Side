@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 import { ThumbnailCarousel, StackCarousel, StackItem, Thumbnail } from '../../components';
 import { JikanService, GogoAnimeService } from '../../services';
+import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
 import { TopItem, JikanTypesObj, JikanAnimeSubTypesObj, SubTypes } from '../../utils';
-import { GogoRecentRelease } from 'gogoanime-api';
 import { LandingPageProps } from './landing.page.types';
 
 const __renderStackItem = ({item, index}: { item: GogoRecentRelease; index: number; }) => {
@@ -41,36 +42,59 @@ const __fetchThumbnailItems = (subType: SubTypes) => JikanService.fetchTop(Jikan
     return resp.top.slice(0,10);
 })
 
-export function LandingPage({ route, navigation }: LandingPageProps) {
+export class LandingPage extends PureComponent<LandingPageProps> {
 
-    return (
-        <ScrollView style={styles.landingPage} contentContainerStyle={styles.content}>
-            <StackCarousel
-                title="Latest Episodes"
-                fetchItems={__fetchStackItems}
-                renderItem={__renderStackItem}
-                onPress={() => {
-                    navigation.navigate("Latest Episodes")
-                }}
-            />
-            <ThumbnailCarousel
-                title="Top Airing Anime"
-                fetchItems={() => __fetchThumbnailItems(JikanAnimeSubTypesObj.Airing)}
-                renderItem={__renderThumbnailItem}
-                onPress={() => {
-                    navigation.navigate("Top Anime", {topType: JikanAnimeSubTypesObj.Airing})
-                }}
-            />
-            <ThumbnailCarousel
-                title="Top Upcoming Anime"
-                fetchItems={() => __fetchThumbnailItems(JikanAnimeSubTypesObj.Upcoming)}
-                renderItem={__renderThumbnailItem}
-                onPress={() => {
-                    navigation.navigate("Top Anime", {topType: JikanAnimeSubTypesObj.Upcoming})
-                }}
-            />
-        </ScrollView>
-    );
+    constructor(props: LandingPageProps) {
+        super(props)
+
+        props.navigation.setOptions({
+            headerRight: () => (
+                <Button
+                  icon={
+                    <Icon
+                      name="search"
+                      size={20}
+                      color="white"
+                    />
+                  }
+                  type="clear"
+                  onPress={() => props.navigation.navigate('Search')}
+                />
+              ),
+          });
+    }
+
+    render() {
+        const { route, navigation } = this.props;
+        return (
+            <ScrollView style={styles.landingPage} contentContainerStyle={styles.content}>
+                <StackCarousel
+                    title="Latest Episodes"
+                    fetchItems={__fetchStackItems}
+                    renderItem={__renderStackItem}
+                    onPress={() => {
+                        navigation.navigate("Latest Episodes")
+                    }}
+                />
+                <ThumbnailCarousel
+                    title="Top Airing Anime"
+                    fetchItems={() => __fetchThumbnailItems(JikanAnimeSubTypesObj.Airing)}
+                    renderItem={__renderThumbnailItem}
+                    onPress={() => {
+                        navigation.navigate("Top Anime", {topType: JikanAnimeSubTypesObj.Airing})
+                    }}
+                />
+                <ThumbnailCarousel
+                    title="Top Upcoming Anime"
+                    fetchItems={() => __fetchThumbnailItems(JikanAnimeSubTypesObj.Upcoming)}
+                    renderItem={__renderThumbnailItem}
+                    onPress={() => {
+                        navigation.navigate("Top Anime", {topType: JikanAnimeSubTypesObj.Upcoming})
+                    }}
+                />
+            </ScrollView>
+        );
+    }
 }
 
 const styles = StyleSheet.create({

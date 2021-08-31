@@ -1,12 +1,10 @@
 import React from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
-import { LandingPage } from './src/pages/LandingPage';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { LatestEpisodesPage } from './src/pages/LatestEpisodesPage';
 import { Button, Icon } from 'react-native-elements';
-import { JikanTypesObj, RootStackParamList, Screens } from './src/utils/constants';
+import { RootStackParamList, Screens } from './src/utils/constants';
 import { ThemeProvider } from 'react-native-elements';
 
 const theme = {
@@ -19,7 +17,6 @@ const theme = {
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
 
 export default function App() {
 
@@ -38,20 +35,6 @@ export default function App() {
             <Stack.Screen
               name={"Home"}
               component={Screens.LANDING_PAGE.component}
-              options={{
-                headerRight: () => (
-                  <Button
-                    icon={
-                      <Icon
-                        name="search"
-                        size={20}
-                        color="white"
-                      />
-                    }
-                    type="clear"
-                  />
-                ),
-              }}
             />
             <Stack.Screen 
               name={"Latest Episodes"}
@@ -60,6 +43,11 @@ export default function App() {
             <Stack.Screen 
               name={"Top Anime"}
               component={Screens.TOP_ANIME_PAGE.component}
+            />
+            <Stack.Screen 
+              name={"Search"}
+              component={Screens.SEARCH_PAGE.component}
+              options={{ title: 'Search for your favourite Anime!' }}
             />
           </Stack.Navigator>
         </NavigationContainer>

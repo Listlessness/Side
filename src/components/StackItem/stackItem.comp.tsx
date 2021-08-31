@@ -1,45 +1,57 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StackItemProps } from './stackItem.types';
 import { Text, View, ImageBackground, StyleSheet, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-export function StackItem({
-    id,
-    title,
-    description,
-    url,
-    picture_url
-}: StackItemProps) {
-    return (
-        <Button key={id} containerStyle={styles.container} buttonStyle={{padding: 0}} type="clear"
-            icon={
-                <View key={id} style={styles.container}>
-                    <ImageBackground
-                        style={styles.picture}
-                        resizeMode="cover"
-                        blurRadius={5}
-                        source={{uri: picture_url}}
-                    >
+export class StackItem extends PureComponent<StackItemProps> {
+
+    constructor(props: StackItemProps) {
+        super(props)
+    }
+    
+    render() {
+        const {
+            id,
+            title,
+            description,
+            url,
+            picture_url
+        } = this.props;
+
+        return (
+            <Button key={id} containerStyle={styles.container} buttonStyle={{padding: 0}} type="clear"
+                icon={
+                    <View key={id} style={styles.container}>
                         <ImageBackground
                             style={styles.picture}
-                            resizeMode="contain"
+                            resizeMode="cover"
+                            blurRadius={5}
                             source={{uri: picture_url}}
+                            loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
+
                         >
-                            <View style={styles.info}>
-                                <Text numberOfLines={1} style={styles.title}>
-                                    {title}
-                                </Text>
-                                <Text style={styles.episode}>
-                                    {description}
-                                </Text>
-                            </View>
+                            <ImageBackground
+                                style={styles.picture}
+                                resizeMode="contain"
+                                source={{uri: picture_url}}
+                                loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
+                            >
+                                <View style={styles.info}>
+                                    <Text numberOfLines={1} style={styles.title}>
+                                        {title}
+                                    </Text>
+                                    <Text style={styles.episode}>
+                                        {description}
+                                    </Text>
+                                </View>
+                            </ImageBackground>
                         </ImageBackground>
-                    </ImageBackground>
-                </View>
-            }
-        />
-    )
+                    </View>
+                }
+            />
+        )
+    }
 }
 
 

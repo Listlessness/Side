@@ -1,171 +1,161 @@
-import React, { useState, useEffect } from 'react';
-import { Dimensions, StyleSheet, View, FlatList } from 'react-native';
-import { FAB, Icon, Tab, TabView, Text } from 'react-native-elements';
-import { ListItemsState, RECENT_RELEASE_TYPE } from '../../utils';
-
-import { EpisodeThumbnail, FlatListComp } from '../../components';
+import React, { PureComponent } from 'react';
+import { Dimensions } from 'react-native';
+import { RECENT_RELEASE_TYPE } from '../../utils';
+import { EpisodeThumbnail, TabbedList, TabListItem } from '../../components';
 import { GogoAnimeService } from '../../services';
 import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
+import { LatestEpisodeProps, LatestEpisodeState } from './LatestEpisodes.page.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-const __renderItem = ({item, index}: {item: GogoRecentRelease, index: number}) => (
-    <EpisodeThumbnail
-        key={index}
-        id={item.title}
-        title={item.title}
-        url={item.link}
-        picture_url={item.thumbnail}
-        episode={item.episode}
-    />
-)
+type Props = LatestEpisodeProps<GogoRecentRelease>;
+type State = LatestEpisodeState<GogoRecentRelease>;
 
-const __keyExtractor = (item: GogoRecentRelease, index: number) => `${item.title}-${index}`;
+export class LatestEpisodesPage extends PureComponent<Props, State> {
+    tabListItems: TabListItem[];
 
-const __getItemLayout = (data: GogoRecentRelease[] | null | undefined, index: number) => (
-    {length: windowHeight * .35, offset: (windowHeight * .35) * index, index}
-)
-
-export function LatestEpisodesPage() {
-
-    const listRef = React.createRef<FlatList>();
-
-    const [currIndex, setIndex] = useState(0);
-    const [currPage, setPage] = useState(1);
-    const [currPagination, setPagination] = useState<number[]>([]);
+    constructor(props: Props) {
+        super(props)
     
-    const [itemState, setItemState] = useState<ListItemsState<GogoRecentRelease>>(
-        {
-            messageText: "Fetching anime ...",
-            items: []
+        this.state = {
+            currIndex: 0,
+            currPage: 1,
+            currPagination: [],
+            messageText: undefined,
+            items: [],
+            refreshing: false,
+            loadingMore: false
         }
+
+        this.tabListItems = [
+            {
+                title: 'Sub',
+                shouldShowCheck: this.__shouldShowCheck.bind(this, RECENT_RELEASE_TYPE.SUB)
+            },
+            {
+                title: 'Dub',
+                shouldShowCheck: this.__shouldShowCheck.bind(this, RECENT_RELEASE_TYPE.DUB)
+            },
+            {
+                title: 'Chinese',
+                shouldShowCheck: this.__shouldShowCheck.bind(this, RECENT_RELEASE_TYPE.CHINESE)
+            }
+        ]
+    }
+
+    fetchListItems() {
+        const {
+            currPage,
+            currIndex,
+            items
+        } = this.state;
+
+        this.setState({
+            messageText: "Fetching anime ..."
+        })
+        GogoAnimeService.fetchRecentlyAddedEpisodes(currPage, currIndex + 1).then(resp => {
+            this.setState({
+                messageText: undefined,
+                items: currPage === 1 ? resp.data : items.concat(resp.data),
+                currPagination: resp.paginations,
+                refreshing: false,
+                loadingMore: false
+            })
+        }).catch(reason => {
+            this.setState({
+                messageText: reason.toString(),
+                refreshing: false,
+                loadingMore: false
+            })
+        })
+    }
+
+    componentDidMount() {
+        this.fetchListItems()
+    }
+
+    componentDidUpdate(prevProps: Props, prevState: State) {
+        const {
+            currPage,
+            currIndex,
+            refreshing
+        } = this.state;
+
+        if ((prevState.currIndex !== currIndex) || (prevState.currPage !== currPage) || ((prevState.refreshing !== refreshing) && refreshing)) 
+            this.fetchListItems()
+    }
+
+    __onChange = (index: number) => {
+        this.setState({
+            currPage: 1,
+            currIndex: index,
+            items: []
+        })
+    }
+
+    __onEndReached = (info: {distanceFromEnd: number}) => {
+        if (info.distanceFromEnd < 0) return;
+        
+        const {
+            currPagination,
+            currPage
+        } = this.state;
+
+        if (currPagination.includes(currPage + 1)) this.setState({currPage: (currPage + 1), loadingMore: true});
+    }
+
+    __onRefresh = () => {
+        this.setState({
+            currPage: 1,
+            refreshing: true
+        })
+    }
+
+    __shouldShowCheck = (releaseType: number): boolean => {
+        return (this.state.currIndex + 1) === releaseType
+    }
+
+    __renderItem = ({item, index}: {item: GogoRecentRelease, index: number}) => (
+        <EpisodeThumbnail
+            key={index}
+            id={item.title}
+            title={item.title}
+            url={item.link}
+            picture_url={item.thumbnail}
+            episode={item.episode}
+        />
+    )
+    
+    __keyExtractor = (item: GogoRecentRelease, index: number) => `${item.title}-${index}`;
+    
+    __getItemLayout = (data: GogoRecentRelease[] | null | undefined, index: number) => (
+        {length: windowHeight * .35, offset: (windowHeight * .35) * index, index}
     )
 
-    const [fabVisibility, setFabVisibility] = useState(false);
+    render() {
+        const {
+            messageText,
+            items,
+            currIndex,
+            refreshing,
+            loadingMore
+        } = this.state;
 
-    const [refreshing, setRefreshing] = useState(false);
-
-    useEffect(() => {
-        GogoAnimeService.fetchRecentlyAddedEpisodes(currPage, currIndex + 1).then(resp => {
-            setItemState({
-                messageText: undefined,
-                items: currPage === 1 ? resp.data : resp.data.concat(resp.data)
-            })
-            setPagination(resp.paginations)
-        }).catch(reason => {
-            setItemState({
-                messageText: reason.toString(),
-                items: []
-            })
-        })
-
-        return () => {if (refreshing) setRefreshing(false)}
-
-    }, [currIndex, currPage])
-
-    const __onChange = (index: number) => {
-        setItemState({
-            messageText: "Fetching anime ...",
-            items: []
-        })
-        setPage(1);
-        setIndex(index)
-    }
-
-    const __onEndReached = (info: {distanceFromEnd: number}) => {
-        if (currPagination.includes(currPage + 1)) setPage(currPage + 1);
-    }
-
-    const __scrollToTop = async () => {
-        listRef.current?.scrollToIndex({index: 0})
-        await new Promise(resolve => setTimeout(resolve, 2000)).then(() => setFabVisibility(false))
-    }
-
-    const __onScroll = () => {
-        setFabVisibility(true)
-    }
-
-    const __onRefresh = async () => {
-        setRefreshing(true);
-        setPage(1)
-    }
-
-    const __createList = (releaseType: number) => {
-        return <FlatListComp
-            listRef={listRef}
-            shouldShow={(currIndex + 1) === releaseType}
-            items={itemState.items}
-            messageText={itemState.messageText}
-            renderItem={__renderItem}
-            keyExtractor={__keyExtractor}
-            getItemLayout={__getItemLayout}
-            onEndReached={__onEndReached}
-            onScroll={__onScroll}
-            onRefresh={__onRefresh}
-            refreshing={refreshing}
-        />
-    }
-
-    return (
-        <View style={styles.page}>
-            <Tab value={currIndex} onChange={__onChange}>
-                <Tab.Item containerStyle={styles.tabs} titleStyle={styles.tabTitle} title="Sub" />
-                <Tab.Item containerStyle={styles.tabs} titleStyle={styles.tabTitle} title="Dub" />
-                <Tab.Item containerStyle={styles.tabs} titleStyle={styles.tabTitle} title="Chinese" />
-            </Tab>
-            <TabView value={currIndex} onChange={__onChange} >
-                <TabView.Item style={styles.content} >
-                    {__createList(RECENT_RELEASE_TYPE.SUB)}
-                </TabView.Item>
-                <TabView.Item style={styles.content} collapsable={true}>
-                    {__createList(RECENT_RELEASE_TYPE.DUB)}
-                </TabView.Item>
-                <TabView.Item style={styles.content} collapsable={true}>
-                    {__createList(RECENT_RELEASE_TYPE.CHINESE)}
-                </TabView.Item>
-            </TabView>
-            
-            <FAB
-             icon={
-                <Icon
-                  name="arrow-upward"
-                  size={20}
-                  color="white"
-                />
-             }
-                onPress={__scrollToTop}
-                placement="right"
-                visible={fabVisibility}
+        return (
+            <TabbedList
+                items={items}
+                messageText={messageText}
+                renderItem={this.__renderItem}
+                onEndReached={this.__onEndReached}
+                keyExtractor={this.__keyExtractor}
+                getItemLayout={this.__getItemLayout}
+                onRefresh={this.__onRefresh}
+                currIndex={currIndex}
+                onChange={this.__onChange}
+                tabsList={this.tabListItems}
+                refreshing={refreshing}
+                loadingMore={loadingMore}
             />
-            
-        </View>
-    );
-}
-
-const styles = StyleSheet.create({
-    page: {
-        flex: 1,
-        backgroundColor: '#000E14',
-        width: windowWidth,
-        overflow: 'hidden',
-    },
-    tabTitle: {
-        color: '#fff'
-    },
-    tabs: {
-        height: windowHeight * .08,
-        paddingRight: 10,
-        paddingLeft: 10
-    },
-    content: {
-        paddingTop: 10,
-        width: windowWidth,
-        height: windowHeight * .8,
-        paddingRight: 10,
-        paddingLeft: 10
-    },
-    list: {
-        alignItems: 'center',
-        justifyContent: 'center'
+        );
     }
-});
+}

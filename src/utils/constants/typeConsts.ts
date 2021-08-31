@@ -4,8 +4,7 @@ import { Days, Seasons, SearchTypes } from "../interfaces";
 export {
     MonthSeason,
     MonthNumSeason,
-    JikanDaysObj,
-    JikanSearchTypeObj
+    JikanDaysObj
 };
 
 export enum RECENT_RELEASE_TYPE {
@@ -50,6 +49,31 @@ export enum SeasonTypesObj {
     WINTER = 'winter'
 }
 
+export enum JikanSearchTypeObj {
+    ANIME = 'anime',
+    CHARACTER = 'character',
+    PERSON = 'person',
+    MANGA = 'manga',
+}
+
+export enum JikanSearchAnimeSubTypeObj {
+    MOVIE = 'movie',
+    MUSIC = 'music',
+    ONA = 'ona',
+    OVA = 'ova',
+    SPECIAL = 'special',
+    TV = 'tv'
+}
+
+export enum JikanSearchMangaSubTypeObj {
+    MANGA = 'manga',
+    DOUJIN = 'doujin',
+    MANHUA = 'manhua',
+    MANHWA = 'manhwa',
+    MUSIC = 'music',
+    ONESHOT = 'oneshot'
+}
+
 const MonthSeason: { [index: string] : Seasons } = {
     'january': SeasonTypesObj.WINTER,
     'february': SeasonTypesObj.WINTER,
@@ -89,24 +113,6 @@ const JikanDaysObj: { [index: string] : Days } = {
     saturday : 'saturday',
     sunday : 'sunday',
     other : 'other'
-}
-
-const JikanSearchTypeObj: { [index: string] : SearchTypes } = {
-    anime : 'anime',
-    character : 'character',
-    doujin : 'doujin',
-    manga : 'manga',
-    manhua : 'manhua',
-    manhwa : 'manhwa',
-    movie : 'movie',
-    music : 'music',
-    novel : 'novel',
-    ona : 'ona',
-    oneshot : 'oneshot',
-    ova : 'ova',
-    person : 'person',
-    special : 'special',
-    tv : 'tv'
 }
 
 

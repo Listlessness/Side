@@ -8,17 +8,18 @@ export interface Filters {
     start_date?: string;
     status?: Status;
 }
-declare type Rated = 'g' | 'pg' | 'pg13' | 'r17' | 'r' | 'rx';
+type Rated = 'g' | 'pg' | 'pg13' | 'r17' | 'r' | 'rx';
+
 export interface SearchResult {
      request_hash: string;
      request_cached: boolean;
      request_cache_expiry: number;
-     results: Result[];
+     results: SearchResultItem[];
      last_page: number;
 }
 export type SearchTypes = 'anime' | 'character' | 'doujin' | 'manga' | 'manhua' | 'manhwa' | 'movie' | 'music' | 'novel' | 'ona' | 'oneshot' | 'ova' | 'person' | 'special' | 'tv';
-declare type Status = 'airing' | 'completed' | 'complete' | 'tba' | 'upcoming';
-interface Result {
+type Status = 'airing' | 'completed' | 'complete' | 'tba' | 'upcoming';
+export interface SearchResultItem {
      airing: boolean;
      end_date: Date | null;
      episodes: number;

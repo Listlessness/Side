@@ -1,154 +1,180 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, PureComponent } from 'react';
 import { Dimensions, StyleSheet, View, FlatList } from 'react-native';
 import { FAB, Icon, Tab, TabView } from 'react-native-elements';
 import { JikanAnimeSubTypesObj, JikanTypesObj, ListItemsState, SubTypes, TopItem } from '../../utils';
-import { Thumbnail, FlatListComp } from '../../components';
+import { Thumbnail, FlatListComp, TabListItem, TabbedList } from '../../components';
 import { JikanService } from '../../services';
-import { TopAnimeProps } from './topAnime.page.types';
+import { TopAnimeProps, TopAnimeState } from './topAnime.page.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-const __renderItem = ({item, index}: {item: TopItem, index: number}) => (
-    <Thumbnail
-        id={index}
-        title={item.title}
-        url={item.url}
-        picture_url={item.image_url}
-        score={item.score}
-        type={item.type}
-    />
-)
 
-const __keyExtractor = (item: TopItem, index: number) => `${item.title}-${index}`;
+type Props = TopAnimeProps<TopItem>;
+type State = TopAnimeState<TopItem>;
 
-const __getItemLayout = (data: TopItem[] | null | undefined, index: number) => (
-    {length: windowHeight * .3, offset: (windowHeight * .3) * index, index}
-)
+export class TopAnimePage extends PureComponent<Props, State> {
+    valueToType: { [x: number]: SubTypes; };
+    tabListItems: TabListItem[];
+    typeTopValue: { [x: string]: number; };
 
-export function TopAnimePage({ route, navigation }: TopAnimeProps) {
+    constructor(props: Props) {
+        super(props)
 
-    const typeTopValue = {
-        [JikanAnimeSubTypesObj.Airing.toString()]: 0,
-        [JikanAnimeSubTypesObj.Upcoming.toString()]: 1,
-    }
-
-    const valueToType : {[index: number]: SubTypes} = {
-        0: JikanAnimeSubTypesObj.Airing,
-        1: JikanAnimeSubTypesObj.Upcoming,
-    }
-
-    const { topType } = route.params;
-
-    const listRef = React.createRef<FlatList>();
-
-    const [currValue, setValue] = useState(typeTopValue[topType ? topType.toString() : JikanAnimeSubTypesObj.Airing.toString()]);
-    const [currPage, setPage] = React.useState(1);
-
-    const [itemState, setItemState] = useState<ListItemsState<TopItem>>(
-        {
-            messageText: "Fetching anime ...",
-            items: []
+        this.typeTopValue = {
+            [JikanAnimeSubTypesObj.Airing.toString()]: 0,
+            [JikanAnimeSubTypesObj.Upcoming.toString()]: 1,
         }
-    )
+    
+        this.valueToType = {
+            0: JikanAnimeSubTypesObj.Airing,
+            1: JikanAnimeSubTypesObj.Upcoming,
+        }
+        
+        const { topType } = this.props.route.params;
 
-    const [fabVisibility, setFabVisibility] = React.useState(false);
+        this.state = {
+            currIndex: this.typeTopValue[topType ? topType.toString() : JikanAnimeSubTypesObj.Airing.toString()],
+            currPage: 1,
+            messageText: undefined,
+            items: [],
+            refreshing: false,
+            loadingMore: false
+        }
 
-    const [refreshing, setRefreshing] = React.useState(false);
+        this.tabListItems = [
+            {
+                title: 'Airing',
+                shouldShowCheck: this.__shouldShowCheck.bind(this, JikanAnimeSubTypesObj.Airing)
+            },
+            {
+                title: 'Upcoming',
+                shouldShowCheck: this.__shouldShowCheck.bind(this, JikanAnimeSubTypesObj.Upcoming)
+            }
+        ]
+    }
 
-    useEffect(() => {
+    fetchListItems() {
+        const {
+            currPage,
+            items
+        } = this.state;
+
+        const { topType } = this.props.route.params;
+
+        this.setState({
+            messageText: "Fetching anime ..."
+        })
+
         JikanService.fetchTop(JikanTypesObj.Anime, currPage, topType).then(resp => {
-            setItemState({
+            this.setState({
                 messageText: undefined,
-                items: currPage === 1 ? resp.top : itemState.items.concat(resp.top)
+                items: currPage === 1 ? resp.top : items.concat(resp.top),
+                refreshing: false,
+                loadingMore: false
             })
         }).catch(reason => {
-            setItemState({
+            this.setState({
                 messageText: reason.toString(),
-                items: []
+                refreshing: false,
+                loadingMore: false
             })
         })
+    }
 
-        return () => {if (refreshing) setRefreshing(false)}
+    componentDidMount() {
+        this.fetchListItems()
+    }
 
-    }, [topType, currPage])
+    componentDidUpdate(prevProps: Props, prevState: State) {
+        const {
+            currPage,
+            currIndex,
+            refreshing
+        } = this.state;
 
-    let __onChange = (index: number) => {
-        navigation.setParams({
-            topType: valueToType[index],
+        if ((prevState.currIndex !== currIndex) || (prevState.currPage !== currPage) || ((prevState.refreshing !== refreshing) && refreshing)) 
+            this.fetchListItems()
+    }
+
+    __renderItem = ({item, index}: {item: TopItem, index: number}) => (
+        <Thumbnail
+            id={index}
+            title={item.title}
+            url={item.url}
+            picture_url={item.image_url}
+            score={item.score}
+            type={item.type}
+        />
+    )
+
+    __keyExtractor = (item: TopItem, index: number) => `${item.title}-${index}`;
+
+    __getItemLayout = (data: TopItem[] | null | undefined, index: number) => (
+        {length: windowHeight * .3, offset: (windowHeight * .3) * index, index}
+    )
+
+    __onChange = (index: number) => {
+        this.props.navigation.setParams({
+            topType: this.valueToType[index],
         });
-        setItemState({
-            messageText: "Fetching anime ...",
+        this.setState({
+            currPage: 1,
+            currIndex: index,
             items: []
         })
-        setPage(1);
-        setValue(index);
     }
 
-    const __onEndReached = (info: {distanceFromEnd: number}) => {
-        setPage(currPage + 1);
+    __onEndReached = (info: {distanceFromEnd: number}) => {
+        if (info.distanceFromEnd < 0) return;
+
+        const {
+            currPage
+        } = this.state;
+
+        this.setState({
+            currPage: currPage + 1,
+            loadingMore: true
+        })
     }
 
-    const __scrollToTop = () => {
-        listRef.current?.scrollToIndex({index: 0});
-        new Promise(resolve => setTimeout(resolve, 2000)).then(() => setFabVisibility(false))
-        
+    __onRefresh = async () => {
+        this.setState({
+            currPage: 1,
+            refreshing: true
+        })
     }
 
-    const __onScroll = () => {
-        setFabVisibility(true)
+    __shouldShowCheck = (subType: SubTypes): boolean => {
+        return this.props.route.params.topType === subType
     }
 
-    const __onRefresh = async () => {
-        setRefreshing(true);
-        setPage(1)
-    }
+    render() {
+        const {
+            messageText,
+            items,
+            currIndex,
+            refreshing,
+            loadingMore
+        } = this.state;
 
-    const __createList = (value: SubTypes) => {
-        return <FlatListComp
-            listRef={listRef}
-            shouldShow={valueToType[currValue] === value}
-            items={itemState.items}
-            messageText={itemState.messageText}
-            renderItem={__renderItem}
-            keyExtractor={__keyExtractor}
-            getItemLayout={__getItemLayout}
-            onEndReached={__onEndReached}
-            onScroll={__onScroll}
-            onRefresh={__onRefresh}
-            refreshing={refreshing}
-        />
-    }
-
-    return (
-        <View style={styles.page}>
-            <Tab value={currValue} onChange={__onChange}>
-                <Tab.Item containerStyle={styles.tabs} titleStyle={styles.tabTitle} title="Airing" />
-                <Tab.Item containerStyle={styles.tabs} titleStyle={styles.tabTitle} title="Upcoming" />
-            </Tab>
-            <TabView value={currValue} onChange={__onChange} >
-                <TabView.Item style={styles.content} >
-                    {__createList(JikanAnimeSubTypesObj.Airing)}
-                </TabView.Item>
-                <TabView.Item style={styles.content}>
-                    {__createList(JikanAnimeSubTypesObj.Upcoming)}
-                </TabView.Item>
-            </TabView>
-
-            <FAB
-             icon={
-                <Icon
-                  name="arrow-upward"
-                  size={20}
-                  color="white"
-                />
-             }
-                onPress={__scrollToTop}
-                placement="right"
-                visible={fabVisibility}
+        return (
+            <TabbedList
+                items={items}
+                messageText={messageText}
+                renderItem={this.__renderItem}
+                onEndReached={this.__onEndReached}
+                keyExtractor={this.__keyExtractor}
+                getItemLayout={this.__getItemLayout}
+                onRefresh={this.__onRefresh}
+                currIndex={currIndex}
+                onChange={this.__onChange}
+                tabsList={this.tabListItems}
+                refreshing={refreshing}
+                loadingMore={loadingMore}
             />
-            
-        </View>
-    );
+        );
+    }
+
 }
 
 const styles = StyleSheet.create({

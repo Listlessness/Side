@@ -1,70 +1,81 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { createRef, PureComponent } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import { ThumbnailCarouselProps } from './thumbnailCarousel.types';
+import { ThumbnailCarouselProps, ThumbnailCarouselState } from './thumbnailCarousel.types';
 import { MessageComp, SeeMoreButton } from '../../index';
-import { ListItemsState } from '../../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-export function ThumbnailCarousel<T>({
-    fetchItems,
-    title,
-    renderItem,
-    onPress
-}: ThumbnailCarouselProps<T>) {
-    
-    const carouselRef = useRef(null);
+export class ThumbnailCarousel<T> extends PureComponent<ThumbnailCarouselProps<T>, ThumbnailCarouselState<T>> {
+    carouselRef: React.MutableRefObject<null>;
 
-    const [currIndex, setIndex] = useState(0)
+    constructor(props: ThumbnailCarouselProps<T>) {
+        super(props)
 
-    const [itemState, setItemState] = useState<ListItemsState<T>>(
-        {
-            messageText: "Fetching anime ...",
+        this.carouselRef = createRef();
+
+        this.state = {
+            currIndex: 0,
+            messageText: undefined,
             items: []
-        })
+        }
+    }
 
-    useEffect(() => {
-        fetchItems().then( resp => {
-            setItemState({
+    componentDidMount() {
+        this.setState({messageText: "Fetching anime ..."})
+        this.props.fetchItems().then( resp => {
+            this.setState({
                 messageText: undefined,
                 items: resp
             })
         }).catch(reason => {
-            setItemState({
-                messageText: reason.toString(),
-                items: []
+            this.setState({
+                messageText: reason.toString()
             })
         })
-    }, [itemState.items.length])
+    }
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.carouselTitle}>
-                    {title}
-                </Text>
-                <SeeMoreButton onPress={onPress}/>
+    render() {
+        const {
+            title,
+            renderItem,
+            onPress
+        } = this.props;
+
+        const {
+            currIndex,
+            messageText,
+            items
+        } = this.state;
+
+        return (
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.carouselTitle}>
+                        {title}
+                    </Text>
+                    <SeeMoreButton onPress={onPress}/>
+                </View>
+                {(items && items.length > 0) ? (
+                    <Carousel
+                        layout={"default"}
+                        ref={this.carouselRef}
+                        data={items}
+                        sliderWidth={windowWidth * .9}
+                        itemWidth={windowWidth * .3}
+                        renderItem={renderItem}
+                        onSnapToItem = { currIndex => this.setState({currIndex}) }
+                        activeSlideAlignment={'center'}
+                        inactiveSlideScale={.8}
+                    />
+                ) : (
+                    <MessageComp
+                        message={messageText}
+                    />
+                )}
             </View>
-            {(itemState.items && itemState.items.length > 0) ? (
-                <Carousel
-                    layout={"default"}
-                    ref={carouselRef}
-                    data={itemState.items}
-                    sliderWidth={windowWidth * .9}
-                    itemWidth={windowWidth * .3}
-                    renderItem={renderItem}
-                    onSnapToItem = { index => setIndex(index) }
-                    activeSlideAlignment={'center'}
-                    inactiveSlideScale={.8}
-                />
-            ) : (
-                <MessageComp
-                    message={itemState.messageText}
-                />
-            )}
-        </View>
-    )
+        )
+    }
 }
 
 
