@@ -1,8 +1,7 @@
 import React, { useState, useEffect, PureComponent } from 'react';
-import { Dimensions, StyleSheet, View, FlatList } from 'react-native';
-import { FAB, Icon, Tab, TabView } from 'react-native-elements';
-import { JikanAnimeSubTypesObj, JikanTypesObj, ListItemsState, SubTypes, TopItem } from '../../utils';
-import { Thumbnail, FlatListComp, TabListItem, TabbedList } from '../../components';
+import { Dimensions } from 'react-native';
+import { JikanAnimeSubTypesObj, JikanTypesObj, SubTypes, TopItem } from '../../utils';
+import { Thumbnail, TabListItem, TabbedList } from '../../components';
 import { JikanService } from '../../services';
 import { TopAnimeProps, TopAnimeState } from './topAnime.page.types';
 
@@ -176,34 +175,3 @@ export class TopAnimePage extends PureComponent<Props, State> {
     }
 
 }
-
-const styles = StyleSheet.create({
-    page: {
-        flex: 1,
-        backgroundColor: '#000E14',
-        width: windowWidth,
-        overflow: 'hidden'
-    },
-    tabTitle: {
-        color: '#fff'
-    },
-    tabs: {
-        height: windowHeight * .08,
-        paddingRight: 10,
-        paddingLeft: 10
-    },
-    content: {
-        paddingTop: 10,
-        width: windowWidth,
-        height: windowHeight * .8,
-        paddingRight: 10,
-        paddingLeft: 10
-    },
-    list: {
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    column: {
-        paddingBottom: 15
-    }
-});

@@ -129,7 +129,7 @@ export class SearchPage extends PureComponent<Props, State> {
         {length: windowHeight * .35, offset: (windowHeight * .35) * index, index}
     )
 
-    getFilters() {
+    getFilters = () => {
         this.overlayRef.current?.setContent(
             <ScrollView
                 horizontal
@@ -165,6 +165,10 @@ export class SearchPage extends PureComponent<Props, State> {
                             name: 'search',
                             color: '#F77F00'
                         }}
+                        loadingProps={{
+                          animating: fetching,
+                          color: '#F77F00',
+                        }}
                     />
                     <Button
                         icon={
@@ -175,6 +179,7 @@ export class SearchPage extends PureComponent<Props, State> {
                             />
                         }
                         type='outline'
+                        onPress={this.getFilters}
                     />
                 </View>
                 <FlatListComp
@@ -210,7 +215,8 @@ const styles = StyleSheet.create({
     searchbar: {
         backgroundColor: '#000E14',
         borderTopWidth: 0,
-        borderBottomWidth: 0
+        borderBottomWidth: 0,
+        width: windowWidth * 0.7,
     },
     inputContainer: {
         backgroundColor: '#00151F',

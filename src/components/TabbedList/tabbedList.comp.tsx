@@ -1,7 +1,7 @@
 import React, { createRef, PureComponent } from 'react';
 import { Dimensions, StyleSheet, View, FlatList } from 'react-native';
 import { Tab, TabView } from 'react-native-elements';
-import { FlatListComp } from '..';
+import { FlatListComp } from '../index';
 import { TabbedListProps, TabbedListState } from './tabbedList.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
