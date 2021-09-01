@@ -1,2 +1,2 @@
-export * from './Thumbnail.comp';
-export * from './EpisodeThumbnail.comp';
+export * from './Thumbnail';
+export * from './EpisodeThumbnail';

@@ -5,7 +5,7 @@ import { ActivityIndicator, Button, Headline, IconButton, Searchbar, Text } from
 import { Thumbnail, FlatListComp, CustomModal, CustomPicker } from '../../components';
 import { JikanService } from '../../services';
 import { JikanSearchAnimeSubType, JikanSearchGenre, JikanSearchOrderBy, JikanSearchRated, JikanSearchSort, JikanSearchType, SearchResultItem, SnackContext } from '../../utils';
-import { SearchPageProps, SearchPageState } from './search.page.types';
+import { SearchPageProps, SearchPageState } from './searchPage.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 

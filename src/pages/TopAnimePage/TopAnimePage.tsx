@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 import { JikanAnimeSubTypes, JikanTypes, SnackContext, SubTypes, TopItem } from '../../utils';
 import { Thumbnail, TabListItem, TabbedList } from '../../components';
 import { JikanService } from '../../services';
-import { TopAnimeProps, TopAnimeState } from './topAnime.page.types';
+import { TopAnimeProps, TopAnimeState } from './topAnimePage.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 

@@ -1,1 +1,1 @@
-export * from "./CustomCarousel.comp"
+export * from "./CustomCarousel"

@@ -5,7 +5,7 @@ import { CustomCarousel, StackItem, Thumbnail } from '../../components';
 import { JikanService, GogoAnimeService } from '../../services';
 import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
 import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes } from '../../utils';
-import { LandingPageProps, LandingPageState } from './landing.page.types';
+import { LandingPageProps, LandingPageState } from './landingPage.types';
 
 const __renderStackItem = ({item, index}: { item: GogoRecentRelease; index: number; }) => {
     return (

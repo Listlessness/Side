@@ -1,1 +1,1 @@
-export * from "./Landing.page"
+export * from "./LandingPage"
