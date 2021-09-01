@@ -1,1 +1,1 @@
-export * from "./latestEpisodes.page"
+export * from "./LatestEpisodes.page"

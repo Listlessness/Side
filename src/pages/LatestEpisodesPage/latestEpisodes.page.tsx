@@ -4,7 +4,7 @@ import { RECENT_RELEASE_TYPE, SnackContext } from '../../utils';
 import { EpisodeThumbnail, TabbedList, TabListItem } from '../../components';
 import { GogoAnimeService } from '../../services';
 import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
-import { LatestEpisodeProps, LatestEpisodeState } from './LatestEpisodes.page.types';
+import { LatestEpisodeProps, LatestEpisodeState } from './latestEpisodes.page.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 

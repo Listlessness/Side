@@ -1,3 +1,3 @@
-export * from './tabbedList.comp';
+export * from './TabbedList.comp';
 
 export type { TabListItem } from './tabbedList.types'

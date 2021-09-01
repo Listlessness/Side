@@ -4,7 +4,7 @@ import { CustomCarouselProps, CustomCarouselState } from './customCarousel.types
 import { MessageComp , SeeMoreButton} from '../index';
 import { FlatList } from 'react-native';
 import { SnackContext } from '../../utils';
-import { Subheading, Title } from 'react-native-paper';
+import { Subheading } from 'react-native-paper';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 

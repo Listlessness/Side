@@ -1,1 +1,1 @@
-export * from "./stackItem.comp"
+export * from "./StackItem.comp"

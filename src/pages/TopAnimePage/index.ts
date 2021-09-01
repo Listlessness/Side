@@ -1,1 +1,1 @@
-export * from "./topAnime.page"
+export * from "./TopAnime.page"

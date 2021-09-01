@@ -1,1 +1,1 @@
-export * from './flatList.comp';
+export * from './FlatList.comp';

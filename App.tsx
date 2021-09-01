@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { DefaultTheme, Provider as PaperProvider, Snackbar } from 'react-native-paper';
+import { DefaultTheme, Paragraph, Provider as PaperProvider, Snackbar } from 'react-native-paper';
 import { RootStackParamList, Screens, SnackContext, SnackMessage } from './src/utils';
 
 const theme = {
@@ -68,7 +68,7 @@ export default function App() {
         visible={visible}
         onDismiss={onDismissSnackBar}
       >
-        {snackMessage}
+        <Paragraph style={styles.snackMessage}>{snackMessage}</Paragraph>
       </Snackbar>
 
     </SafeAreaProvider>
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#000E14'
   },
-  flashText: {
+  snackMessage: {
     textAlign: 'center'
   }
 });

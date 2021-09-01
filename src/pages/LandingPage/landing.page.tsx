@@ -76,7 +76,7 @@ export class LandingPage extends PureComponent<LandingPageProps> {
                 <CustomCarousel
                     title="Top Airing Anime"
                     keyPrefix='TAA'
-                    fetchItems={() => __fetchThumbnailItems(JikanAnimeSubTypes.Airing)}
+                    fetchItems={__fetchThumbnailItems.bind(this, JikanAnimeSubTypes.Airing)}
                     renderItem={__renderThumbnailItem}
                     type='thumbnail'
                     onPress={() => {
@@ -86,7 +86,7 @@ export class LandingPage extends PureComponent<LandingPageProps> {
                 <CustomCarousel
                     title="Top Upcoming Anime"
                     keyPrefix='TUA'
-                    fetchItems={() => __fetchThumbnailItems(JikanAnimeSubTypes.Upcoming)}
+                    fetchItems={__fetchThumbnailItems.bind(this, JikanAnimeSubTypes.Upcoming)}
                     renderItem={__renderThumbnailItem}
                     type='thumbnail'
                     onPress={() => {
