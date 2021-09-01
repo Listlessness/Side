@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { EpisodeThumbnailProps } from './thumbnail.types';
-import { Text, View, StyleSheet, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
+import { Paragraph } from 'react-native-paper';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -35,15 +36,15 @@ export class EpisodeThumbnail extends PureComponent<EpisodeThumbnailProps> {
                         loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
                     >
                         <View style={styles.info}>
-                            <Text style={styles.episode}>
+                            <Paragraph style={styles.episode}>
                                 {episode}
-                            </Text>
+                            </Paragraph>
                         </View>
                     </ImageBackground>
                 </ImageBackground>
-                <Text  numberOfLines={2} style={styles.title}>
+                <Paragraph  numberOfLines={2} style={styles.title}>
                         {title}
-                </Text>
+                </Paragraph>
             </TouchableOpacity>
         )
     }
@@ -52,7 +53,7 @@ export class EpisodeThumbnail extends PureComponent<EpisodeThumbnailProps> {
 const styles = StyleSheet.create({
     container: {
         width: windowWidth * .3,
-        height: windowHeight * .35,
+        height: windowHeight * .3,
         justifyContent: 'center',
         alignItems: 'center',
         paddingLeft: 5,
@@ -61,14 +62,15 @@ const styles = StyleSheet.create({
     },
     picture: {
         width: '100%',
-        height: windowHeight * .3,
+        height: windowHeight * .25,
         justifyContent: 'flex-end'
     },
     title: {
         textAlign: 'center',
         color: '#F5F1DB',
-        fontWeight: '500',
-        height: windowHeight * .05
+        fontWeight: '600',
+        height: windowHeight * .05,
+        paddingTop: 3
     },
     info: {
         height: windowHeight * .05,
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
     episode: {
         textAlign: 'center',
         color: '#FCBF49',
-        fontWeight: '500'
+        fontWeight: 'bold'
     }
 });
 

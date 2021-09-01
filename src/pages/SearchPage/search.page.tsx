@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { createRef } from 'react';
 import { Dimensions, NativeSyntheticEvent, ScrollView, StyleSheet, TextInputEndEditingEventData, View } from 'react-native';
-import { Button, Headline, IconButton, Searchbar, Text } from 'react-native-paper';
-import { Thumbnail, FlatListComp, CustomOverlay, CustomPicker } from '../../components';
+import { ActivityIndicator, Button, Headline, IconButton, Searchbar, Text } from 'react-native-paper';
+import { Thumbnail, FlatListComp, CustomModal, CustomPicker } from '../../components';
 import { JikanService } from '../../services';
 import { JikanSearchAnimeSubType, JikanSearchGenre, JikanSearchOrderBy, JikanSearchRated, JikanSearchSort, JikanSearchType, SearchResultItem, SnackContext } from '../../utils';
 import { SearchPageProps, SearchPageState } from './search.page.types';
@@ -13,7 +13,7 @@ type Props = SearchPageProps<SearchResultItem>;
 type State = SearchPageState<SearchResultItem>;
 
 export class SearchPage extends PureComponent<Props, State> {
-    overlayRef: React.RefObject<CustomOverlay>;
+    modalRef: React.RefObject<CustomModal>;
     declare context: React.ContextType<typeof SnackContext>;
 
     constructor(props: Props) {
@@ -35,7 +35,7 @@ export class SearchPage extends PureComponent<Props, State> {
             justFiltered: false
         }
 
-        this.overlayRef = createRef()
+        this.modalRef = createRef()
     }
 
     fetchListItems() {
@@ -150,12 +150,12 @@ export class SearchPage extends PureComponent<Props, State> {
     getFilters = () => {
         const filters = Object.assign({}, this.state.filters);
 
-        this.overlayRef.current?.setContent(
+        this.modalRef.current?.setContent(
             <ScrollView
-                contentContainerStyle={styles.overlay}
+                contentContainerStyle={styles.modal}
                 horizontal={false}
             >
-                <Headline style={styles.overlayTitle} >Select Filters</Headline>
+                <Headline style={styles.modalTitle} >Select Filters</Headline>
                  <CustomPicker
                     title='Anime Type: '
                     selectedValue={filters.type}
@@ -189,13 +189,13 @@ export class SearchPage extends PureComponent<Props, State> {
                 />
                 <Button
                     mode='contained'
-                    onPress={() => {this.setState({filters, justFiltered: true, currPage: 1}); this.overlayRef.current?.closeOverlay()}}
-                    contentStyle={{backgroundColor: '#E75414', padding: 10}}
+                    onPress={() => {this.setState({filters, justFiltered: true, currPage: 1}); this.modalRef.current?.closeModal()}}
+                    contentStyle={{backgroundColor: '#E75414', padding: 5}}
                 >
                     Done
                 </Button>
             </ScrollView>
-        ).showOverlay()
+        ).showModal()
     }
 
     render() {
@@ -211,7 +211,7 @@ export class SearchPage extends PureComponent<Props, State> {
 
         return (
             <View style={styles.page}>
-                <CustomOverlay ref={this.overlayRef} />
+                <CustomModal ref={this.modalRef} />
                 <View style={styles.tools}>
                     <Searchbar
                         autoFocus
@@ -222,9 +222,16 @@ export class SearchPage extends PureComponent<Props, State> {
                         style={styles.inputContainer}
                         inputStyle={styles.inputText}
                         iconColor='#F77F00'
+                        placeholderTextColor='#F5F1DB'
                     />
+                    {(fetching || refreshing) && <ActivityIndicator
+                        color='#F77F00'
+                        animating={fetching || refreshing}
+                        style={{paddingLeft: 10}}
+                    />}
                     <IconButton
-                        icon="filter-list-alt"
+                        icon="filter"
+                        color='#F77F00'
                         onPress={this.getFilters}
                         disabled={fetching || refreshing}
                     />
@@ -264,17 +271,15 @@ const styles = StyleSheet.create({
     },
     inputText: {
         color: '#F5F1DB',
-        borderBottomColor: '#F77F00',
-        borderBottomWidth: 1,
         minHeight: windowHeight * .04
     },
-    overlay: {
+    modal: {
         width: windowWidth * .6,
         padding: 10,
         justifyContent: 'center',
         alignItems: 'center'
     },
-    overlayTitle: {
+    modalTitle: {
         color: '#E75414'
     }
 });

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { ThumbnailProps } from './thumbnail.types';
 import { Text, View, StyleSheet, Dimensions, ImageBackground, TouchableOpacity, Image } from 'react-native';
+import { Paragraph, Caption } from 'react-native-paper';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -39,16 +40,16 @@ export class Thumbnail extends PureComponent<ThumbnailProps> {
                     />
                 </ImageBackground>
                 <View style={styles.info}>
-                    <Text numberOfLines={1} style={styles.title}>
+                    <Paragraph numberOfLines={1} style={styles.title}>
                         {title}
-                    </Text>
+                    </Paragraph>
                     <View style={styles.meta}>
-                        <Text style={styles.score}>
+                        <Caption style={styles.score}>
                             {score}
-                        </Text>
-                        <Text style={styles.type}>
+                        </Caption>
+                        <Caption style={styles.type}>
                             {type}
-                        </Text>
+                        </Caption>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -65,11 +66,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingLeft: 5,
-        paddingRight: 5
+        paddingRight: 5,
+        borderRadius: 5
     },
     background: {
         width: '100%',
-        height: windowHeight * .24
+        height: windowHeight * .22
     },
     picture: {
         width: '100%',
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
     },
     info: {
         paddingTop: 5,
-        height: '24%',
+        height: windowHeight * .08,
         display: 'flex',
         flexDirection: 'column',
         width: '100%'

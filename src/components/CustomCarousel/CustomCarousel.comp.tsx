@@ -1,9 +1,10 @@
 import React, { createRef, PureComponent } from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import { CustomCarouselProps, CustomCarouselState } from './customCarousel.types';
 import { MessageComp , SeeMoreButton} from '../index';
 import { FlatList } from 'react-native';
 import { SnackContext } from '../../utils';
+import { Subheading, Title } from 'react-native-paper';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -79,13 +80,12 @@ export class CustomCarousel<T> extends PureComponent<CustomCarouselProps<T>, Cus
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <Text style={styles.carouselTitle}>
-                        {title}
-                    </Text>
+                    <Subheading style={styles.carouselTitle}>{title}</Subheading>
                     <SeeMoreButton onPress={onPress} />
                 </View>
                 <FlatList
                     horizontal
+                    indicatorStyle='white'
                     contentContainerStyle={styles.list}
                     data={items}
                     renderItem={renderItem}
@@ -107,11 +107,13 @@ export class CustomCarousel<T> extends PureComponent<CustomCarouselProps<T>, Cus
 const styles = StyleSheet.create({
     container: {
         height: windowHeight * .4,
-        minWidth: windowWidth * .9
+        width: windowWidth * .9,
+        paddingBottom: 20,
+        paddingTop: 10
     },
     carouselTitle: {
         color: '#fff',
-        fontWeight: '500',
+        fontWeight: 'bold',
         textAlign: 'left',
         width: '50%',
         paddingBottom: 5,
@@ -123,9 +125,6 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     list: { 
-        paddingTop: 10,
-        paddingBottom: 10,
-        height: windowHeight * .3
     },
     content: {
         height: windowHeight * .3,

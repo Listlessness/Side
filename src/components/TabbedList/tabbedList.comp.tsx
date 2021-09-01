@@ -57,34 +57,32 @@ export class TabbedList<T> extends PureComponent<TabbedListProps<T>, TabbedListS
         this.props.tabsList.forEach((tabItem, index) => {
             this.TAB_ITEMS.push(
                 <TabScreen key={index} label={tabItem.title}>
-                    {this.__createList(tabItem.shouldShowCheck())}
+                    <View style={styles.content}>
+                        {this.__createList(tabItem.shouldShowCheck())}
+                    </View>
                 </TabScreen>
             );
         })
     }
 
-    render() {
-
+    __onChange = (index: number) => {
         const {
             currIndex,
             onChange,
         } = this.props;
 
+        if (index !== currIndex) {
+            onChange(index)
+        }
+    }
+
+    render() {
         this.__generateTabElements()
 
         return (
             <View style={styles.page}>
                 <Tabs
-                    // defaultIndex={0} // default = 0
-                    // uppercase={false} // true/false | default=true | labels are uppercase
-                    // showTextLabel={false} // true/false | default=false (KEEP PROVIDING LABEL WE USE IT AS KEY INTERNALLY + SCREEN READERS)
-                    // iconPosition // leading, top | default=leading
-                    // style={{ backgroundColor:'#fff' }} // works the same as AppBar in react-native-paper
-                    // dark={false} // works the same as AppBar in react-native-paper
-                    // theme={} // works the same as AppBar in react-native-paper
-                    // mode="scrollable" // fixed, scrollable | default=fixed
-                    // onChangeIndex={(newIndex) => {}} // react on index change
-                    // showLeadingSpace={true} //  (default=true) show leading space in scrollable tabs inside the header
+                    onChangeIndex={this.__onChange}
                 >
                     {this.TAB_ITEMS}
                 </Tabs>
@@ -99,15 +97,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#000E14',
         width: windowWidth,
     },
-    tabTitle: {
-        color: '#fff'
-    },
-    tabs: {
-        height: windowHeight * .08,
-    },
     content: {
         width: windowWidth,
         paddingTop: 20,
-        height: windowHeight * .8,
+        height: windowHeight * .9,
     }
 });

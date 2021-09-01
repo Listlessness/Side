@@ -26,7 +26,7 @@ export class FlatListComp<T> extends PureComponent<FlatListProps<T>, FlatListSta
 
     __scrollToTop = async () => {
         this.listRef.current?.scrollToIndex({index: 0})
-        await new Promise(resolve => setTimeout(resolve, 1000)).then(() => this.setState({fabVisibility: false}))
+        await new Promise(resolve => setTimeout(resolve, 1000)).finally(() => this.setState({fabVisibility: false}))
     }
     
     render() {
@@ -49,6 +49,7 @@ export class FlatListComp<T> extends PureComponent<FlatListProps<T>, FlatListSta
                 <>
                     <FlatList
                         ref={this.listRef}
+                        indicatorStyle='white'
                         contentContainerStyle={styles.list}
                         columnWrapperStyle={styles.column}
                         numColumns={numColumns !== undefined ? numColumns : 3}
@@ -72,9 +73,10 @@ export class FlatListComp<T> extends PureComponent<FlatListProps<T>, FlatListSta
                         }
                     />
                     <FAB
-                        icon="arrow-upward"
+                        icon="arrow-up"
                         onPress={this.__scrollToTop}
                         style={styles.fab}
+                        color="#fff"
                         visible={this.state.fabVisibility}
                     />
                 </>
@@ -103,6 +105,7 @@ const styles = StyleSheet.create({
         height: windowHeight * .1,
     },
     fab: {
+        backgroundColor: '#F77F00',
         position: 'absolute',
         margin: 16,
         right: 0,

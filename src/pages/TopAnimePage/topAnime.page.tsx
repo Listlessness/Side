@@ -122,6 +122,7 @@ export class TopAnimePage extends PureComponent<Props, State> {
         this.props.navigation.setParams({
             topType: this.valueToType[index],
         });
+
         this.setState({
             currPage: 1,
             currIndex: index,

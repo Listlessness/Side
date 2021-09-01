@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { StackItemProps } from './stackItem.types';
 import { ImageBackground, StyleSheet, Dimensions, View } from 'react-native';
-import { Card, Title, Paragraph, Button } from 'react-native-paper';
+import { Card, Paragraph, Button, Subheading } from 'react-native-paper';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -31,17 +31,17 @@ export class StackItem extends PureComponent<StackItemProps> {
                 >
                     <Card style={styles.card}>
                         <ImageBackground
-                            style={styles.background}
+                            style={styles.picture}
                             resizeMode="contain"
                             source={{uri: picture_url}}
                             loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
                         >
                             <Card.Content style={styles.info}>
                                 <Paragraph style={styles.episode}>{episode}</Paragraph>
-                                <Title numberOfLines={2} style={styles.title}>{title}</Title>
-                                <Card.Actions>
-                                    <Button mode='outlined'>Anime Details</Button>
-                                    <Button mode='contained'>Watch Now!</Button>
+                                <Subheading numberOfLines={1} style={styles.title}>{title}</Subheading>
+                                <Card.Actions style={styles.actions}>
+                                    <Button color='#FCBF49' style={{borderColor: '#FCBF49'}} mode='outlined'>Anime Details</Button>
+                                    <Button color='#F77F00' labelStyle={{color: '#fff'}} mode='contained'>Watch Now!</Button>
                                 </Card.Actions>
                             </Card.Content>
                         </ImageBackground>
@@ -55,27 +55,27 @@ export class StackItem extends PureComponent<StackItemProps> {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        width: '100%',
-        height: windowHeight * .38,
+        width: windowWidth * .8,
+        height: windowHeight * .3,
         shadowColor: '#000',
         shadowOpacity: 0.2,
-        shadowRadius: 5,
-        elevation: 2,
+        paddingRight: 10,
+        borderRadius: 5
     },
     background: {
-        height: windowHeight * .38,
+        height: windowHeight * .3
+    },
+    picture: {
+        height: windowHeight * .3,
         justifyContent: 'flex-end'
     },
     card: {
         backgroundColor: 'transparent',
     },
     info: {
-        height: windowHeight * .18,
-        display: 'flex',
+        height: windowHeight * .15,
         flexDirection: 'column',
         justifyContent: 'center',
-        width: '100%',
         backgroundColor: "#000000c0",
         paddingLeft: 10
     },
@@ -85,7 +85,11 @@ const styles = StyleSheet.create({
     },
     episode: {
         color: '#F3D180',
-        fontWeight: '500',
+        fontWeight: 'bold'
+    },
+    actions: {
+        justifyContent: 'space-between',
+        alignItems: 'center'
     }
 });
 

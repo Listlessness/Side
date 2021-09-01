@@ -15,23 +15,27 @@ export function SeeMoreButton({
         <Button
             onPress={onPress}
             icon='arrow-right'
-            containerStyle={{
-                width: '50%',
-                paddingBottom: 5
-            }}
-            buttonStyle={{padding: 0, justifyContent: 'flex-start'}}
-            iconRight
-            title="see more"
-            type="clear"
+            style={styles.container}
+            contentStyle={styles.content}
+            labelStyle={styles.label}
+            mode='text'
+            children="see more"
         />
     )
 }
 
 const styles = StyleSheet.create({
-    carouselSeeMore: {
+    container: {
+        width: '50%'
+    },
+    content: {
+        flexDirection: 'row-reverse',
+        justifyContent: 'flex-start',
+        paddingBottom: 5
+    },
+    label: {
         color: '#EAE2B7',
         fontWeight: '500',
-        fontSize: 14,
         textAlign: 'right'
     }
 });

@@ -50,7 +50,7 @@ export class LandingPage extends PureComponent<LandingPageProps> {
         props.navigation.setOptions({
             headerRight: () => (
                 <IconButton
-                    icon='search'
+                    icon='magnify'
                     color={Colors.white}
                     size={20}
                     onPress={() => props.navigation.navigate('Search')}
