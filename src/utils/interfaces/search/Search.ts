@@ -9,7 +9,7 @@ export interface Filters {
     start_date?: string;
     status?: Status;
     order_by?: string;
-    sort?: string;
+    sort: string;
 }
 type Rated = 'g' | 'pg' | 'pg13' | 'r17' | 'r' | 'rx';
 

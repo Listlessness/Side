@@ -14,6 +14,7 @@ interface SearchPageProps<T> extends LEPBaseProps{
 
 interface SearchPageState<T> {
     queryText: string,
+    tempText: string,
     filters: Filters,
     currPage: number,
     messageText: string | undefined,
@@ -21,5 +22,6 @@ interface SearchPageState<T> {
     refreshing: boolean,
     loadingMore: boolean,
     lastPage?: number,
-    fetching: boolean
+    fetching: boolean,
+    justFiltered: boolean
 }

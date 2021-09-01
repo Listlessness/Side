@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
+import { Button } from 'react-native-paper';
 import { ThumbnailCarousel, StackCarousel, StackItem, Thumbnail } from '../../components';
 import { JikanService, GogoAnimeService } from '../../services';
 import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
@@ -50,13 +50,7 @@ export class LandingPage extends PureComponent<LandingPageProps> {
         props.navigation.setOptions({
             headerRight: () => (
                 <Button
-                  icon={
-                    <Icon
-                      name="search"
-                      size={20}
-                      color="white"
-                    />
-                  }
+                  icon='search'
                   type="clear"
                   onPress={() => props.navigation.navigate('Search')}
                 />

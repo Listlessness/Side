@@ -4,6 +4,7 @@ import { JikanAnimeSubTypes, JikanTypes, SubTypes, TopItem } from '../../utils';
 import { Thumbnail, TabListItem, TabbedList } from '../../components';
 import { JikanService } from '../../services';
 import { TopAnimeProps, TopAnimeState } from './topAnime.page.types';
+import { showMessage } from 'react-native-flash-message';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -55,7 +56,8 @@ export class TopAnimePage extends PureComponent<Props, State> {
     fetchListItems() {
         const {
             currPage,
-            items
+            items,
+            loadingMore
         } = this.state;
 
         const { topType } = this.props.route.params;
@@ -77,6 +79,10 @@ export class TopAnimePage extends PureComponent<Props, State> {
                 refreshing: false,
                 loadingMore: false
             })
+            showMessage({
+                message: `Failed to retrieve ${loadingMore ? 'more' : ''} results.`,
+                type: "info",
+            });
         })
     }
 

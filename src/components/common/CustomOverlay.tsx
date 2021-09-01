@@ -54,10 +54,9 @@ export class CustomOverlay extends PureComponent<OverlayProps, OverlayState> {
 
 const styles = StyleSheet.create({
     overlay: {
-        flex: 1,
         backgroundColor: '#00151F',
-        width: windowWidth * .7,
-        height: windowHeight * 0.5
+        maxWidth: windowWidth * .7,
+        maxHeight: windowHeight * 0.55
     }
 })
 

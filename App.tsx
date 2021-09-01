@@ -3,12 +3,13 @@ import { Dimensions, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button, Icon } from 'react-native-elements';
 import { RootStackParamList, Screens } from './src/utils/constants';
-import { ThemeProvider } from 'react-native-elements';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
 const theme = {
+  ...DefaultTheme,
   colors: {
+    ...DefaultTheme.colors,
     primary: '#000E14',
     secondary: '#F77F00'
   },
@@ -22,7 +23,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider style={styles.container}>
-      <ThemeProvider theme={theme}>
+      <PaperProvider theme={theme}>
         <NavigationContainer>
           <Stack.Navigator
             initialRouteName={"Home"}
@@ -51,7 +52,7 @@ export default function App() {
             />
           </Stack.Navigator>
         </NavigationContainer>
-      </ThemeProvider>
+      </PaperProvider>
     </SafeAreaProvider>
   );
 }
@@ -66,5 +67,8 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: '#000E14'
+  },
+  flashText: {
+    textAlign: 'center'
   }
 });

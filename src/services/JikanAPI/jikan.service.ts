@@ -13,7 +13,7 @@ export class JikanAPI {
     constructor() {
         this.jikanRequest = axios.create({
             baseURL: 'https://api.jikan.moe/v3',
-            timeout: 10000,
+            timeout: 50000,
             headers: {}
           });
     }

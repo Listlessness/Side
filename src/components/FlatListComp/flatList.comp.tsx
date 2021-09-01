@@ -26,7 +26,7 @@ export class FlatListComp<T> extends PureComponent<FlatListProps<T>, FlatListSta
 
     __scrollToTop = async () => {
         this.listRef.current?.scrollToIndex({index: 0})
-        await new Promise(resolve => setTimeout(resolve, 2000)).then(() => this.setState({fabVisibility: false}))
+        await new Promise(resolve => setTimeout(resolve, 1000)).then(() => this.setState({fabVisibility: false}))
     }
     
     render() {

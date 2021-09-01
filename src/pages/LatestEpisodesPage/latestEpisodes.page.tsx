@@ -5,6 +5,7 @@ import { EpisodeThumbnail, TabbedList, TabListItem } from '../../components';
 import { GogoAnimeService } from '../../services';
 import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
 import { LatestEpisodeProps, LatestEpisodeState } from './LatestEpisodes.page.types';
+import { showMessage } from 'react-native-flash-message';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -47,7 +48,8 @@ export class LatestEpisodesPage extends PureComponent<Props, State> {
         const {
             currPage,
             currIndex,
-            items
+            items,
+            loadingMore
         } = this.state;
 
         this.setState({
@@ -67,6 +69,10 @@ export class LatestEpisodesPage extends PureComponent<Props, State> {
                 refreshing: false,
                 loadingMore: false
             })
+            showMessage({
+                message: `Failed to retrieve ${loadingMore ? 'more' : ''} results.`,
+                type: "info",
+            });
         })
     }
 
