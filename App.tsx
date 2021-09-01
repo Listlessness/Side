@@ -4,7 +4,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { DefaultTheme, Paragraph, Provider as PaperProvider, Snackbar } from 'react-native-paper';
-import { RootStackParamList, Screens, SnackContext, SnackMessage } from './src/utils';
+import { RootStackParamList, SnackContext, SnackMessage } from './src/utils';
+import { LandingPage, LatestEpisodesPage, SearchPage, TopAnimePage, WatchEpisodePage } from './src/pages';
 
 const theme = {
   ...DefaultTheme,
@@ -46,20 +47,24 @@ export default function App() {
             >
               <Stack.Screen
                 name={"Home"}
-                component={Screens.LANDING_PAGE.component}
+                component={LandingPage}
               />
               <Stack.Screen 
                 name={"Latest Episodes"}
-                component={Screens.LATEST_EPISODES_PAGE.component}
+                component={LatestEpisodesPage}
               />
               <Stack.Screen 
                 name={"Top Anime"}
-                component={Screens.TOP_ANIME_PAGE.component}
+                component={TopAnimePage}
               />
               <Stack.Screen 
                 name={"Search"}
-                component={Screens.SEARCH_PAGE.component}
+                component={SearchPage}
                 options={{ title: 'Search for your favourite Anime!' }}
+              />
+              <Stack.Screen 
+                name={"Watch Episode"}
+                component={WatchEpisodePage}
               />
             </Stack.Navigator>
           </NavigationContainer>

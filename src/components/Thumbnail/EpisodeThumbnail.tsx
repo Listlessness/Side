@@ -17,11 +17,12 @@ export class EpisodeThumbnail extends PureComponent<EpisodeThumbnailProps> {
             title,
             episode,
             url,
-            picture_url
+            picture_url,
+            watchEpisode
         } = this.props;
         
         return (
-            <TouchableOpacity style={styles.container}>
+            <TouchableOpacity style={styles.container} onPress={watchEpisode}>
                 <ImageBackground
                     style={styles.picture}
                     resizeMode="cover"

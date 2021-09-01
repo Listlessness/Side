@@ -17,7 +17,8 @@ export class StackItem extends PureComponent<StackItemProps> {
             title,
             episode,
             url,
-            picture_url
+            picture_url,
+            watchEpisode
         } = this.props;
 
         return (
@@ -40,8 +41,22 @@ export class StackItem extends PureComponent<StackItemProps> {
                                 <Paragraph style={styles.episode}>{episode}</Paragraph>
                                 <Subheading numberOfLines={1} style={styles.title}>{title}</Subheading>
                                 <Card.Actions style={styles.actions}>
-                                    <Button color='#FCBF49' style={{borderColor: '#FCBF49'}} mode='outlined'>Anime Details</Button>
-                                    <Button color='#F77F00' labelStyle={{color: '#fff'}} mode='contained'>Watch Now!</Button>
+                                    <Button
+                                        color='#FCBF49'
+                                        style={{borderColor: '#FCBF49'}}
+                                        mode='outlined'
+                                    >
+                                        Anime Details 
+                                    </Button>
+
+                                    <Button
+                                        color='#F77F00'
+                                        labelStyle={{color: '#fff'}}
+                                        mode='contained'
+                                        onPress={watchEpisode}
+                                    >
+                                        Watch Now!
+                                    </Button>
                                 </Card.Actions>
                             </Card.Content>
                         </ImageBackground>
@@ -57,8 +72,6 @@ const styles = StyleSheet.create({
     container: {
         width: windowWidth * .8,
         height: windowHeight * .3,
-        shadowColor: '#000',
-        shadowOpacity: 0.2,
         paddingRight: 10,
         borderRadius: 5
     },

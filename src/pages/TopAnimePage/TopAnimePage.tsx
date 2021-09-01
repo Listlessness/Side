@@ -66,23 +66,27 @@ export class TopAnimePage extends PureComponent<Props, State> {
             messageText: "Fetching anime ..."
         })
 
+        let newStateItemValue = {};
+
         return await JikanService.fetchTop(JikanTypes.Anime, currPage, topType).then(resp => {
-            this.setState({
+            newStateItemValue = {
                 messageText: undefined,
                 items: currPage === 1 ? resp.top : items.concat(resp.top),
                 refreshing: false,
                 loadingMore: false
-            })
+            }
         }).catch(reason => {
-            this.setState({
+            newStateItemValue = {
                 messageText: reason.toString(),
                 refreshing: false,
                 loadingMore: false
-            })
+            }
             this.context.showMessage({
                 message: `Failed to retrieve ${loadingMore ? 'more' : ''} results.`,
                 type: "info",
             });
+        }).finally(() => {
+            this.setState(newStateItemValue)
         })
     }
 

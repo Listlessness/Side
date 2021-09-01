@@ -52,9 +52,11 @@ export class SearchPage extends PureComponent<Props, State> {
                 fetching: true,
                 messageText: "Fetching anime ..."
             })
+
+            let newStateItemValue = {};
     
             await JikanService.DoSearch(queryText, JikanSearchType.ANIME, currPage, filters).then(resp => {
-                this.setState({
+                newStateItemValue = {
                     messageText: undefined,
                     items: currPage === 1 ? resp.results : items.concat(resp.results),
                     refreshing: false,
@@ -62,19 +64,21 @@ export class SearchPage extends PureComponent<Props, State> {
                     fetching: false,
                     lastPage: resp.last_page,
                     justFiltered: false
-                })
+                }
             }).catch(reason => {
-                this.setState({
+                newStateItemValue = {
                     messageText: reason.toString(),
                     refreshing: false,
                     fetching: false,
                     justFiltered: false,
                     loadingMore: false
-                })
+                }
                 this.context.showMessage({
                     message: `Failed to retrieve ${loadingMore ? 'more' : ''} results.`,
                     type: "info",
                 });
+            }).finally(() => {
+                this.setState(newStateItemValue)
             })
         } else {
             this.setState({

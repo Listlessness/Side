@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Dimensions } from 'react-native';
-import { RECENT_RELEASE_TYPE, SnackContext } from '../../utils';
+import { extractEpisodeNumer, RECENT_RELEASE_TYPE, SnackContext } from '../../utils';
 import { EpisodeThumbnail, TabbedList, TabListItem } from '../../components';
 import { GogoAnimeService } from '../../services';
 import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
@@ -55,24 +55,28 @@ export class LatestEpisodesPage extends PureComponent<Props, State> {
         this.setState({
             messageText: "Fetching anime ..."
         })
+        let newStateItemValue = {};
+
         return await GogoAnimeService.fetchRecentlyAddedEpisodes(currPage, currIndex + 1).then(resp => {
-            this.setState({
+            newStateItemValue = {
                 messageText: undefined,
                 items: currPage === 1 ? resp.data : items.concat(resp.data),
                 currPagination: resp.paginations,
                 refreshing: false,
                 loadingMore: false
-            })
+            }
         }).catch(reason => {
-            this.setState({
+            newStateItemValue = {
                 messageText: reason.toString(),
                 refreshing: false,
                 loadingMore: false
-            })
+            }
             this.context.showMessage({
                 message: `Failed to retrieve ${loadingMore ? 'more' : ''} results.`,
                 type: "info"
             });
+        }).finally(() => {
+            this.setState(newStateItemValue)
         })
     }
 
@@ -121,16 +125,27 @@ export class LatestEpisodesPage extends PureComponent<Props, State> {
         return (this.state.currIndex + 1) === releaseType
     }
 
-    __renderItem = ({item, index}: {item: GogoRecentRelease, index: number}) => (
-        <EpisodeThumbnail
-            key={index}
-            id={item.title}
-            title={item.title}
-            url={item.link}
-            picture_url={item.thumbnail}
-            episode={item.episode}
-        />
-    )
+    __renderItem = ({item, index}: {item: GogoRecentRelease, index: number}) => {
+        const episodeNum = extractEpisodeNumer(item);
+        return (
+            <EpisodeThumbnail
+                key={index}
+                id={item.title}
+                title={item.title}
+                url={item.link}
+                picture_url={item.thumbnail}
+                episode={item.episode}
+                watchEpisode={() => {
+                    this.props.navigation.navigate("Watch Episode", {
+                        movieId: item.id,
+                        ep_start: 0,
+                        default_ep: episodeNum,
+                        ep_end: episodeNum
+                    })
+                }}
+            />
+        )
+    }
     
     __keyExtractor = (item: GogoRecentRelease, index: number) => `${item.title}-${index}`;
     

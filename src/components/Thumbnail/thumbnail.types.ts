@@ -18,5 +18,6 @@ interface EpisodeThumbnailProps {
     title: string;
     episode?:  string;
     url:  string;
-    picture_url: string
+    picture_url: string,
+    watchEpisode: () => void
 }

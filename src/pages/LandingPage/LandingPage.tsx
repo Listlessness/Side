@@ -4,44 +4,8 @@ import { Colors, IconButton } from 'react-native-paper';
 import { CustomCarousel, StackItem, Thumbnail } from '../../components';
 import { JikanService, GogoAnimeService } from '../../services';
 import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
-import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes } from '../../utils';
+import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes, extractEpisodeNumer } from '../../utils';
 import { LandingPageProps, LandingPageState } from './landingPage.types';
-
-const __renderStackItem = ({item, index}: { item: GogoRecentRelease; index: number; }) => {
-    return (
-        <StackItem
-            key={index}
-            id={item.id}
-            title={item.title}
-            picture_url={item.thumbnail}
-            url={item.link}
-            episode={item.episode}
-        />
-    );
-}
-
-const __renderThumbnailItem = ({item, index}: { item: TopItem; index: number; }) => {
-    return (
-        <Thumbnail
-            key={index}
-            id={item.title}
-            title={item.title}
-            url={item.url}
-            score={item.score}
-            picture_url={item.image_url}
-            type={item.type}
-        />
-    );
-}
-
-const __fetchStackItems = () => GogoAnimeService.fetchRecentlyAddedEpisodes().then(resp => {
-    return resp.data.slice(0,10);
-})
-
-const __fetchThumbnailItems = (subType: SubTypes) => JikanService.fetchTop(JikanTypes.Anime, 1, subType).then(resp => {
-    return resp.top.slice(0,10);
-})
-
 export class LandingPage extends PureComponent<LandingPageProps, LandingPageState> {
 
     constructor(props: LandingPageProps) {
@@ -62,6 +26,54 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
         this.setState({refreshingCount: refreshingCount - 1})
     }
 
+    __renderStackItem = ({item, index}: { item: GogoRecentRelease; index: number; }) => {
+        const episodeNum = extractEpisodeNumer(item);
+        return (
+            <StackItem
+                key={index}
+                id={item.id}
+                title={item.title}
+                picture_url={item.thumbnail}
+                url={item.link}
+                episode={item.episode}
+                watchEpisode={() => {
+                    this.props.navigation.navigate("Watch Episode", {
+                        movieId: item.id,
+                        ep_start: 0,
+                        default_ep: episodeNum,
+                        ep_end: episodeNum
+                    })
+                }}
+            />
+        );
+    }
+    
+    __renderThumbnailItem = ({item, index}: { item: TopItem; index: number; }) => {
+        return (
+            <Thumbnail
+                key={index}
+                id={item.title}
+                title={item.title}
+                url={item.url}
+                score={item.score}
+                picture_url={item.image_url}
+                type={item.type}
+                // onPress={() => {
+                //     this.props.navigation.navigate("Watch Episode", {topType: JikanAnimeSubTypes.Airing})
+                // }}
+            />
+        );
+    }
+    
+    __fetchStackItems = () => GogoAnimeService.fetchRecentlyAddedEpisodes().then(resp => {
+        return resp.data.slice(0,10);
+    })
+    
+    __fetchThumbnailItems = (subType: SubTypes) => JikanService.fetchTop(JikanTypes.Anime, 1, subType).then(resp => {
+        return resp.top.slice(0,10);
+    })
+
+    
     componentDidMount() {
         this.props.navigation.setOptions({
             headerRight: () => (
@@ -95,8 +107,8 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
                     keyPrefix='LE'
                     refreshing={refreshingCount !== 0}
                     onRefreshComplete={this.__reduceRefreshCount}
-                    fetchItems={__fetchStackItems}
-                    renderItem={__renderStackItem}
+                    fetchItems={this.__fetchStackItems}
+                    renderItem={this.__renderStackItem}
                     type='stack'
                     onPress={() => {
                         navigation.navigate("Latest Episodes")
@@ -107,8 +119,8 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
                     keyPrefix='TAA'
                     refreshing={refreshingCount !== 0}
                     onRefreshComplete={this.__reduceRefreshCount}
-                    fetchItems={__fetchThumbnailItems.bind(this, JikanAnimeSubTypes.Airing)}
-                    renderItem={__renderThumbnailItem}
+                    fetchItems={this.__fetchThumbnailItems.bind(this, JikanAnimeSubTypes.Airing)}
+                    renderItem={this.__renderThumbnailItem}
                     type='thumbnail'
                     onPress={() => {
                         navigation.navigate("Top Anime", {topType: JikanAnimeSubTypes.Airing})
@@ -119,8 +131,8 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
                     keyPrefix='TUA'
                     refreshing={refreshingCount !== 0}
                     onRefreshComplete={this.__reduceRefreshCount}
-                    fetchItems={__fetchThumbnailItems.bind(this, JikanAnimeSubTypes.Upcoming)}
-                    renderItem={__renderThumbnailItem}
+                    fetchItems={this.__fetchThumbnailItems.bind(this, JikanAnimeSubTypes.Upcoming)}
+                    renderItem={this.__renderThumbnailItem}
                     type='thumbnail'
                     onPress={() => {
                         navigation.navigate("Top Anime", {topType: JikanAnimeSubTypes.Upcoming})
