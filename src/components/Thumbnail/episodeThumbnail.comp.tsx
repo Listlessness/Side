@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { EpisodeThumbnailProps } from './thumbnail.types';
-import { Text, View, StyleSheet, ImageBackground, Dimensions } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Text, View, StyleSheet, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -21,35 +20,31 @@ export class EpisodeThumbnail extends PureComponent<EpisodeThumbnailProps> {
         } = this.props;
         
         return (
-            <Button key={id} containerStyle={styles.container} buttonStyle={{padding: 0}} type="clear"
-                icon={
-                    <View style={styles.container}>
-                        <ImageBackground
-                            style={styles.picture}
-                            resizeMode="cover"
-                            blurRadius={5}
-                            source={{uri: picture_url}}
-                            loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
-                        >
-                            <ImageBackground
-                                style={styles.picture}
-                                resizeMode="contain"
-                                source={{uri: picture_url}}
-                                loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
-                            >
-                                <View style={styles.info}>
-                                    <Text style={styles.episode}>
-                                        {episode}
-                                    </Text>
-                                </View>
-                            </ImageBackground>
-                        </ImageBackground>
-                        <Text  numberOfLines={2} style={styles.title}>
-                                {title}
-                        </Text>
-                    </View>
-                }
-            />
+            <TouchableOpacity style={styles.container}>
+                <ImageBackground
+                    style={styles.picture}
+                    resizeMode="cover"
+                    blurRadius={5}
+                    source={{uri: picture_url}}
+                    loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
+                >
+                    <ImageBackground
+                        style={styles.picture}
+                        resizeMode="contain"
+                        source={{uri: picture_url}}
+                        loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
+                    >
+                        <View style={styles.info}>
+                            <Text style={styles.episode}>
+                                {episode}
+                            </Text>
+                        </View>
+                    </ImageBackground>
+                </ImageBackground>
+                <Text  numberOfLines={2} style={styles.title}>
+                        {title}
+                </Text>
+            </TouchableOpacity>
         )
     }
 }

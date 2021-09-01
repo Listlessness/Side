@@ -1,10 +1,9 @@
 import React, { useState, useEffect, PureComponent } from 'react';
 import { Dimensions } from 'react-native';
-import { JikanAnimeSubTypes, JikanTypes, SubTypes, TopItem } from '../../utils';
+import { JikanAnimeSubTypes, JikanTypes, SnackContext, SubTypes, TopItem } from '../../utils';
 import { Thumbnail, TabListItem, TabbedList } from '../../components';
 import { JikanService } from '../../services';
 import { TopAnimeProps, TopAnimeState } from './topAnime.page.types';
-import { showMessage } from 'react-native-flash-message';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -16,6 +15,7 @@ export class TopAnimePage extends PureComponent<Props, State> {
     valueToType: { [x: number]: SubTypes; };
     tabListItems: TabListItem[];
     typeTopValue: { [x: string]: number; };
+    declare context: React.ContextType<typeof SnackContext>;
 
     constructor(props: Props) {
         super(props)
@@ -79,7 +79,7 @@ export class TopAnimePage extends PureComponent<Props, State> {
                 refreshing: false,
                 loadingMore: false
             })
-            showMessage({
+            this.context.showMessage({
                 message: `Failed to retrieve ${loadingMore ? 'more' : ''} results.`,
                 type: "info",
             });

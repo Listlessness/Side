@@ -1,6 +1,6 @@
 import React, { createRef, PureComponent } from 'react';
 import { Dimensions, StyleSheet, View, FlatList, ActivityIndicator } from 'react-native';
-import { FAB, Icon } from 'react-native-elements';
+import { FAB } from 'react-native-paper';
 import { MessageComp } from '../index';
 import { FlatListProps, FlatListState } from "./flatList.types"
 
@@ -72,15 +72,9 @@ export class FlatListComp<T> extends PureComponent<FlatListProps<T>, FlatListSta
                         }
                     />
                     <FAB
-                        icon={
-                            <Icon
-                            name="arrow-upward"
-                            size={20}
-                            color="white"
-                            />
-                        }
+                        icon="arrow-upward"
                         onPress={this.__scrollToTop}
-                        placement="right"
+                        style={styles.fab}
                         visible={this.state.fabVisibility}
                     />
                 </>
@@ -107,5 +101,11 @@ const styles = StyleSheet.create({
     loading: {
         width: windowWidth,
         height: windowHeight * .1,
-    }
+    },
+    fab: {
+        position: 'absolute',
+        margin: 16,
+        right: 0,
+        bottom: 0,
+    },
 });

@@ -1,12 +1,11 @@
 import React, { PureComponent } from 'react';
 import { createRef } from 'react';
 import { Dimensions, NativeSyntheticEvent, ScrollView, StyleSheet, TextInputEndEditingEventData, View } from 'react-native';
-import { Button, Icon, SearchBar, Text } from 'react-native-elements';
+import { Button, Headline, IconButton, Searchbar, Text } from 'react-native-paper';
 import { Thumbnail, FlatListComp, CustomOverlay, CustomPicker } from '../../components';
 import { JikanService } from '../../services';
-import { JikanSearchAnimeSubType, JikanSearchGenre, JikanSearchOrderBy, JikanSearchRated, JikanSearchSort, JikanSearchType, SearchResultItem } from '../../utils';
+import { JikanSearchAnimeSubType, JikanSearchGenre, JikanSearchOrderBy, JikanSearchRated, JikanSearchSort, JikanSearchType, SearchResultItem, SnackContext } from '../../utils';
 import { SearchPageProps, SearchPageState } from './search.page.types';
-import { showMessage } from "react-native-flash-message";
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -15,6 +14,7 @@ type State = SearchPageState<SearchResultItem>;
 
 export class SearchPage extends PureComponent<Props, State> {
     overlayRef: React.RefObject<CustomOverlay>;
+    declare context: React.ContextType<typeof SnackContext>;
 
     constructor(props: Props) {
         super(props)
@@ -71,7 +71,7 @@ export class SearchPage extends PureComponent<Props, State> {
                     justFiltered: false,
                     loadingMore: false
                 })
-                showMessage({
+                this.context.showMessage({
                     message: `Failed to retrieve ${loadingMore ? 'more' : ''} results.`,
                     type: "info",
                 });
@@ -155,7 +155,7 @@ export class SearchPage extends PureComponent<Props, State> {
                 contentContainerStyle={styles.overlay}
                 horizontal={false}
             >
-                <Text h3 style={styles.overlayTitle} >Select Filters</Text>
+                <Headline style={styles.overlayTitle} >Select Filters</Headline>
                  <CustomPicker
                     title='Anime Type: '
                     selectedValue={filters.type}
@@ -188,12 +188,12 @@ export class SearchPage extends PureComponent<Props, State> {
                     addEmptyValue={false}
                 />
                 <Button
-                    type='solid'
+                    mode='contained'
                     onPress={() => {this.setState({filters, justFiltered: true, currPage: 1}); this.overlayRef.current?.closeOverlay()}}
-                    title="Done"
-                    containerStyle={{paddingTop: 10}}
-                    buttonStyle={{backgroundColor: '#E75414', padding: 10}}
-                />
+                    contentStyle={{backgroundColor: '#E75414', padding: 10}}
+                >
+                    Done
+                </Button>
             </ScrollView>
         ).showOverlay()
     }
@@ -213,34 +213,18 @@ export class SearchPage extends PureComponent<Props, State> {
             <View style={styles.page}>
                 <CustomOverlay ref={this.overlayRef} />
                 <View style={styles.tools}>
-                    <SearchBar
+                    <Searchbar
                         autoFocus
                         placeholder="Type here ..."
                         onEndEditing={this.__updateSearch}
                         onChangeText={(text) => this.setState({tempText: text})}
                         value={tempText}
-                        showLoading={fetching}
-                        containerStyle={styles.searchbar}
-                        inputContainerStyle={styles.inputContainer}
+                        style={styles.inputContainer}
                         inputStyle={styles.inputText}
-                        searchIcon={{
-                            name: 'search',
-                            color: '#F77F00'
-                        }}
-                        loadingProps={{
-                          animating: fetching,
-                          color: '#F77F00',
-                        }}
+                        iconColor='#F77F00'
                     />
-                    <Button
-                        icon={
-                            <Icon
-                                name="filter-list-alt"
-                                size={25}
-                                color="#F77F00"
-                            />
-                        }
-                        type='outline'
+                    <IconButton
+                        icon="filter-list-alt"
                         onPress={this.getFilters}
                         disabled={fetching || refreshing}
                     />
@@ -274,14 +258,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row'
     },
-    searchbar: {
-        backgroundColor: '#000E14',
-        borderTopWidth: 0,
-        borderBottomWidth: 0,
-        width: windowWidth * 0.7,
-    },
     inputContainer: {
         backgroundColor: '#00151F',
+        width: windowWidth * 0.7,
     },
     inputText: {
         color: '#F5F1DB',

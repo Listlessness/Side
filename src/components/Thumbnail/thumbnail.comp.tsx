@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { ThumbnailProps } from './thumbnail.types';
-import { Text, View, StyleSheet, Dimensions, ImageBackground, ActivityIndicator } from 'react-native';
-import { Button, Image } from 'react-native-elements';
+import { Text, View, StyleSheet, Dimensions, ImageBackground, TouchableOpacity, Image } from 'react-native';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -24,40 +23,35 @@ export class Thumbnail extends PureComponent<ThumbnailProps> {
         } = this.props;
 
         return (
-            <Button key={id} containerStyle={styles.container} buttonStyle={{padding: 0}} type="clear"
-                icon={
-                    <View key={id} style={styles.container}>
-                        <ImageBackground
-                            style={styles.background}
-                            resizeMode="cover"
-                            blurRadius={5}
-                            source={{uri: picture_url}}
-                            loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
-                        >
-                            <Image
-                                style={styles.picture}
-                                source={{uri: picture_url}}
-                                resizeMode="contain"
-                                defaultSource={require('../../../assets/img/placeholderPic.jpg')}
-                                PlaceholderContent={<ActivityIndicator />}
-                            />
-                        </ImageBackground>
-                        <View style={styles.info}>
-                            <Text numberOfLines={1} style={styles.title}>
-                                {title}
-                            </Text>
-                            <View style={styles.meta}>
-                                <Text style={styles.score}>
-                                    {score}
-                                </Text>
-                                <Text style={styles.type}>
-                                    {type}
-                                </Text>
-                            </View>
-                        </View>
+            <TouchableOpacity key={id} style={styles.container}>
+                <ImageBackground
+                    style={styles.background}
+                    resizeMode="cover"
+                    blurRadius={5}
+                    source={{uri: picture_url}}
+                    loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
+                >
+                    <Image
+                        style={styles.picture}
+                        source={{uri: picture_url}}
+                        resizeMode="contain"
+                        defaultSource={require('../../../assets/img/placeholderPic.jpg')}
+                    />
+                </ImageBackground>
+                <View style={styles.info}>
+                    <Text numberOfLines={1} style={styles.title}>
+                        {title}
+                    </Text>
+                    <View style={styles.meta}>
+                        <Text style={styles.score}>
+                            {score}
+                        </Text>
+                        <Text style={styles.type}>
+                            {type}
+                        </Text>
                     </View>
-                }
-            />
+                </View>
+            </TouchableOpacity>
         )
     }
 }

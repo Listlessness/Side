@@ -1,19 +1,21 @@
 export type {
-    StackCarouselProps,
-    StackCarouselState
+    CustomCarouselProps,
+    CustomCarouselState
 }
 
-interface StackCarouselProps<T> {
+interface CustomCarouselProps<T> {
     title: string,
+    keyPrefix: string,
     fetchItems: () => Promise<T[]>,
     onPress: () => void,
+    type: 'stack' | 'thumbnail',
     renderItem: (arg: RenderItemArg<T>) => JSX.Element
 }
 
 type RenderItemArg<T> = { item: T; index: number; }
 
-interface StackCarouselState<T> {
-    activeSlide: number,
+interface CustomCarouselState<T> {
     messageText: string | undefined,
-    items: T[]
+    items: T[],
+    refreshing: boolean
 }

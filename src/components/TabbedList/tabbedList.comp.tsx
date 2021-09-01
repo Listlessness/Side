@@ -1,6 +1,11 @@
 import React, { createRef, PureComponent } from 'react';
 import { Dimensions, StyleSheet, View, FlatList } from 'react-native';
-import { Tab, TabView } from 'react-native-elements';
+import {
+    Tabs,
+    TabScreen,
+    useTabIndex,
+    useTabNavigation,
+  } from 'react-native-paper-tabs';
 import { FlatListComp } from '../index';
 import { TabbedListProps, TabbedListState } from './tabbedList.types';
 
@@ -9,15 +14,12 @@ const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 export class TabbedList<T> extends PureComponent<TabbedListProps<T>, TabbedListState<T>> {
 
     renderList: (shouldShow: boolean) => JSX.Element;
-    TAB_ITEMS: { tabItems: JSX.Element[]; tabViewItems: JSX.Element[]; };
+    TAB_ITEMS: JSX.Element[];
 
     constructor(props: TabbedListProps<T>) {
         super(props)
 
-        this.TAB_ITEMS = {
-            tabItems: [],
-            tabViewItems: []
-        }
+        this.TAB_ITEMS = []
 
         this.renderList = this.__createList.bind(this)
     }
@@ -50,19 +52,13 @@ export class TabbedList<T> extends PureComponent<TabbedListProps<T>, TabbedListS
     }
 
     __generateTabElements() {
-        this.TAB_ITEMS = {
-            tabItems: [],
-            tabViewItems: []
-        }
+        this.TAB_ITEMS = [];
 
         this.props.tabsList.forEach((tabItem, index) => {
-            this.TAB_ITEMS.tabItems.push(
-                <Tab.Item key={index} containerStyle={styles.tabs} titleStyle={styles.tabTitle} title={tabItem.title} />
-            );
-            this.TAB_ITEMS.tabViewItems.push(
-                <TabView.Item onMoveShouldSetResponder={(e) => {e.stopPropagation(); return false}} key={index} style={styles.content} >
-                        {this.__createList(tabItem.shouldShowCheck())}
-                </TabView.Item>
+            this.TAB_ITEMS.push(
+                <TabScreen key={index} label={tabItem.title}>
+                    {this.__createList(tabItem.shouldShowCheck())}
+                </TabScreen>
             );
         })
     }
@@ -78,12 +74,20 @@ export class TabbedList<T> extends PureComponent<TabbedListProps<T>, TabbedListS
 
         return (
             <View style={styles.page}>
-                <Tab value={currIndex} onChange={onChange}>
-                    {this.TAB_ITEMS.tabItems}
-                </Tab>
-                <TabView value={currIndex} onChange={onChange} >
-                    {this.TAB_ITEMS.tabViewItems}
-                </TabView>
+                <Tabs
+                    // defaultIndex={0} // default = 0
+                    // uppercase={false} // true/false | default=true | labels are uppercase
+                    // showTextLabel={false} // true/false | default=false (KEEP PROVIDING LABEL WE USE IT AS KEY INTERNALLY + SCREEN READERS)
+                    // iconPosition // leading, top | default=leading
+                    // style={{ backgroundColor:'#fff' }} // works the same as AppBar in react-native-paper
+                    // dark={false} // works the same as AppBar in react-native-paper
+                    // theme={} // works the same as AppBar in react-native-paper
+                    // mode="scrollable" // fixed, scrollable | default=fixed
+                    // onChangeIndex={(newIndex) => {}} // react on index change
+                    // showLeadingSpace={true} //  (default=true) show leading space in scrollable tabs inside the header
+                >
+                    {this.TAB_ITEMS}
+                </Tabs>
             </View>
         );
     }

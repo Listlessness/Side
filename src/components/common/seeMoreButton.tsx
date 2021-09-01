@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet } from 'react-native';
-import { Button, Icon } from 'react-native-elements'
+import { Button } from 'react-native-paper'
 
 interface SeeMoreButtonProps {
     onPress: () => void,
@@ -13,15 +13,8 @@ export function SeeMoreButton({
 
     return (
         <Button
-            titleStyle={styles.carouselSeeMore}
             onPress={onPress}
-            icon={
-                <Icon
-                    name="arrow-right"
-                    size={20}
-                    color="#EAE2B7"
-                />
-            }
+            icon='arrow-right'
             containerStyle={{
                 width: '50%',
                 paddingBottom: 5

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
-import { Button } from 'react-native-paper';
-import { ThumbnailCarousel, StackCarousel, StackItem, Thumbnail } from '../../components';
+import { Colors, IconButton } from 'react-native-paper';
+import { CustomCarousel, StackItem, Thumbnail } from '../../components';
 import { JikanService, GogoAnimeService } from '../../services';
 import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
 import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes } from '../../utils';
@@ -15,7 +15,7 @@ const __renderStackItem = ({item, index}: { item: GogoRecentRelease; index: numb
             title={item.title}
             picture_url={item.thumbnail}
             url={item.link}
-            description={item.episode}
+            episode={item.episode}
         />
     );
 }
@@ -49,10 +49,11 @@ export class LandingPage extends PureComponent<LandingPageProps> {
 
         props.navigation.setOptions({
             headerRight: () => (
-                <Button
-                  icon='search'
-                  type="clear"
-                  onPress={() => props.navigation.navigate('Search')}
+                <IconButton
+                    icon='search'
+                    color={Colors.white}
+                    size={20}
+                    onPress={() => props.navigation.navigate('Search')}
                 />
               ),
           });
@@ -62,26 +63,32 @@ export class LandingPage extends PureComponent<LandingPageProps> {
         const { route, navigation } = this.props;
         return (
             <ScrollView style={styles.landingPage} contentContainerStyle={styles.content}>
-                <StackCarousel
+                <CustomCarousel
                     title="Latest Episodes"
+                    keyPrefix='LE'
                     fetchItems={__fetchStackItems}
                     renderItem={__renderStackItem}
+                    type='stack'
                     onPress={() => {
                         navigation.navigate("Latest Episodes")
                     }}
                 />
-                <ThumbnailCarousel
+                <CustomCarousel
                     title="Top Airing Anime"
+                    keyPrefix='TAA'
                     fetchItems={() => __fetchThumbnailItems(JikanAnimeSubTypes.Airing)}
                     renderItem={__renderThumbnailItem}
+                    type='thumbnail'
                     onPress={() => {
                         navigation.navigate("Top Anime", {topType: JikanAnimeSubTypes.Airing})
                     }}
                 />
-                <ThumbnailCarousel
+                <CustomCarousel
                     title="Top Upcoming Anime"
+                    keyPrefix='TUA'
                     fetchItems={() => __fetchThumbnailItems(JikanAnimeSubTypes.Upcoming)}
                     renderItem={__renderThumbnailItem}
+                    type='thumbnail'
                     onPress={() => {
                         navigation.navigate("Top Anime", {topType: JikanAnimeSubTypes.Upcoming})
                     }}

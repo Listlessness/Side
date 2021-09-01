@@ -1,2 +1,1 @@
-export * from './StackCarousel';
-export * from './ThumbnailCarousel'
+export * from "./CustomCarousel.comp"

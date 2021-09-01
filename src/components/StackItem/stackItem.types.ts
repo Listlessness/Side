@@ -5,7 +5,7 @@ export type {
 interface StackItemProps {
     id?: number | string;
     title: string;
-    description?:  string;
+    episode?:  string;
     url:  string;
     picture_url: string
 }

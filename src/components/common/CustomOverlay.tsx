@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import { Dimensions, StyleSheet } from 'react-native';
-import { Overlay } from 'react-native-elements';
+import { Dimensions, Modal, StyleSheet } from 'react-native';
+import { Portal } from 'react-native-paper';
 
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
@@ -45,15 +45,17 @@ export class CustomOverlay extends PureComponent<OverlayProps, OverlayState> {
         } = this.state;
 
         return (
-            <Overlay overlayStyle={styles.overlay} isVisible={visible} onBackdropPress={this.closeOverlay}>
-                {content}
-            </Overlay>
+            <Portal>
+                <Modal visible={visible} onDismiss={this.closeOverlay} style={styles.modal}>
+                    {content}
+                </Modal>
+            </Portal>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    overlay: {
+    modal: {
         backgroundColor: '#00151F',
         maxWidth: windowWidth * .7,
         maxHeight: windowHeight * 0.55

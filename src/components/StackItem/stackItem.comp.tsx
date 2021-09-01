@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import { StackItemProps } from './stackItem.types';
-import { Text, View, ImageBackground, StyleSheet, Dimensions } from 'react-native';
-import { Button } from 'react-native-elements';
+import { ImageBackground, StyleSheet, Dimensions, View } from 'react-native';
+import { Card, Title, Paragraph, Button } from 'react-native-paper';
+
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 export class StackItem extends PureComponent<StackItemProps> {
@@ -14,42 +15,39 @@ export class StackItem extends PureComponent<StackItemProps> {
         const {
             id,
             title,
-            description,
+            episode,
             url,
             picture_url
         } = this.props;
 
         return (
-            <Button key={id} containerStyle={styles.container} buttonStyle={{padding: 0}} type="clear"
-                icon={
-                    <View key={id} style={styles.container}>
+            <View style={styles.container}>
+                <ImageBackground
+                    style={styles.background}
+                    resizeMode="cover"
+                    blurRadius={5}
+                    source={{uri: picture_url}}
+                    loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
+                >
+                    <Card style={styles.card}>
                         <ImageBackground
-                            style={styles.picture}
-                            resizeMode="cover"
-                            blurRadius={5}
+                            style={styles.background}
+                            resizeMode="contain"
                             source={{uri: picture_url}}
                             loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
-
                         >
-                            <ImageBackground
-                                style={styles.picture}
-                                resizeMode="contain"
-                                source={{uri: picture_url}}
-                                loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
-                            >
-                                <View style={styles.info}>
-                                    <Text numberOfLines={1} style={styles.title}>
-                                        {title}
-                                    </Text>
-                                    <Text style={styles.episode}>
-                                        {description}
-                                    </Text>
-                                </View>
-                            </ImageBackground>
+                            <Card.Content style={styles.info}>
+                                <Paragraph style={styles.episode}>{episode}</Paragraph>
+                                <Title numberOfLines={2} style={styles.title}>{title}</Title>
+                                <Card.Actions>
+                                    <Button mode='outlined'>Anime Details</Button>
+                                    <Button mode='contained'>Watch Now!</Button>
+                                </Card.Actions>
+                            </Card.Content>
                         </ImageBackground>
-                    </View>
-                }
-            />
+                    </Card>
+                </ImageBackground>
+            </View>
         )
     }
 }
@@ -59,19 +57,21 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: '100%',
-        height: windowHeight * .28,
+        height: windowHeight * .38,
         shadowColor: '#000',
         shadowOpacity: 0.2,
         shadowRadius: 5,
         elevation: 2,
     },
-    picture: {
-        width: '100%',
-        height: '100%',
+    background: {
+        height: windowHeight * .38,
         justifyContent: 'flex-end'
     },
+    card: {
+        backgroundColor: 'transparent',
+    },
     info: {
-        height: windowHeight * .1,
+        height: windowHeight * .18,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',

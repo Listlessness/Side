@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react';
 import { Dimensions } from 'react-native';
-import { RECENT_RELEASE_TYPE } from '../../utils';
+import { RECENT_RELEASE_TYPE, SnackContext } from '../../utils';
 import { EpisodeThumbnail, TabbedList, TabListItem } from '../../components';
 import { GogoAnimeService } from '../../services';
 import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
 import { LatestEpisodeProps, LatestEpisodeState } from './LatestEpisodes.page.types';
-import { showMessage } from 'react-native-flash-message';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -14,6 +13,7 @@ type State = LatestEpisodeState<GogoRecentRelease>;
 
 export class LatestEpisodesPage extends PureComponent<Props, State> {
     tabListItems: TabListItem[];
+    declare context: React.ContextType<typeof SnackContext>;
 
     constructor(props: Props) {
         super(props)
@@ -69,9 +69,9 @@ export class LatestEpisodesPage extends PureComponent<Props, State> {
                 refreshing: false,
                 loadingMore: false
             })
-            showMessage({
+            this.context.showMessage({
                 message: `Failed to retrieve ${loadingMore ? 'more' : ''} results.`,
-                type: "info",
+                type: "info"
             });
         })
     }
