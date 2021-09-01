@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { RefreshControl, StyleSheet, ScrollView } from 'react-native';
 import { Colors, IconButton } from 'react-native-paper';
 import { CustomCarousel, StackItem, Thumbnail } from '../../components';
 import { JikanService, GogoAnimeService } from '../../services';
 import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
 import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes } from '../../utils';
-import { LandingPageProps } from './landing.page.types';
+import { LandingPageProps, LandingPageState } from './landing.page.types';
 
 const __renderStackItem = ({item, index}: { item: GogoRecentRelease; index: number; }) => {
     return (
@@ -42,18 +42,34 @@ const __fetchThumbnailItems = (subType: SubTypes) => JikanService.fetchTop(Jikan
     return resp.top.slice(0,10);
 })
 
-export class LandingPage extends PureComponent<LandingPageProps> {
+export class LandingPage extends PureComponent<LandingPageProps, LandingPageState> {
 
     constructor(props: LandingPageProps) {
         super(props)
 
-        props.navigation.setOptions({
+        this.state = {
+            refreshingCount: 0
+        }
+    }
+
+    __onRefresh = () => {
+        this.setState({refreshingCount: 3})
+    }
+
+    __reduceRefreshCount = () => {
+        const { refreshingCount } = this.state;
+
+        this.setState({refreshingCount: refreshingCount - 1})
+    }
+
+    componentDidMount() {
+        this.props.navigation.setOptions({
             headerRight: () => (
                 <IconButton
                     icon='magnify'
                     color={Colors.white}
-                    size={20}
-                    onPress={() => props.navigation.navigate('Search')}
+                    size={25}
+                    onPress={() => this.props.navigation.navigate('Search')}
                 />
               ),
           });
@@ -61,11 +77,24 @@ export class LandingPage extends PureComponent<LandingPageProps> {
 
     render() {
         const { route, navigation } = this.props;
+        const { refreshingCount } = this.state;
+
         return (
-            <ScrollView style={styles.landingPage} contentContainerStyle={styles.content}>
+            <ScrollView
+                style={styles.landingPage}
+                contentContainerStyle={styles.content}
+                refreshControl={
+                    <RefreshControl
+                      refreshing={refreshingCount !== 0}
+                      onRefresh={this.__onRefresh}
+                    />
+                  }
+            >
                 <CustomCarousel
                     title="Latest Episodes"
                     keyPrefix='LE'
+                    refreshing={refreshingCount !== 0}
+                    onRefreshComplete={this.__reduceRefreshCount}
                     fetchItems={__fetchStackItems}
                     renderItem={__renderStackItem}
                     type='stack'
@@ -76,6 +105,8 @@ export class LandingPage extends PureComponent<LandingPageProps> {
                 <CustomCarousel
                     title="Top Airing Anime"
                     keyPrefix='TAA'
+                    refreshing={refreshingCount !== 0}
+                    onRefreshComplete={this.__reduceRefreshCount}
                     fetchItems={__fetchThumbnailItems.bind(this, JikanAnimeSubTypes.Airing)}
                     renderItem={__renderThumbnailItem}
                     type='thumbnail'
@@ -86,6 +117,8 @@ export class LandingPage extends PureComponent<LandingPageProps> {
                 <CustomCarousel
                     title="Top Upcoming Anime"
                     keyPrefix='TUA'
+                    refreshing={refreshingCount !== 0}
+                    onRefreshComplete={this.__reduceRefreshCount}
                     fetchItems={__fetchThumbnailItems.bind(this, JikanAnimeSubTypes.Upcoming)}
                     renderItem={__renderThumbnailItem}
                     type='thumbnail'

@@ -20,17 +20,16 @@ export class CustomCarousel<T> extends PureComponent<CustomCarouselProps<T>, Cus
 
         this.state = {
             messageText: undefined,
-            items: [],
-            refreshing: false
+            items: []
         }
     }
     
-    __fetchItems() {
+    async __fetchItems() {
         let newStateItemValue = {};
 
         this.setState({messageText: "Fetching anime ..."})
 
-        this.props.fetchItems().then( resp => {
+        return await this.props.fetchItems().then( resp => {
             newStateItemValue = {
                 messageText: undefined,
                 items: resp
@@ -44,17 +43,20 @@ export class CustomCarousel<T> extends PureComponent<CustomCarouselProps<T>, Cus
                 message: `Failed to retrieve ${this.props.title} results.`
             });
         }).finally(() => {
-            this.setState({...newStateItemValue, refreshing: false})
+            this.setState(newStateItemValue)
         })
     }
 
     componentDidMount() {
         this.__fetchItems()
     }
-    
-    __onRefresh() {
-        this.setState({refreshing: true})
-        this.__fetchItems()
+
+    componentDidUpdate(prevProps: CustomCarouselProps<T>) {
+        const { refreshing, onRefreshComplete } = this.props;
+        
+        if ((prevProps.refreshing !== refreshing) && refreshing) {
+            this.__fetchItems().then(onRefreshComplete)
+        }
     }
 
     __keyExtractor = (item: T, index: number) => `${this.props.keyPrefix}-${index}`;
@@ -73,8 +75,7 @@ export class CustomCarousel<T> extends PureComponent<CustomCarouselProps<T>, Cus
 
         const {
             messageText,
-            items,
-            refreshing
+            items
         } = this.state;
 
         return (
@@ -91,8 +92,6 @@ export class CustomCarousel<T> extends PureComponent<CustomCarouselProps<T>, Cus
                     renderItem={renderItem}
                     keyExtractor={this.__keyExtractor}
                     getItemLayout={this.__getItemLayout}
-                    onRefresh={this.__onRefresh}
-                    refreshing={refreshing}
                     bounces={false}
                     ListEmptyComponent={<View style={styles.content}>
                         <MessageComp message={messageText} />

@@ -53,7 +53,7 @@ export class TopAnimePage extends PureComponent<Props, State> {
         ]
     }
 
-    fetchListItems() {
+    async fetchListItems() {
         const {
             currPage,
             items,
@@ -66,7 +66,7 @@ export class TopAnimePage extends PureComponent<Props, State> {
             messageText: "Fetching anime ..."
         })
 
-        JikanService.fetchTop(JikanTypes.Anime, currPage, topType).then(resp => {
+        return await JikanService.fetchTop(JikanTypes.Anime, currPage, topType).then(resp => {
             this.setState({
                 messageText: undefined,
                 items: currPage === 1 ? resp.top : items.concat(resp.top),

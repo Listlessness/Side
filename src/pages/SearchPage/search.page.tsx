@@ -38,7 +38,7 @@ export class SearchPage extends PureComponent<Props, State> {
         this.modalRef = createRef()
     }
 
-    fetchListItems() {
+    async fetchListItems() {
         const {
             queryText,
             filters,
@@ -53,7 +53,7 @@ export class SearchPage extends PureComponent<Props, State> {
                 messageText: "Fetching anime ..."
             })
     
-            JikanService.DoSearch(queryText, JikanSearchType.ANIME, currPage, filters).then(resp => {
+            await JikanService.DoSearch(queryText, JikanSearchType.ANIME, currPage, filters).then(resp => {
                 this.setState({
                     messageText: undefined,
                     items: currPage === 1 ? resp.results : items.concat(resp.results),

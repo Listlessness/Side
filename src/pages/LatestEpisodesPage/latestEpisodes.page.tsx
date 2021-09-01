@@ -44,7 +44,7 @@ export class LatestEpisodesPage extends PureComponent<Props, State> {
         ]
     }
 
-    fetchListItems() {
+    async fetchListItems() {
         const {
             currPage,
             currIndex,
@@ -55,7 +55,7 @@ export class LatestEpisodesPage extends PureComponent<Props, State> {
         this.setState({
             messageText: "Fetching anime ..."
         })
-        GogoAnimeService.fetchRecentlyAddedEpisodes(currPage, currIndex + 1).then(resp => {
+        return await GogoAnimeService.fetchRecentlyAddedEpisodes(currPage, currIndex + 1).then(resp => {
             this.setState({
                 messageText: undefined,
                 items: currPage === 1 ? resp.data : items.concat(resp.data),

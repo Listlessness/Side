@@ -22,12 +22,14 @@ export default function App() {
   const [visible, setVisible] = React.useState(false);
   const [snackMessage, setSetSnackMessage] = React.useState('');
 
-  const onDismissSnackBar = () => setVisible(false);
+  const onDismissSnackBar = React.useCallback(() => setVisible(false), []);
 
-  const showMessage = (arg: SnackMessage) => {
-    setSetSnackMessage(arg.message);
-    setVisible(true)
-  }
+  const showMessage = React.useCallback(
+    () => (arg: SnackMessage) => {
+      setSetSnackMessage(arg.message);
+      setVisible(true)
+    }, []
+  );
 
   return (
     <SafeAreaProvider style={styles.container}>
