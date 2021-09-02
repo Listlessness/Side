@@ -12,19 +12,18 @@ import { createRef } from 'react'
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 type State = WatchEpisodePageState<IAnimeEpisodeInfo, GogoEntityBasic, IEpisodePage>;
+type Props = WatchEpisodePageProps;
 
-export class WatchEpisodePage extends PureComponent<WatchEpisodePageProps, State> {
+export class WatchEpisodePage extends PureComponent<Props, State> {
 
     declare context: React.ContextType<typeof SnackContext>;
-    episodeMovieId: string
-    player: React.RefObject<unknown>
-    episodeVideoId: string
     
     constructor(props: WatchEpisodePageProps) {
         super(props)
         
         const {
             id,
+            default_ep
         } = this.props.route.params;
         
         this.state = {
@@ -36,45 +35,20 @@ export class WatchEpisodePage extends PureComponent<WatchEpisodePageProps, State
             currEpisodeInfo: undefined,
             currEpisodeSection: undefined
         }
-
-        this.player = createRef()
-        this.episodeMovieId = ''
-        this.episodeVideoId = ''
     }
 
-    async fetchEpisodeList(epMovieId?: string) {
-
-        const movieId = epMovieId === undefined ? this.episodeMovieId : epMovieId;
+    async fetchEpisodeList() {
 
         const {
-            ep_start,
-            ep_end
-        } = this.props.route.params;
+            currEpisodeInfo,
+            currEpisodeSection
+        } = this.state;
 
-        return await GogoAnimeService.fetchEpisodeList(movieId, ep_start, ep_end)
-    }
-
-    async fetchCurrentEpisodeInfo() {
-        const {
-            id,
-        } = this.props.route.params;
-
-        return await GogoAnimeService.fetchEpisodeInfo(id)
-    }
-
-    findEpisodeSection = (episode: number, page: IEpisodePage) => {
-        return episode >= page.start && episode <= page.end
-    } 
-
-    async loadPageInfo() {
-        this.setState({
-            episodeListMessage: "Fetching episodes ...",
-            currEpisodeMessage: "Retrieving episode info ..."
-        })
-
-        return this.fetchCurrentEpisodeInfo().then( async info => {
-            this.setState({currEpisodeInfo: info, currEpisodeSection: info.episodePages.find(this.findEpisodeSection.bind(this, info.episode)) })
-            await this.fetchEpisodeList(info.movieId).then(list => {
+        if (currEpisodeInfo?.movieId && currEpisodeSection ) {
+            this.setState({
+                episodeListMessage: "Fetching episodes ..."
+            })
+            return await GogoAnimeService.fetchEpisodeList(currEpisodeInfo.movieId, currEpisodeSection.start, currEpisodeSection.end).then(list => {
                 this.setState({episodeList: list})
             }).catch(reason => {
                 this.setState({
@@ -85,6 +59,39 @@ export class WatchEpisodePage extends PureComponent<WatchEpisodePageProps, State
                     type: "info"
                 });
             })
+        }
+        
+    }
+
+    componentDidUpdate(prevProps: Props, prevState: State) {
+
+        const { currEpisodeInfo, currEpisodeSection, currEpisodeId } = this.state;
+        if  (
+            (currEpisodeInfo?.movieId !== prevState.currEpisodeInfo?.movieId) ||
+            (currEpisodeSection?.start !== prevState.currEpisodeSection?.start) ||
+            (currEpisodeSection?.end !== prevState.currEpisodeSection?.end)
+        ) {
+            this.fetchEpisodeList()
+        }
+
+        if (currEpisodeId !== prevState.currEpisodeId) this.loadPageInfo()
+    }
+
+    findEpisodeSection = (episode: number, page: IEpisodePage) => {
+        return episode >= page.start && episode <= page.end
+    } 
+
+    async loadPageInfo() {
+        this.setState({
+            currEpisodeMessage: "Retrieving episode info ..."
+        })
+
+        const {
+            currEpisodeId,
+        } = this.state;
+
+        return await GogoAnimeService.fetchEpisodeInfo(currEpisodeId).then( async info => {
+            this.setState({currEpisodeInfo: info, currEpisodeSection: info.episodePages.find(this.findEpisodeSection.bind(this, info.episode)) || {start: 0, end: info.episode} })
         }).catch(reason => {
             this.setState({
                 currEpisodeMessage: reason.toString()
@@ -102,42 +109,20 @@ export class WatchEpisodePage extends PureComponent<WatchEpisodePageProps, State
         {length: windowHeight * .1, offset: (windowHeight * .1) * index, index}
     )
 
-    // generateEpisodeList = (episodePages: IEpisodePage[], episodeList: GogoEntityBasic[]) => {
-    //     const listElement = (
-            // <List.AccordionGroup>
-            //     {episodePages.map((pages, index) => {
-            //         let id = `pages-index-${index}`;
-            //         return (
-            //             <View
-            //                 key={id}
-            //                 style={styles.pagers}
-            //             >
-            //                 <List.Accordion
-            //                     style={styles.accordion}
-            //                     title={`Episodes ${pages.start} - ${pages.end}`}
-            //                     id={id}
-            //                     titleStyle={styles.episodesTitle}
-            //                     right={props => <List.Icon {...props} color='#F5F1DB' icon="chevron-down" />}
-            //                 >
-            //                     <FlatList
-            //                         nestedScrollEnabled={true}
-            //                         keyExtractor={this.__keyExtractor}
-            //                         getItemLayout={this.__getItemLayout}
-            //                         style={styles.episodeList}
-            //                         data={episodeList.slice(pages.start, pages.end)}
-            //                         renderItem={this.__renderListItem}
-            //                     />
-            //                 </List.Accordion>
-            //             </View>
-            //         )
-            //     })}
-            // </List.AccordionGroup>
-    //     )
-    //     this.setState({episodeList: listElement})
-    // } 
-
     async componentDidMount() {
         await this.loadPageInfo()
+    }
+
+    __selectEpisodeSection = (section: IEpisodePage) => {
+        this.setState({currEpisodeSection: section})
+    }
+
+    __selectEpisode = (id: string) => {
+        this.props.navigation.setParams({
+            id: id
+        });
+
+        this.setState({currEpisodeId: id})
     }
     
 
@@ -145,7 +130,6 @@ export class WatchEpisodePage extends PureComponent<WatchEpisodePageProps, State
 
         const { episodeList, currEpisodeSection, currEpisodeInfo } = this.state;
 
-        console.log("currEpisodeInfo", currEpisodeInfo)
         return (
             <SafeAreaView style={styles.page}>
                 <ScrollView nestedScrollEnabled={true} style={styles.mainView}>
@@ -164,7 +148,7 @@ export class WatchEpisodePage extends PureComponent<WatchEpisodePageProps, State
                         </Appbar>
 
                         <List.AccordionGroup>
-
+                            {currEpisodeSection && <View  style={styles.accordionContainer}>
                                 <List.Accordion
                                     style={styles.accordion}
                                     id="Episode Sections"
@@ -179,32 +163,36 @@ export class WatchEpisodePage extends PureComponent<WatchEpisodePageProps, State
                                                 <Chip
                                                     style={{margin: 5}}
                                                     key={`pages-index-${index}`}
-                                                    onPress={() => console.log('Pressed')}
+                                                    onPress={this.__selectEpisodeSection.bind(this, pages)}
                                                 > {`${pages.start} - ${pages.end}`} </Chip>
                                             )
                                         })}
                                     </ScrollView>
                                 </List.Accordion>
+                            </View>}
+                            {(episodeList.length > 0) && currEpisodeSection  && <View  style={styles.accordionContainer}>
                                 <List.Accordion
                                     style={styles.accordion}
                                     id="Episode List"
-                                    title="Episode Sections"
+                                    title={`Episodes (${currEpisodeSection.start} - ${currEpisodeSection.end})`}
                                     titleStyle={styles.episodesTitle}
                                     right={props => <List.Icon {...props} color='#F5F1DB' icon="chevron-down" />}
                                 >
                                     <Divider />
                                     <ScrollView nestedScrollEnabled={true} style={{height: windowHeight * 0.2}} contentContainerStyle={styles.episodePages}>
-                                        {episodeList.slice(currEpisodeSection?.start, currEpisodeSection?.end).map((episode, index) => {
+                                        {episodeList.map((episode, index) => {
                                             return (
                                                 <Chip
                                                     style={{margin: 5}}
+                                                    icon="play-circle"
                                                     key={`${episode.id}`}
-                                                    onPress={() => console.log('Pressed')}
+                                                    onPress={this.__selectEpisode.bind(this, episode.id)}
                                                 > {episode.title} </Chip>
                                             )
                                         })}
                                     </ScrollView>
                                 </List.Accordion>
+                            </View>}
                         </List.AccordionGroup>
                     </SafeAreaView>
                 </ScrollView>

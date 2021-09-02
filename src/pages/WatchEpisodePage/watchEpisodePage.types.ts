@@ -19,5 +19,5 @@ interface WatchEpisodePageState<T, R, V> {
     episodeList: R[];
     refreshing: boolean;
     currEpisodeInfo?: T;
-    currEpisodeSection?: V 
+    currEpisodeSection?: V
 }
