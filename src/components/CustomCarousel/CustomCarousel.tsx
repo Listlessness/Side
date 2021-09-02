@@ -1,7 +1,7 @@
 import React, { createRef, PureComponent } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import { CustomCarouselProps, CustomCarouselState } from './customCarousel.types';
-import { MessageComp , SeeMoreButton} from '../index';
+import { MessageComp , SeeMoreButton} from '../common';
 import { FlatList } from 'react-native';
 import { SnackContext } from '../../utils';
 import { Subheading } from 'react-native-paper';

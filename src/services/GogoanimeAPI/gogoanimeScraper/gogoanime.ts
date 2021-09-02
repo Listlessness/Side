@@ -17,10 +17,16 @@ const cheerio = require('react-native-cheerio')
 export class GoGoAnime {
   private readonly baseUrl: string;
   private readonly apiBaseUrl: string;
+  private readonly videoApiUrl: string;
 
   constructor() {
     this.baseUrl = 'https://gogoanime.ai';
     this.apiBaseUrl = 'https://ajax.gogo-load.com';
+    this.videoApiUrl = 'https://streamani.net/streaming.php';
+  }
+
+  getVideoApiUrl = ()  => {
+    return this.videoApiUrl
   }
 
   async recentRelease(
@@ -202,6 +208,25 @@ export class GoGoAnime {
       episodePages
     };
   }
+
+  // async animeEpisodeVideo(
+  //   videoId: string
+  // ): Promise<IVideoRes> {
+  //   const link = this.getUrl('https://streamani.net', '/streaming.php');
+  //   const res = await axios.get<IVideoRes>(link, {
+  //     headers: {
+  //       referer: `https://streamani.net/streaming.php?id=${videoId}`,
+  //       'user-agent':
+  //         'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36'
+  //     },
+  //     params: {
+  //       id: videoId,
+  //       refer: this.baseUrl
+  //     }
+  //   });
+
+  //   return res.data;
+  // }
 
   getUrlWithBase(path: string): string {
     return this.getUrl(this.baseUrl, path);

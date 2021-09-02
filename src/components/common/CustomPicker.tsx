@@ -12,13 +12,13 @@ interface CustomPickerProps {
     addEmptyValue?: boolean 
 }
 
-export const CustomPicker = ({
+export const CustomPicker = React.memo(function CustomPicker({
     selectedValue,
     setSelectedValue,
     listObject,
     title,
     addEmptyValue=true
-}: CustomPickerProps) => {
+}: CustomPickerProps) {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{title}</Text>
@@ -35,7 +35,7 @@ export const CustomPicker = ({
             </Picker>
         </View>
     )
-}
+})
 
 const styles = StyleSheet.create({
     picker: {

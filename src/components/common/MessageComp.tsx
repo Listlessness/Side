@@ -5,7 +5,7 @@ interface MessageCompProps {
     message?: string
 }
 
-export function MessageComp({
+export const MessageComp = React.memo(function MessageComp({
     message = "No Anime Found."
 }: MessageCompProps) {
     return (
@@ -17,7 +17,7 @@ export function MessageComp({
             </View>
         </View>
     )
-}
+})
 
 const styles = StyleSheet.create({
     container: {

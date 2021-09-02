@@ -1,12 +1,7 @@
-import React, { createRef, PureComponent } from 'react';
-import { Dimensions, StyleSheet, View, FlatList } from 'react-native';
-import {
-    Tabs,
-    TabScreen,
-    useTabIndex,
-    useTabNavigation,
-  } from 'react-native-paper-tabs';
-import { FlatListComp } from '../index';
+import React, { PureComponent } from 'react';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import { Tabs, TabScreen} from 'react-native-paper-tabs';
+import { FlatListComp } from '../FlatListComp';
 import { TabbedListProps, TabbedListState } from './tabbedList.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');

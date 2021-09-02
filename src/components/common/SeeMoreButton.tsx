@@ -6,7 +6,7 @@ interface SeeMoreButtonProps {
     onPress: () => void,
 }
 
-export function SeeMoreButton({
+export const SeeMoreButton = React.memo(function SeeMoreButton({
     onPress
 }: SeeMoreButtonProps) {
     
@@ -22,7 +22,7 @@ export function SeeMoreButton({
             children="see more"
         />
     )
-}
+})
 
 const styles = StyleSheet.create({
     container: {

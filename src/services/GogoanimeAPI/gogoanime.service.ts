@@ -1,4 +1,4 @@
-import { GoGoAnime, GogoEntityBasic, GogoPagination, GogoRecentRelease, IAnimeEpisodeInfo } from './gogoanimeScraper'
+import { GoGoAnime, GogoEntityBasic, GogoPagination, GogoRecentRelease, IAnimeEpisodeInfo, IVideoRes } from './gogoanimeScraper'
 
 class GogoAnimeAPI {
     gogoanime: GoGoAnime;
@@ -15,7 +15,7 @@ class GogoAnimeAPI {
 
     fetchEpisodeList = (movieId: string, ep_start: number, ep_end: number) => {
         return this.gogoanime.animeEpisodes(movieId, ep_start, ep_end).then(resp => {
-            return resp as Array<GogoEntityBasic>;
+            return resp.reverse() as Array<GogoEntityBasic>;
         })
     }
 
@@ -24,6 +24,16 @@ class GogoAnimeAPI {
             return resp as IAnimeEpisodeInfo;
         })
     }
+
+    GetVideoUrl = (movieId: string) => {
+        return `${this.gogoanime.getVideoApiUrl()}?id=${movieId}`
+    }
+
+    // fetchEpisodeVideo = (videoId: string) => {
+    //     return this.gogoanime.animeEpisodeVideo(videoId).then(resp => {
+    //         return resp as IVideoRes;
+    //     })
+    // }
 }
 
 export const GogoAnimeService = new GogoAnimeAPI();

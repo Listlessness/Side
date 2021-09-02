@@ -1,7 +1,7 @@
 import React, { createRef, PureComponent } from 'react';
 import { Dimensions, StyleSheet, View, FlatList, ActivityIndicator } from 'react-native';
 import { FAB } from 'react-native-paper';
-import { MessageComp } from '../index';
+import { MessageComp } from '../common';
 import { FlatListProps, FlatListState } from "./flatList.types"
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
