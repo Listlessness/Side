@@ -137,7 +137,7 @@ export class LatestEpisodesPage extends PureComponent<Props, State> {
                 episode={item.episode}
                 watchEpisode={() => {
                     this.props.navigation.navigate("Watch Episode", {
-                        movieId: item.id,
+                        id: item.id,
                         ep_start: 0,
                         default_ep: episodeNum,
                         ep_end: episodeNum

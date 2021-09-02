@@ -6,5 +6,5 @@ export type RootStackParamList = {
     "Latest Episodes": undefined;
     "Search": undefined;
     "Top Anime": { topType: SubTypes };
-    "Watch Episode": {movieId: string; ep_start: number; ep_end: number; default_ep: number};
+    "Watch Episode": {id: string; ep_start: number; ep_end: number; default_ep: number};
 };

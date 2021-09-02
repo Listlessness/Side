@@ -38,7 +38,7 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
                 episode={item.episode}
                 watchEpisode={() => {
                     this.props.navigation.navigate("Watch Episode", {
-                        movieId: item.id,
+                        id: item.id,
                         ep_start: 0,
                         default_ep: episodeNum,
                         ep_end: episodeNum

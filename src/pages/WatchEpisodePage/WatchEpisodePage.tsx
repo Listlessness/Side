@@ -4,80 +4,81 @@ import { GogoAnimeService } from '../../services'
 import { GogoEntityBasic, IAnimeEpisodeInfo } from '../../services/GogoanimeAPI/gogoanimeScraper'
 import { SnackContext } from '../../utils'
 import { WatchEpisodePageProps, WatchEpisodePageState } from './watchEpisodePage.types';
+import { Title } from 'react-native-paper';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 export class WatchEpisodePage extends PureComponent<WatchEpisodePageProps, WatchEpisodePageState<GogoEntityBasic, IAnimeEpisodeInfo>> {
 
     declare context: React.ContextType<typeof SnackContext>;
+    episodeMovieId: string
     
     constructor(props: WatchEpisodePageProps) {
         super(props)
-    
+        
+        const {
+            id,
+        } = this.props.route.params;
+        
         this.state = {
-            currEpisode: 0,
-            messageText: undefined,
+            currEpisodeId: id,
+            episodeListMessage: undefined,
+            currEpisodeMessage: undefined,
             episodeList: [],
             refreshing: false,
             currEpisodeInfo: undefined
         }
+
+        this.episodeMovieId = ''
     }
 
-    async fetchEpisodeList() {
+    async fetchEpisodeList(epMovieId?: string) {
+
+        const movieId = epMovieId === undefined ? this.episodeMovieId : epMovieId;
+
         const {
-            movieId,
             ep_start,
             ep_end
         } = this.props.route.params;
 
-        return await GogoAnimeService.fetchEpisodeList(movieId, ep_start, ep_end).then(resp => {
-            return  resp
-        }).catch(reason => {
-            return reason.toString()
-        })
-
+        return await GogoAnimeService.fetchEpisodeList(movieId, ep_start, ep_end)
     }
 
     async fetchCurrentEpisodeInfo() {
         const {
-            movieId,
-            ep_start,
-            ep_end
+            id,
         } = this.props.route.params;
 
-        return await GogoAnimeService.fetchEpisodeList(movieId, ep_start, ep_end).then(resp => {
-            return resp
-        }).catch(reason => {
-            return reason.toString()
-        })
+        return await GogoAnimeService.fetchEpisodeInfo(id)
     }
 
     async loadPageInfo() {
         this.setState({
-            messageText: "Fetching anime ..."
+            episodeListMessage: "Fetching episodes ...",
+            currEpisodeMessage: "Retrieving video ..."
         })
 
-        let newStateItemValue = {};
-
-        return await Promise.all([
-            this.fetchEpisodeList(), this.fetchCurrentEpisodeInfo()
-        ]).then((responses: any[]) => {
-
-            newStateItemValue = {
-                episodeList: responses[0],
-                currEpisodeInfo: responses[1]
-            }
-
-        }).catch((reasons: String[]) => {
-            newStateItemValue = {
-                messageText: reasons.join(' ... ')
-            }
+        return this.fetchCurrentEpisodeInfo().then( async info => {
+            this.setState({currEpisodeInfo: info})
+            await this.fetchEpisodeList(info.movieId).then(list => {
+                this.setState({episodeList: list})
+            }).catch(reason => {
+                this.setState({
+                    episodeListMessage: reason.toString()
+                })
+                this.context.showMessage({
+                    message: `Failed to retrieve episodes.`,
+                    type: "info"
+                });
+            })
+        }).catch(reason => {
+            this.setState({
+                currEpisodeMessage: reason.toString()
+            })
             this.context.showMessage({
-                message: `Failed to retrieve results.`,
+                message: `Failed to retrieve video.`,
                 type: "info"
             });
-        }).finally(() => {
-            this.setState({...newStateItemValue, refreshing: false})
         })
     }
 
@@ -90,10 +91,9 @@ export class WatchEpisodePage extends PureComponent<WatchEpisodePageProps, Watch
 
         const { episodeList, currEpisodeInfo} = this.state;
 
-        console.log("currEpisodeInfo", currEpisodeInfo)
         return (
             <ScrollView style={styles.page}>
-                Hello World!
+                <Title>Hello World!</Title>
             </ScrollView>
         )
     }
