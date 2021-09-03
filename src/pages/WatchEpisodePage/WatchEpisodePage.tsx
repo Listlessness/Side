@@ -219,7 +219,7 @@ export class WatchEpisodePage extends PureComponent<Props, State> {
                                         right={props => <List.Icon {...props} color='#F5F1DB' icon="chevron-down" />}
                                     >
                                         <Divider />
-                                        <ScrollView nestedScrollEnabled={true} style={{maxHeight: windowHeight * 0.2}} contentContainerStyle={styles.episodePages}>
+                                        <ScrollView nestedScrollEnabled={true} style={{maxHeight: windowHeight * 0.4}} contentContainerStyle={styles.episodePages}>
                                             {currEpisodeInfo?.episodePages.map(this.__renderEpisodePageChip.bind(this, currEpisodeSection))}
                                         </ScrollView>
                                     </List.Accordion>
@@ -236,7 +236,7 @@ export class WatchEpisodePage extends PureComponent<Props, State> {
                                         right={props => <List.Icon {...props} color='#F5F1DB' icon="chevron-down" />}
                                     >
                                         <Divider />
-                                        <ScrollView nestedScrollEnabled={true} style={{height: windowHeight * 0.2}} contentContainerStyle={styles.episodePages}>
+                                        <ScrollView nestedScrollEnabled={true} style={{height: windowHeight * 0.4}} contentContainerStyle={styles.episodePages}>
                                             {episodeList.map(this.__renderEpisodeChip.bind(this, currEpisodeInfo.id))}
                                         </ScrollView>
                                     </List.Accordion>
