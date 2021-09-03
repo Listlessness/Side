@@ -98,7 +98,7 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
                       refreshing={refreshingCount !== 0}
                       onRefresh={this.__onRefresh}
                     />
-                  }
+                }
             >
                 <CustomCarousel
                     title="Latest Episodes"

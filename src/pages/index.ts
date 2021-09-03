@@ -3,3 +3,4 @@ export * from './LatestEpisodesPage';
 export * from './SearchPage';
 export * from './TopAnimePage';
 export * from './WatchEpisodePage';
+export * from './EpisodeFullScreenPage';

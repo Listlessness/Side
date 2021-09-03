@@ -7,4 +7,5 @@ export type RootStackParamList = {
     "Search": undefined;
     "Top Anime": { topType: SubTypes };
     "Watch Episode": {id: string; default_ep: number};
+    "Episode Full Screen": {link: string};
 };

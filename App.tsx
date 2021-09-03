@@ -5,7 +5,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { DefaultTheme, Paragraph, Provider as PaperProvider, Snackbar } from 'react-native-paper';
 import { RootStackParamList, SnackContext, SnackMessage } from './src/utils';
-import { LandingPage, LatestEpisodesPage, SearchPage, TopAnimePage, WatchEpisodePage } from './src/pages';
+import { 
+  EpisodeFullScreenPage, LandingPage, LatestEpisodesPage,
+  SearchPage, TopAnimePage, WatchEpisodePage 
+} from './src/pages';
 
 const theme = {
   ...DefaultTheme,
@@ -45,27 +48,35 @@ export default function App() {
                 headerTitleStyle: styles.headerTitleStyle
               }}
             >
-              <Stack.Screen
-                name={"Home"}
-                component={LandingPage}
-              />
-              <Stack.Screen 
-                name={"Latest Episodes"}
-                component={LatestEpisodesPage}
-              />
-              <Stack.Screen 
-                name={"Top Anime"}
-                component={TopAnimePage}
-              />
-              <Stack.Screen 
-                name={"Search"}
-                component={SearchPage}
-                options={{ title: 'Search for your favourite Anime!' }}
-              />
-              <Stack.Screen 
-                name={"Watch Episode"}
-                component={WatchEpisodePage}
-              />
+              <Stack.Group>
+                <Stack.Screen
+                  name={"Home"}
+                  component={LandingPage}
+                />
+                <Stack.Screen 
+                  name={"Latest Episodes"}
+                  component={LatestEpisodesPage}
+                />
+                <Stack.Screen 
+                  name={"Top Anime"}
+                  component={TopAnimePage}
+                />
+                <Stack.Screen 
+                  name={"Search"}
+                  component={SearchPage}
+                  options={{ title: 'Search for your favourite Anime!' }}
+                />
+                <Stack.Screen 
+                  name={"Watch Episode"}
+                  component={WatchEpisodePage}
+                />
+              </Stack.Group>
+              <Stack.Group screenOptions={{ presentation: 'modal', headerShown: false }}>
+                <Stack.Screen 
+                  name={"Episode Full Screen"}
+                  component={EpisodeFullScreenPage}
+                />
+              </Stack.Group>
             </Stack.Navigator>
           </NavigationContainer>
         </PaperProvider>

@@ -26,6 +26,9 @@
       },
       "package": "com.reidnsc.Side"
     },
+    "androidNavigationBar": {
+      "visible": "sticky-immersive"
+    },
     "web": {
       "favicon": "./assets/favicon.png"
     },

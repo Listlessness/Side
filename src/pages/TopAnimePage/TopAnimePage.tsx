@@ -12,10 +12,10 @@ type Props = TopAnimeProps<TopItem>;
 type State = TopAnimeState<TopItem>;
 
 export class TopAnimePage extends PureComponent<Props, State> {
+    declare context: React.ContextType<typeof SnackContext>;
     valueToType: { [x: number]: SubTypes; };
     tabListItems: TabListItem[];
     typeTopValue: { [x: string]: number; };
-    declare context: React.ContextType<typeof SnackContext>;
 
     constructor(props: Props) {
         super(props)

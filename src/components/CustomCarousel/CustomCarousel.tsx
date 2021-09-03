@@ -27,7 +27,12 @@ export class CustomCarousel<T> extends PureComponent<CustomCarouselProps<T>, Cus
     async __fetchItems() {
         let newStateItemValue = {};
 
-        this.setState({messageText: "Fetching anime ..."})
+        if (this.props.refreshing) {
+            this.setState({messageText: "Refreshing ...", items: []})
+        } else {
+            this.setState({messageText: "Fetching anime ..."})
+        }
+        
 
         return await this.props.fetchItems().then( resp => {
             newStateItemValue = {
