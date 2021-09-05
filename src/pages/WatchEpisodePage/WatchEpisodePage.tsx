@@ -8,7 +8,7 @@ import { Appbar, Chip, Divider, List } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
 import { createRef } from 'react'
-import { MessageComp } from '../../components'
+import { MessageComp, TabbedList } from '../../components'
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -77,14 +77,18 @@ export class WatchEpisodePage extends PureComponent<Props, State> {
         if (currEpisodeId !== prevState.currEpisodeId) this.loadPageInfo()
     }
 
-    findEpisodeSection = (episode: number, page: IEpisodePage) => {
-        return episode >= page.start && episode <= page.end
+    findEpisodeSection = (info: IAnimeEpisodeInfo) => {
+
+        const {
+            episodePages, episode
+        } = info;
+
+        return episodePages.find((page) => episode >= page.start && episode <= page.end) || {start: 0, end: info.episode} 
     } 
 
     async loadPageInfo() {
         this.setState({
-            currEpisodeMessage: "Retrieving episode info ...",
-            episodeListMessage: "Fetching episodes ..."
+            currEpisodeMessage: "Retrieving episode info ..."
         })
 
         const {
@@ -95,12 +99,14 @@ export class WatchEpisodePage extends PureComponent<Props, State> {
             this.setState({
                 currEpisodeMessage: undefined,
                 currEpisodeInfo: info,
-                currEpisodeSection: info.episodePages.find(this.findEpisodeSection.bind(this, info.episode)) || {start: 0, end: info.episode}
+                currEpisodeSection: this.findEpisodeSection(info),
+                refreshing: false
             })
         }).catch(reason => {
             this.setState({
                 currEpisodeMessage: reason.toString(),
-                episodeListMessage: reason.toString()
+                episodeListMessage: reason.toString(),
+                refreshing: false
             })
             this.context.showMessage({
                 message: `Failed to current episode.`,
@@ -109,17 +115,12 @@ export class WatchEpisodePage extends PureComponent<Props, State> {
         })
     }
 
-    __keyExtractor = (item: GogoEntityBasic, index: number) => `${item.title}-${index}`;
-
-    __getItemLayout = (data: GogoEntityBasic[] | null | undefined, index: number) => (
-        {length: windowHeight * .1, offset: (windowHeight * .1) * index, index}
-    )
-
     async componentDidMount() {
         await this.loadPageInfo()
     }
 
     __onRefresh = async () => {
+        this.setState({refreshing: true})
         await this.loadPageInfo()
     }
 
@@ -146,15 +147,15 @@ export class WatchEpisodePage extends PureComponent<Props, State> {
         )
     }
 
-    __renderEpisodeChip = (currId: string, episode: GogoEntityBasic) => {
+    __renderEpisodeChip = (currId: string, item: GogoEntityBasic) => {
         return (
             <Chip
-                selected={episode.id === currId}
+                selected={item.id === currId}
                 style={{margin: 5}}
                 icon="play-circle"
-                key={`${episode.id}`}
-                onPress={this.__selectEpisode.bind(this, episode.id)}
-            > {episode.title} </Chip>
+                key={`${item.id}`}
+                onPress={this.__selectEpisode.bind(this, item.id)}
+            > {item.title} </Chip>
         )
     }
 
@@ -165,7 +166,7 @@ export class WatchEpisodePage extends PureComponent<Props, State> {
             })
         }
     }
-    
+
     render() {
 
         const {
@@ -186,7 +187,7 @@ export class WatchEpisodePage extends PureComponent<Props, State> {
                     }
                 >
                     <View style={styles.webViewVideo}>
-                        {currEpisodeInfo && <WebView
+                        {currEpisodeInfo && !refreshing && <WebView
                             automaticallyAdjustContentInsets={false}
                             //source={{html: `<iframe width="100%" height="200%" frameborder="0" style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" src=${GogoAnimeService.GetVideoUrl(currEpisodeInfo?.videoId)} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen />`}}
                             source={{uri: GogoAnimeService.GetVideoUrl(currEpisodeInfo?.videoId)}}
@@ -206,43 +207,44 @@ export class WatchEpisodePage extends PureComponent<Props, State> {
                                 disabled={!currEpisodeInfo || refreshing || (currEpisodeMessage !== undefined)}
                             />
                         </Appbar>
-
-                        <List.AccordionGroup>
-                            <View style={styles.accordionContainer}>
-                                {currEpisodeSection && !currEpisodeMessage ? (
-                                    <List.Accordion
-                                        style={styles.accordion}
-                                        id="Episode Pages"
-                                        title="Episode Pages"
-                                        titleStyle={styles.episodesTitle}
-                                        left={props => <List.Icon {...props} color='#F5F1DB' icon="book-open-page-variant" />}
-                                        right={props => <List.Icon {...props} color='#F5F1DB' icon="chevron-down" />}
-                                    >
-                                        <Divider />
-                                        <ScrollView nestedScrollEnabled={true} style={{maxHeight: windowHeight * 0.4}} contentContainerStyle={styles.episodePages}>
-                                            {currEpisodeInfo?.episodePages.map(this.__renderEpisodePageChip.bind(this, currEpisodeSection))}
-                                        </ScrollView>
-                                    </List.Accordion>
-                                ) : <MessageComp message={currEpisodeMessage} />}
-                            </View>
-                            <View  style={styles.accordionContainer}>
-                                {(episodeList.length > 0) && currEpisodeSection  && currEpisodeInfo && !episodeListMessage ? (
-                                    <List.Accordion
-                                        style={styles.accordion}
-                                        id="Episode List"
-                                        title={`Episodes (${currEpisodeSection.start} - ${currEpisodeSection.end})`}
-                                        titleStyle={styles.episodesTitle}
-                                        left={props => <List.Icon {...props} color='#F5F1DB' icon="animation-play-outline" />}
-                                        right={props => <List.Icon {...props} color='#F5F1DB' icon="chevron-down" />}
-                                    >
-                                        <Divider />
-                                        <ScrollView nestedScrollEnabled={true} style={{height: windowHeight * 0.4}} contentContainerStyle={styles.episodePages}>
-                                            {episodeList.map(this.__renderEpisodeChip.bind(this, currEpisodeInfo.id))}
-                                        </ScrollView>
-                                    </List.Accordion>
-                                ) : <MessageComp message={episodeListMessage} />}
-                            </View>
-                        </List.AccordionGroup>
+                        {(episodeList.length > 0) && currEpisodeSection  && currEpisodeInfo &&
+                            <List.AccordionGroup>
+                                <View style={styles.accordionContainer}>
+                                    {currEpisodeSection && !currEpisodeMessage ? (
+                                        <List.Accordion
+                                            style={styles.accordion}
+                                            id="Episode Pages"
+                                            title="Episode Pages"
+                                            titleStyle={styles.episodesTitle}
+                                            left={props => <List.Icon {...props} color='#F5F1DB' icon="book-open-page-variant" />}
+                                            right={props => <List.Icon {...props} color='#F5F1DB' icon="chevron-down" />}
+                                        >
+                                            <Divider />
+                                            <ScrollView nestedScrollEnabled={true} style={{maxHeight: windowHeight * 0.4}} contentContainerStyle={styles.episodePages}>
+                                                {currEpisodeInfo?.episodePages.map(this.__renderEpisodePageChip.bind(this, currEpisodeSection))}
+                                            </ScrollView>
+                                        </List.Accordion>
+                                    ) : <MessageComp message={currEpisodeMessage} />}
+                                </View>
+                                <View  style={styles.accordionContainer}>
+                                    {(episodeList.length > 0) && currEpisodeSection  && currEpisodeInfo && !episodeListMessage ? (
+                                        <List.Accordion
+                                            style={styles.accordion}
+                                            id="Episode List"
+                                            title={`Episodes (${currEpisodeSection.start} - ${currEpisodeSection.end})`}
+                                            titleStyle={styles.episodesTitle}
+                                            left={props => <List.Icon {...props} color='#F5F1DB' icon="animation-play-outline" />}
+                                            right={props => <List.Icon {...props} color='#F5F1DB' icon="chevron-down" />}
+                                        >
+                                            <Divider />
+                                            <ScrollView nestedScrollEnabled={true} style={{height: windowHeight * 0.4}} contentContainerStyle={styles.episodePages}>
+                                                {episodeList.map(this.__renderEpisodeChip.bind(this, currEpisodeInfo.id))}
+                                            </ScrollView>
+                                        </List.Accordion>
+                                    ) : <MessageComp message={episodeListMessage} />}
+                                </View>
+                            </List.AccordionGroup>
+                        }
                     </SafeAreaView>
                 </ScrollView>
             </SafeAreaView>

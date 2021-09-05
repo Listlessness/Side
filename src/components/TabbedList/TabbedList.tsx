@@ -90,11 +90,11 @@ const styles = StyleSheet.create({
     page: {
         flex: 1,
         backgroundColor: '#000E14',
-        width: windowWidth,
+        width: '100%',
     },
     content: {
-        width: windowWidth,
+        width: '100%',
         paddingTop: 20,
-        height: windowHeight * .9,
+        height: '100%',
     }
 });

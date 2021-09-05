@@ -16,7 +16,7 @@ interface TabbedListProps<T> {
     currIndex: number,
     onChange: (index: number) => void,
     tabsList: TabListItem[],
-    loadingMore: boolean
+    loadingMore?: boolean
 }
 
 interface TabListItem {

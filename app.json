@@ -27,7 +27,7 @@
       "package": "com.reidnsc.Side"
     },
     "androidNavigationBar": {
-      "visible": "sticky-immersive"
+      "backgroundColor": "#000000"
     },
     "web": {
       "favicon": "./assets/favicon.png"

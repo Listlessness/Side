@@ -7,7 +7,7 @@ import { DefaultTheme, Paragraph, Provider as PaperProvider, Snackbar } from 're
 import { RootStackParamList, SnackContext, SnackMessage } from './src/utils';
 import { 
   EpisodeFullScreenPage, LandingPage, LatestEpisodesPage,
-  SearchPage, TopAnimePage, WatchEpisodePage 
+  SearchPage, TopAnimePage, WatchEpisodePage, AnimeDetailsPage 
 } from './src/pages';
 
 const theme = {
@@ -69,6 +69,10 @@ export default function App() {
                 <Stack.Screen 
                   name={"Watch Episode"}
                   component={WatchEpisodePage}
+                />
+                <Stack.Screen 
+                  name={"Anime Details"}
+                  component={AnimeDetailsPage}
                 />
               </Stack.Group>
               <Stack.Group screenOptions={{ presentation: 'modal', headerShown: false }}>

@@ -95,14 +95,14 @@ const styles = StyleSheet.create({
     },
     content: {
         paddingTop: 10,
-        width: windowWidth,
-        height: windowHeight * .8,
+        width: '100%',
+        height: '80%',
         paddingRight: 10,
         paddingLeft: 10
     },
     loading: {
-        width: windowWidth,
-        height: windowHeight * .1,
+        width: '100%',
+        height: '1%',
     },
     fab: {
         backgroundColor: '#F77F00',

@@ -26,7 +26,8 @@
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
     "react-native-webview": "11.6.2",
-    "expo-screen-orientation": "~3.2.1"
+    "expo-screen-orientation": "~3.2.1",
+    "expo-status-bar": "~1.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
