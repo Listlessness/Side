@@ -1,7 +1,7 @@
 import {
     Types, SubTypes, AnimeById, CharactersStaff, Days, Filters,
     Recommendations, ScheduleResult, SearchTypes, SeasonLater, 
-    SeasonResult, Seasons, TopResult, MonthNumSeason, SearchResult 
+    SeasonResult, Seasons, TopResult, MonthNumSeason, SearchResult, PicturesResults 
 } from '../../utils';
 import axios, { AxiosInstance } from 'axios';
 import { anime_request_endpoints, endpoints } from './endpoints';
@@ -67,6 +67,14 @@ export class JikanAPI {
 
         return this.jikanRequest.get<CharactersStaff>(path)
                             .then(resp => resp.data as CharactersStaff);
+    }
+
+    @handleResponse
+    async fetchPictures4Anime(id: number) {
+        let path = `${endpoints.anime}/${id}/${anime_request_endpoints.pictures}`;
+
+        return this.jikanRequest.get<PicturesResults>(path)
+                            .then(resp => resp.data as PicturesResults);
     }
 
     @handleResponse

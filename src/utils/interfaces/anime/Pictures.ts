@@ -1,4 +1,4 @@
-export interface Pictures {
+export interface PicturesResults {
      pictures: Picture[];
      request_cache_expiry: number;
      request_cached: boolean;

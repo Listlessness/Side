@@ -13,6 +13,7 @@ type State = LatestEpisodeState<GogoRecentRelease>;
 
 export class LatestEpisodesPage extends PureComponent<Props, State> {
     tabListItems: TabListItem[];
+    static contextType = SnackContext;
     declare context: React.ContextType<typeof SnackContext>;
 
     constructor(props: Props) {
@@ -126,21 +127,15 @@ export class LatestEpisodesPage extends PureComponent<Props, State> {
     }
 
     __renderItem = ({item, index}: {item: GogoRecentRelease, index: number}) => {
-        const episodeNum = extractEpisodeNumer(item);
+        const episodeNum = extractEpisodeNumer(item.episode);
         return (
             <EpisodeThumbnail
                 key={index}
-                id={item.title}
+                id={item.id}
                 title={item.title}
                 url={item.link}
                 picture_url={item.thumbnail}
                 episode={item.episode}
-                watchEpisode={() => {
-                    this.props.navigation.navigate("Watch Episode", {
-                        id: item.id,
-                        default_ep: episodeNum
-                    })
-                }}
             />
         )
     }

@@ -77,6 +77,7 @@ export class TabbedList<T> extends PureComponent<TabbedListProps<T>, TabbedListS
         return (
             <View style={styles.page}>
                 <Tabs
+                    defaultIndex={this.props.currIndex}
                     onChangeIndex={this.__onChange}
                 >
                     {this.TAB_ITEMS}

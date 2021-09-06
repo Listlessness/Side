@@ -4,7 +4,7 @@ export type {
 }
 
 interface ThumbnailProps {
-    id?: number | string;
+    mal_id: number;
     title: string;
     description?:  string;
     url:  string;
@@ -14,10 +14,9 @@ interface ThumbnailProps {
 }
 
 interface EpisodeThumbnailProps {
-    id?: number | string;
+    id: string;
     title: string;
-    episode?:  string;
+    episode:  string;
     url:  string;
-    picture_url: string,
-    watchEpisode: () => void
+    picture_url: string
 }

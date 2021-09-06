@@ -7,15 +7,15 @@ export interface AnimeById {
      ending_themes: string[];
      episodes: number;
      favorites: number;
-     genres: Genre[];
+     genres: MALItem[];
      image_url: string;
-     licensors: Genre[];
+     licensors: MALItem[];
      mal_id: number;
      members: number;
      opening_themes: string[];
      popularity: number;
      premiered: string;
-     producers: Genre[];
+     producers: MALItem[];
      rank: number;
      rating: string;
      related: Related;
@@ -26,7 +26,7 @@ export interface AnimeById {
      scored_by: number;
      source: string;
      status: string;
-     studios: Genre[];
+     studios: MALItem[];
      synopsis: string;
      title_english: string;
      title_japanese: string;
@@ -51,7 +51,7 @@ interface From {
      month: number;
      year: number;
 }
-interface Genre {
+export interface MALItem {
      mal_id: number;
      name: string;
      type: Type;
@@ -62,8 +62,12 @@ enum Type {
     Manga = "manga"
 }
 interface Related {
-     Adaptation: Genre[];
-     'Side story': Genre[];
-     Summary: Genre[];
+     // Adaptation?: Genre[];
+     'Side story'?: MALItem[];
+     Summary?: MALItem[];
+     Other?: MALItem[];
+     Prequel?: MALItem[];
+     'Alternative version': MALItem[];
+     Character: MALItem[]
 }
 export {};

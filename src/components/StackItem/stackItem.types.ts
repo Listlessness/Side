@@ -1,12 +1,14 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../utils';
+
 export type {
     StackItemProps
 }
 
 interface StackItemProps {
-    id?: number | string;
+    id: string;
     title: string;
-    episode?:  string;
+    episode:  string;
     url:  string;
-    picture_url: string,
-    watchEpisode: () => void
+    picture_url: string
 }

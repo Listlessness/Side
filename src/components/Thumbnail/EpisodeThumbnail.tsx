@@ -1,30 +1,38 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useCallback, useMemo } from 'react';
 import { EpisodeThumbnailProps } from './thumbnail.types';
 import { View, StyleSheet, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
 import { Paragraph } from 'react-native-paper';
+import { extractEpisodeNumer, UseNavigation } from '../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
+export const EpisodeThumbnail = React.memo(
+    function EpisodeThumbnail({
+        id,
+        title,
+        episode,
+        url,
+        picture_url
+    }: EpisodeThumbnailProps) {
+    
+        const navigation = UseNavigation();
 
-export class EpisodeThumbnail extends PureComponent<EpisodeThumbnailProps> {
+        const episodeNum = useMemo(() => extractEpisodeNumer(episode), [episode]);
 
-    constructor(props: EpisodeThumbnailProps) {
-        super(props)
-    }
+        const __watchEpisode = useCallback(
+            () => {
+                navigation.navigate('Watch Episode', {
+                    id: id,
+                    default_ep: episodeNum
+                })
+            },
+            [id, episodeNum],
+        );
 
-    render () {
-        const {id,
-            title,
-            episode,
-            url,
-            picture_url,
-            watchEpisode
-        } = this.props;
-        
         return (
-            <TouchableOpacity style={styles.container} onPress={watchEpisode}>
+            <TouchableOpacity style={styles.container} onPress={__watchEpisode}>
                 <ImageBackground
-                    style={styles.picture}
+                    style={{...styles.picture, borderRadius: 10}}
                     resizeMode="cover"
                     blurRadius={5}
                     source={{uri: picture_url}}
@@ -49,7 +57,7 @@ export class EpisodeThumbnail extends PureComponent<EpisodeThumbnailProps> {
             </TouchableOpacity>
         )
     }
-}
+)
 
 const styles = StyleSheet.create({
     container: {
@@ -59,12 +67,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingLeft: 5,
         paddingRight: 5,
-        paddingBottom: 10
+        paddingBottom: 10,
+        borderRadius: 10
     },
     picture: {
         width: '100%',
         height: windowHeight * .25,
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        borderRadius: 10,
+        overflow: 'hidden'
     },
     title: {
         textAlign: 'center',

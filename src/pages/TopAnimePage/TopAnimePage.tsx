@@ -12,6 +12,7 @@ type Props = TopAnimeProps<TopItem>;
 type State = TopAnimeState<TopItem>;
 
 export class TopAnimePage extends PureComponent<Props, State> {
+    static contextType = SnackContext;
     declare context: React.ContextType<typeof SnackContext>;
     valueToType: { [x: number]: SubTypes; };
     tabListItems: TabListItem[];
@@ -107,7 +108,7 @@ export class TopAnimePage extends PureComponent<Props, State> {
 
     __renderItem = ({item, index}: {item: TopItem, index: number}) => (
         <Thumbnail
-            id={index}
+            mal_id={item.mal_id}
             title={item.title}
             url={item.url}
             picture_url={item.image_url}

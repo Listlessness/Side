@@ -14,6 +14,7 @@ type State = SearchPageState<SearchResultItem>;
 
 export class SearchPage extends PureComponent<Props, State> {
     modalRef: React.RefObject<CustomModal>;
+    static contextType = SnackContext;
     declare context: React.ContextType<typeof SnackContext>;
 
     constructor(props: Props) {
@@ -136,7 +137,7 @@ export class SearchPage extends PureComponent<Props, State> {
     __renderItem = ({item, index}: {item: SearchResultItem, index: number}) => (
         <Thumbnail
             key={index}
-            id={item.title}
+            mal_id={item.mal_id}
             title={item.title}
             url={item.url}
             picture_url={item.image_url}

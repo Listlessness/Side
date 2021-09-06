@@ -4,10 +4,11 @@ import { Colors, IconButton } from 'react-native-paper';
 import { CustomCarousel, StackItem, Thumbnail } from '../../components';
 import { JikanService, GogoAnimeService } from '../../services';
 import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
-import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes, extractEpisodeNumer } from '../../utils';
+import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes } from '../../utils';
 import { LandingPageProps, LandingPageState } from './landingPage.types';
-export class LandingPage extends PureComponent<LandingPageProps, LandingPageState> {
 
+export class LandingPage extends PureComponent<LandingPageProps, LandingPageState> {
+    
     constructor(props: LandingPageProps) {
         super(props)
 
@@ -27,7 +28,6 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
     }
 
     __renderStackItem = ({item, index}: { item: GogoRecentRelease; index: number; }) => {
-        const episodeNum = extractEpisodeNumer(item);
         return (
             <StackItem
                 key={index}
@@ -36,12 +36,6 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
                 picture_url={item.thumbnail}
                 url={item.link}
                 episode={item.episode}
-                watchEpisode={() => {
-                    this.props.navigation.navigate("Watch Episode", {
-                        id: item.id,
-                        default_ep: episodeNum
-                    })
-                }}
             />
         );
     }
@@ -50,15 +44,12 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
         return (
             <Thumbnail
                 key={index}
-                id={item.title}
+                mal_id={item.mal_id}
                 title={item.title}
                 url={item.url}
                 score={item.score}
                 picture_url={item.image_url}
                 type={item.type}
-                // onPress={() => {
-                //     this.props.navigation.navigate("Watch Episode", {topType: JikanAnimeSubTypes.Airing})
-                // }}
             />
         );
     }

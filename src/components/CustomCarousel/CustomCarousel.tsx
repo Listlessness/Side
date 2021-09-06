@@ -11,6 +11,7 @@ const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 export class CustomCarousel<T> extends PureComponent<CustomCarouselProps<T>, CustomCarouselState<T>> {
     carouselRef: React.MutableRefObject<null>;
+    static contextType = SnackContext;
     declare context: React.ContextType<typeof SnackContext>;
 
     constructor(props: CustomCarouselProps<T>) {

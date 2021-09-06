@@ -1,30 +1,37 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useCallback } from 'react';
 import { ThumbnailProps } from './thumbnail.types';
-import { Text, View, StyleSheet, Dimensions, ImageBackground, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, Dimensions, ImageBackground, TouchableOpacity, Image } from 'react-native';
 import { Paragraph, Caption } from 'react-native-paper';
+import { UseNavigation } from '../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
+export const Thumbnail = React.memo(
+    function Thumbnail({
+        mal_id,
+        title,
+        score,
+        description,
+        url,
+        type,
+        picture_url
+    }: ThumbnailProps) {
+    
+        const navigation = UseNavigation();
 
-export class Thumbnail extends PureComponent<ThumbnailProps> {
+        const __animeDetails = useCallback(
+            () => {
+                navigation.navigate('Anime Details', {
+                    mal_id: mal_id,
+                    url: url
+                })
+            },
+            [mal_id],
+        );
 
-    constructor(props: ThumbnailProps) {
-        super(props)
-    }
-
-    render() {
-        const {
-            id,
-            title,
-            score,
-            description,
-            url,
-            type,
-            picture_url
-        } = this.props;
 
         return (
-            <TouchableOpacity key={id} style={styles.container}>
+            <TouchableOpacity onPress={__animeDetails} key={mal_id} style={styles.container}>
                 <ImageBackground
                     style={styles.background}
                     resizeMode="cover"
@@ -55,7 +62,7 @@ export class Thumbnail extends PureComponent<ThumbnailProps> {
             </TouchableOpacity>
         )
     }
-}
+)
 
 
 const styles = StyleSheet.create({
@@ -67,15 +74,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingLeft: 5,
         paddingRight: 5,
-        borderRadius: 5
+        borderRadius: 10
     },
     background: {
         width: '100%',
-        height: windowHeight * .22
+        height: windowHeight * .22,
+        borderRadius: 10,
+        overflow: 'hidden'
     },
     picture: {
         width: '100%',
-        height: '100%'
+        height: '100%',
+        borderRadius: 10,
+        overflow: 'hidden'
     },
     info: {
         paddingTop: 5,

@@ -1,25 +1,43 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useCallback, useMemo } from 'react';
 import { StackItemProps } from './stackItem.types';
 import { ImageBackground, StyleSheet, Dimensions, View } from 'react-native';
 import { Card, Paragraph, Button, Subheading } from 'react-native-paper';
+import { extractEpisodeNumer, UseNavigation } from '../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-export class StackItem extends PureComponent<StackItemProps> {
+export const StackItem = React.memo(
+    function StackItem({
+        id,
+        title,
+        episode,
+        url,
+        picture_url
+    }: StackItemProps) {
+        
+        const navigation = UseNavigation();
 
-    constructor(props: StackItemProps) {
-        super(props)
-    }
-    
-    render() {
-        const {
-            id,
-            title,
-            episode,
-            url,
-            picture_url,
-            watchEpisode
-        } = this.props;
+        const episodeNum = useMemo(() => extractEpisodeNumer(episode), [episode]);
+
+        const __watchEpisode = useCallback(
+            () => {
+                navigation.navigate('Watch Episode', {
+                    id: id,
+                    default_ep: episodeNum
+                })
+            },
+            [id, episodeNum],
+        );
+          
+        const __animeDetails = useCallback(
+            () => {
+                navigation.navigate('Anime Details', {
+                    mal_id: 1,
+                    url: url
+                })
+            },
+            [id, episodeNum],
+        );
 
         return (
             <View style={styles.container}>
@@ -53,7 +71,7 @@ export class StackItem extends PureComponent<StackItemProps> {
                                         color='#F77F00'
                                         labelStyle={{color: '#fff'}}
                                         mode='contained'
-                                        onPress={watchEpisode}
+                                        onPress={__watchEpisode}
                                     >
                                         Watch Now!
                                     </Button>
@@ -65,21 +83,24 @@ export class StackItem extends PureComponent<StackItemProps> {
             </View>
         )
     }
-}
+)
+
 
 
 const styles = StyleSheet.create({
     container: {
         width: windowWidth * .8,
-        height: windowHeight * .3,
+        height: windowHeight * .29,
         paddingRight: 10,
-        borderRadius: 5
+        
     },
     background: {
-        height: windowHeight * .3
+        height: windowHeight * .29,
+        borderRadius: 10,
+        overflow: 'hidden'
     },
     picture: {
-        height: windowHeight * .3,
+        height: windowHeight * .29,
         justifyContent: 'flex-end'
     },
     card: {

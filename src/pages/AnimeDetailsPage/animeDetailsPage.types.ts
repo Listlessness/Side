@@ -9,5 +9,7 @@ export type {
 type AnimeDetailsPageProps = NativeStackScreenProps<RootStackParamList, "Anime Details">;
 
 interface AnimeDetailsPageState<T> {
-    animeDetailsById?: T
+    animeDetailsById?: T;
+    detailsMessage?: string;
+    refreshing: boolean
 }
