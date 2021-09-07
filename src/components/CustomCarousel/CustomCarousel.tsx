@@ -111,7 +111,7 @@ export class CustomCarousel<T> extends PureComponent<CustomCarouselProps<T>, Cus
 
 const styles = StyleSheet.create({
     container: {
-        height: windowHeight * .4,
+        maxHeight: windowHeight * .4,
         width: windowWidth * .9,
         paddingBottom: 20,
         paddingTop: 10

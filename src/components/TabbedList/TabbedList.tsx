@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import { Tabs, TabScreen} from 'react-native-paper-tabs';
+import { SimplePageWrapper } from '../common';
 import { FlatListComp } from '../FlatListComp';
 import { TabbedListProps, TabbedListState } from './tabbedList.types';
 
@@ -75,24 +76,19 @@ export class TabbedList<T> extends PureComponent<TabbedListProps<T>, TabbedListS
         this.__generateTabElements()
 
         return (
-            <View style={styles.page}>
+            <SimplePageWrapper>
                 <Tabs
                     defaultIndex={this.props.currIndex}
                     onChangeIndex={this.__onChange}
                 >
                     {this.TAB_ITEMS}
                 </Tabs>
-            </View>
+            </SimplePageWrapper>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    page: {
-        flex: 1,
-        backgroundColor: '#000E14',
-        width: '100%',
-    },
     content: {
         width: '100%',
         paddingTop: 20,

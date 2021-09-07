@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+import { Surface } from 'react-native-paper';
 
 interface MessageCompProps {
     message?: string
@@ -10,11 +11,11 @@ export const MessageComp = React.memo(function MessageComp({
 }: MessageCompProps) {
     return (
         <View style={styles.container}>
-            <View style={styles.box}>
+            <Surface style={styles.box}>
                 <Text style={styles.message}>
                     {message}
                 </Text>
-            </View>
+            </Surface>
         </View>
     )
 })
@@ -24,14 +25,15 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     box: {
         backgroundColor: '#00151F',
         height: 'auto',
         width: '50%',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        elevation: 5
    },
     message: {
         color: '#fff',

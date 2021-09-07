@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { createRef } from 'react';
 import { Dimensions, NativeSyntheticEvent, ScrollView, StyleSheet, TextInputEndEditingEventData, View } from 'react-native';
 import { ActivityIndicator, Button, Headline, IconButton, Searchbar, Text } from 'react-native-paper';
-import { Thumbnail, FlatListComp, CustomModal, CustomPicker } from '../../components';
+import { Thumbnail, FlatListComp, CustomModal, CustomPicker, SimplePageWrapper } from '../../components';
 import { JikanService } from '../../services';
 import { JikanSearchAnimeSubType, JikanSearchGenre, JikanSearchOrderBy, JikanSearchRated, JikanSearchSort, JikanSearchType, SearchResultItem, SnackContext } from '../../utils';
 import { SearchPageProps, SearchPageState } from './searchPage.types';
@@ -215,7 +215,7 @@ export class SearchPage extends PureComponent<Props, State> {
         } = this.state;
 
         return (
-            <View style={styles.page}>
+            <SimplePageWrapper>
                 <CustomModal ref={this.modalRef} />
                 <View style={styles.tools}>
                     <Searchbar
@@ -253,17 +253,12 @@ export class SearchPage extends PureComponent<Props, State> {
                     refreshing={refreshing}
                     loadingMore={loadingMore}
                 />
-            </View>
+            </SimplePageWrapper>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    page: {
-        flex: 1,
-        backgroundColor: '#000E14',
-        width: windowWidth,
-    },
     tools: {
         padding: 15,
         justifyContent: 'center',

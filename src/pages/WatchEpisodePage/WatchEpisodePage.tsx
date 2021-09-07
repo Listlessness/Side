@@ -7,8 +7,7 @@ import { WatchEpisodePageProps, WatchEpisodePageState } from './watchEpisodePage
 import { Appbar, Chip, Divider, List } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
-import { createRef } from 'react'
-import { MessageComp, TabbedList } from '../../components'
+import { MessageComp, ScrollPageWrapper, TabbedList } from '../../components'
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -176,17 +175,11 @@ export class WatchEpisodePage extends PureComponent<Props, State> {
          } = this.state;
 
         return (
-            <SafeAreaView style={styles.page}>
-                <ScrollView
-                    nestedScrollEnabled={true}
-                    style={styles.mainView}
-                    refreshControl={
-                        <RefreshControl
-                          refreshing={refreshing}
-                          onRefresh={this.__onRefresh}
-                        />
-                    }
-                >
+            <ScrollPageWrapper
+                refreshing={refreshing}
+                onRefresh={this.__onRefresh}
+            >
+                <SafeAreaView>
                     <View style={styles.webViewVideo}>
                         {currEpisodeInfo && !refreshing && <WebView
                             automaticallyAdjustContentInsets={false}
@@ -247,21 +240,13 @@ export class WatchEpisodePage extends PureComponent<Props, State> {
                             </List.AccordionGroup>
                         }
                     </SafeAreaView>
-                </ScrollView>
-            </SafeAreaView>
+                </SafeAreaView>
+            </ScrollPageWrapper>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    page: {
-        flex: 1,
-        backgroundColor: '#000E14',
-        width: windowWidth,
-        paddingRight: 10,
-        paddingLeft: 10,
-        paddingBottom: 10
-    },
     mainView: {
         height: windowHeight
     },
@@ -296,5 +281,11 @@ const styles = StyleSheet.create({
         shadowRadius: 5.46,
         elevation: 9,
     },
-    
+    fadeTop: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        height: '100%'
+    }
 })

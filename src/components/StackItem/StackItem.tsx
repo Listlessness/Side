@@ -1,9 +1,10 @@
 import React, { PureComponent, useCallback, useMemo } from 'react';
 import { StackItemProps } from './stackItem.types';
 import { ImageBackground, StyleSheet, Dimensions, View, TouchableOpacity } from 'react-native';
-import { Card, Paragraph, Button, Subheading } from 'react-native-paper';
+import { Paragraph, Caption, Button, Subheading } from 'react-native-paper';
 import { extractEpisodeNumer, UseNavigation } from '../../utils';
 import { LinearGradient } from 'expo-linear-gradient';
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -39,7 +40,8 @@ export const StackItem = React.memo(
                     source={{uri: picture_url}}
                     loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
                 >
-                    <Card style={styles.card}>
+                    <MaterialCommunityIcons style={styles.playButton} name="play-circle" size={50} color="#F5F1DB" />
+                    <View style={styles.card}>
                         <ImageBackground
                             style={styles.picture}
                             resizeMode="contain"
@@ -50,63 +52,65 @@ export const StackItem = React.memo(
                                 colors={['transparent', "black"]}
                                 style={styles.fadeTop}
                             />
-                            <Card.Content style={styles.info}>
-                                <Paragraph style={styles.episode}>{episode}</Paragraph>
-                                <Subheading numberOfLines={1} style={styles.title}>{title}</Subheading>
-                            </Card.Content>
+                            <View style={styles.info}>
+                                <Caption style={styles.episode}> <Ionicons name="tv-outline" size={12} color="#F77F00" /> {episode}</Caption>
+                                <Paragraph numberOfLines={1} style={styles.title}>{title}</Paragraph>
+                            </View>
                         </ImageBackground>
-                    </Card>
+                    </View>
                 </ImageBackground>
             </TouchableOpacity>
         )
     }
 )
 
-
-
 const styles = StyleSheet.create({
     container: {
-        width: windowWidth * .8,
-        height: windowHeight * .29,
-        paddingRight: 10,
-        
+        width: windowWidth * .65,
+        height: windowHeight * .18,
+        paddingRight: 15,
+        marginBottom: 5,
     },
     fadeTop: {
         position: 'absolute',
         left: 0,
         right: 0,
         top: 0,
-        height: windowHeight * 0.4,
+        height: windowHeight * .18,
     },
     background: {
-        height: windowHeight * .29,
+        height: windowHeight * .18,
         borderRadius: 10,
         overflow: 'hidden'
     },
     picture: {
-        height: windowHeight * .29,
-        justifyContent: 'flex-end'
+        height: windowHeight * .18,
+        justifyContent: 'flex-end',
+        paddingLeft: 10,
     },
     card: {
         backgroundColor: 'transparent',
     },
     info: {
-        height: windowHeight * .15,
         flexDirection: 'column',
         justifyContent: 'center',
         paddingLeft: 10,
-        borderLeftColor: '#F77F00'
+        borderLeftColor: '#F77F00',
+        borderLeftWidth: 2,
+        marginBottom: 15
     },
     title: {
         color: '#F5F1DB',
         fontWeight: '500',
+        width: '90%'
     },
     episode: {
         color: '#F3D180',
         fontWeight: 'bold'
     },
-    actions: {
-        justifyContent: 'space-between',
-        alignItems: 'center'
+    playButton: {
+      position: 'absolute',
+      right: 5,
+      top: 0
     }
 });

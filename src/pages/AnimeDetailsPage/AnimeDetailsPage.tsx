@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react'
 import { AnimeDetailsPageProps, AnimeDetailsPageState } from './animeDetailsPage.types'
 import { AnimeById, CharacterItem, MALItem, MALType, Recommendation, SnackContext } from '../../utils';
 import { JikanService } from '../../services';
-import { Dimensions, ImageBackground, StyleSheet, View, Image, ScrollView, Linking, RefreshControl } from 'react-native';
-import { CollapsibleParagraph, CustomCarousel, MessageComp, Thumbnail } from '../../components';
-import { Badge, Button, Caption, Divider, IconButton, List, Paragraph, Subheading, Title } from 'react-native-paper';
+import { Dimensions, ImageBackground, StyleSheet, View, Image, ScrollView, Linking } from 'react-native';
+import { CollapsibleParagraph, CustomCarousel, MessageComp, ScrollPageWrapper, Thumbnail } from '../../components';
+import { Badge, Button, Caption, IconButton, List, Subheading, Title } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AnimeCharacter, BasicMalItem, GridStat } from './helpers';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -118,16 +118,11 @@ export class AnimeDetailsPage extends PureComponent<Props, State> {
         } = this.state;
 
         return (
-            <ScrollView
-                ref={this.scrollRef}
-                style={styles.page}
-                contentContainerStyle={styles.content}
-                refreshControl={
-                    <RefreshControl
-                      refreshing={refreshing}
-                      onRefresh={this.__onRefresh}
-                    />
-                }
+            <ScrollPageWrapper
+                scrollRef={this.scrollRef}
+                refreshing={refreshing}
+                onRefresh={this.__onRefresh}
+                gradientOffset={windowHeight * 0.4}
             >
                  <ImageBackground
                     style={styles.background}
@@ -219,7 +214,7 @@ export class AnimeDetailsPage extends PureComponent<Props, State> {
                                 >
                                     Find Video Sources
                                 </Button>
-                                <View style={{...styles.containers, width: '100%', padding: 10, borderRadius: 10, backgroundColor: '#00151F'}}>
+                                <View style={{...styles.containers, width: '100%', padding: 10, borderRadius: 10, backgroundColor: '#001C29'}}>
                                     <Subheading style={{ color: '#FCBF49'}}>Synopsis</Subheading>
                                     <CollapsibleParagraph
                                         style={{ color: '#F5F1DB' }}
@@ -312,21 +307,13 @@ export class AnimeDetailsPage extends PureComponent<Props, State> {
                         )}
                     </ImageBackground>
                 </ImageBackground> 
-            </ScrollView>   
+            </ScrollPageWrapper>   
         )
     }
 }
 
 
 const styles = StyleSheet.create({
-    page: {
-        backgroundColor: '#000E14',
-        flex: 1,
-    },
-    content: {
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    },
     background: {
         width: windowWidth,
         flexDirection: 'column',

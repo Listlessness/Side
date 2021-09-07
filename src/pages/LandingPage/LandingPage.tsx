@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
-import { RefreshControl, StyleSheet, ScrollView } from 'react-native';
 import { Colors, IconButton } from 'react-native-paper';
-import { CustomCarousel, StackItem, Thumbnail } from '../../components';
+import { CustomCarousel, StackItem, Thumbnail, ScrollPageWrapper } from '../../components';
 import { JikanService, GogoAnimeService } from '../../services';
 import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
 import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes } from '../../utils';
@@ -81,15 +80,9 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
         const { refreshingCount } = this.state;
 
         return (
-            <ScrollView
-                style={styles.landingPage}
-                contentContainerStyle={styles.content}
-                refreshControl={
-                    <RefreshControl
-                      refreshing={refreshingCount !== 0}
-                      onRefresh={this.__onRefresh}
-                    />
-                }
+            <ScrollPageWrapper
+                refreshing={refreshingCount !== 0}
+                onRefresh={this.__onRefresh}
             >
                 <CustomCarousel
                     title="Latest Episodes"
@@ -127,22 +120,7 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
                         navigation.navigate("Top Anime", {topType: JikanAnimeSubTypes.Upcoming})
                     }}
                 />
-            </ScrollView>
+            </ ScrollPageWrapper>
         );
     }
 }
-
-const styles = StyleSheet.create({
-  landingPage: {
-    backgroundColor: '#000E14',
-    flex: 1,
-    paddingRight: 15,
-    paddingLeft: 15
-  },
-  content: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 30,
-    paddingBottom: 20
-  }
-});
