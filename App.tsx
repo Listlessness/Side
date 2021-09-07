@@ -112,7 +112,8 @@ export default function App() {
             onPress: onDismissSnackBar,
           }}
         >
-          <Ionicons name="information-circle-outline" size={20} color="white" />
+          <Ionicons name="information-circle-outline" size={15} color="white" />
+          
           <Paragraph style={styles.snackMessage}>
             {snackMessage}
           </Paragraph>

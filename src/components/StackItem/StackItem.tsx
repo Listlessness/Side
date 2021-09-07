@@ -1,8 +1,9 @@
 import React, { PureComponent, useCallback, useMemo } from 'react';
 import { StackItemProps } from './stackItem.types';
-import { ImageBackground, StyleSheet, Dimensions, View } from 'react-native';
+import { ImageBackground, StyleSheet, Dimensions, View, TouchableOpacity } from 'react-native';
 import { Card, Paragraph, Button, Subheading } from 'react-native-paper';
 import { extractEpisodeNumer, UseNavigation } from '../../utils';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -40,7 +41,7 @@ export const StackItem = React.memo(
         );
 
         return (
-            <View style={styles.container}>
+            <TouchableOpacity style={styles.container} onPress={__watchEpisode}>
                 <ImageBackground
                     style={styles.background}
                     resizeMode="cover"
@@ -55,32 +56,18 @@ export const StackItem = React.memo(
                             source={{uri: picture_url}}
                             loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
                         >
+                            <LinearGradient
+                                colors={['transparent', "black"]}
+                                style={styles.fadeTop}
+                            />
                             <Card.Content style={styles.info}>
                                 <Paragraph style={styles.episode}>{episode}</Paragraph>
                                 <Subheading numberOfLines={1} style={styles.title}>{title}</Subheading>
-                                <Card.Actions style={styles.actions}>
-                                    <Button
-                                        color='#FCBF49'
-                                        style={{borderColor: '#FCBF49'}}
-                                        mode='outlined'
-                                    >
-                                        Anime Details 
-                                    </Button>
-
-                                    <Button
-                                        color='#F77F00'
-                                        labelStyle={{color: '#fff'}}
-                                        mode='contained'
-                                        onPress={__watchEpisode}
-                                    >
-                                        Watch Now!
-                                    </Button>
-                                </Card.Actions>
                             </Card.Content>
                         </ImageBackground>
                     </Card>
                 </ImageBackground>
-            </View>
+            </TouchableOpacity>
         )
     }
 )
@@ -93,6 +80,13 @@ const styles = StyleSheet.create({
         height: windowHeight * .29,
         paddingRight: 10,
         
+    },
+    fadeTop: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        height: windowHeight * 0.4,
     },
     background: {
         height: windowHeight * .29,
@@ -110,8 +104,8 @@ const styles = StyleSheet.create({
         height: windowHeight * .15,
         flexDirection: 'column',
         justifyContent: 'center',
-        backgroundColor: "#000000c0",
-        paddingLeft: 10
+        paddingLeft: 10,
+        borderLeftColor: '#F77F00'
     },
     title: {
         color: '#F5F1DB',
