@@ -9,7 +9,7 @@ interface ThumbnailProps {
     description?:  string;
     url:  string;
     picture_url: string,
-    score?: number,
+    score?: number | null,
     type?: string,
     isBasic?: boolean
 }

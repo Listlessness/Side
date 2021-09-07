@@ -1,5 +1,5 @@
 
-import { SubTypes } from "../interfaces";
+import { SeasonResult, SeasonAnime, SubTypes } from "../interfaces";
 
 export type RootStackParamList = {
     "Home": undefined;
@@ -9,4 +9,12 @@ export type RootStackParamList = {
     "Watch Episode": {id: string; default_ep: number};
     "Episode Full Screen": {link: string};
     "Anime Details": {mal_id: number; url: string};
+    "Simple List": SimpleListPageParams;
 };
+
+interface SimpleListPageParams {
+    fetchItems: () => Promise<any>;
+    itemsExtracter: (response: any) => any[];
+    renderItem:  ({item, index}: {item: any, index: number}) => JSX.Element;
+    currPageExtracter?: (...args: any[]) => number
+}

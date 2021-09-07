@@ -3,7 +3,7 @@ import { Colors, IconButton } from 'react-native-paper';
 import { CustomCarousel, StackItem, Thumbnail, ScrollPageWrapper } from '../../components';
 import { JikanService, GogoAnimeService } from '../../services';
 import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
-import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes } from '../../utils';
+import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes, SeasonAnime, SeasonResult } from '../../utils';
 import { LandingPageProps, LandingPageState } from './landingPage.types';
 
 export class LandingPage extends PureComponent<LandingPageProps, LandingPageState> {
@@ -17,7 +17,7 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
     }
 
     __onRefresh = () => {
-        this.setState({refreshingCount: 3})
+        this.setState({refreshingCount: 5})
     }
 
     __reduceRefreshCount = () => {
@@ -39,7 +39,7 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
         );
     }
     
-    __renderThumbnailItem = ({item, index}: { item: TopItem; index: number; }) => {
+    __renderThumbnailItem = ({item, index}: { item: TopItem | SeasonAnime; index: number; }) => {
         return (
             <Thumbnail
                 key={index}
@@ -61,6 +61,10 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
         return resp.top.slice(0,10);
     })
 
+    __fetchThisSeasonsItems = () => JikanService.fetchSeason().then(resp => {
+        return resp.anime.slice(0,10);
+    })
+    
     
     componentDidMount() {
         this.props.navigation.setOptions({
@@ -96,6 +100,18 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
                         navigation.navigate("Latest Episodes")
                     }}
                 />
+                {/* <CustomCarousel
+                    title="Continue Watching"
+                    keyPrefix='CW'
+                    refreshing={refreshingCount !== 0}
+                    onRefreshComplete={this.__reduceRefreshCount}
+                    fetchItems={this.__fetchThisSeasonsItems}
+                    renderItem={this.__renderThumbnailItem}
+                    type='thumbnail'
+                    onPress={() => {
+                        navigation.navigate("Top Anime", {topType: JikanAnimeSubTypes.Upcoming})
+                    }}
+                /> */}
                 <CustomCarousel
                     title="Top Airing Anime"
                     keyPrefix='TAA'
@@ -118,6 +134,22 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
                     type='thumbnail'
                     onPress={() => {
                         navigation.navigate("Top Anime", {topType: JikanAnimeSubTypes.Upcoming})
+                    }}
+                />
+                <CustomCarousel
+                    title="This Season's Anime"
+                    keyPrefix='TSA'
+                    refreshing={refreshingCount !== 0}
+                    onRefreshComplete={this.__reduceRefreshCount}
+                    fetchItems={this.__fetchThisSeasonsItems}
+                    renderItem={this.__renderThumbnailItem}
+                    type='thumbnail'
+                    onPress={() => {
+                        navigation.navigate("Simple List", {
+                            fetchItems: () =>  JikanService.fetchSeason(),
+                            itemsExtracter: (resp) => resp.anime,
+                            renderItem: this.__renderThumbnailItem
+                        })
                     }}
                 />
             </ ScrollPageWrapper>

@@ -24,6 +24,7 @@ import {
   TopAnimePage,
   WatchEpisodePage,
   AnimeDetailsPage,
+  SimpleListPage
 } from './src/pages';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
@@ -84,11 +85,14 @@ export default function App() {
                       name={'Watch Episode'}
                       component={WatchEpisodePage}
                     />
+                    <Stack.Screen
+                      name={'Simple List'}
+                      component={SimpleListPage}
+                    />
                   </Stack.Group>
 
                   <Stack.Group
                     screenOptions={{
-                      presentation: 'modal',
                       headerTransparent: true,
                       headerBlurEffect: 'regular',
                       headerStyle: { backgroundColor: 'transparent' },
@@ -121,9 +125,7 @@ export default function App() {
               label: 'Okay',
               onPress: onDismissSnackBar,
             }}>
-            <Ionicons name="information-circle-outline" size={15} color="white" />
-
-            <Paragraph style={styles.snackMessage}>{snackMessage}</Paragraph>
+            <Paragraph style={styles.snackMessage}><Ionicons name="information-circle-outline" size={14} color="white" /> {snackMessage}</Paragraph>
           </Snackbar>
       </SafeAreaProvider>
     </>

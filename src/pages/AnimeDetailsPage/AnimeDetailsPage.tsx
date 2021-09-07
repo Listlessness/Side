@@ -214,7 +214,7 @@ export class AnimeDetailsPage extends PureComponent<Props, State> {
                                 >
                                     Find Video Sources
                                 </Button>
-                                <View style={{...styles.containers, width: '100%', padding: 10, borderRadius: 10, backgroundColor: '#001C29'}}>
+                                <View style={{...styles.containers, width: '100%', padding: 10, borderRadius: 10, backgroundColor: '#00151F'}}>
                                     <Subheading style={{ color: '#FCBF49'}}>Synopsis</Subheading>
                                     <CollapsibleParagraph
                                         style={{ color: '#F5F1DB' }}

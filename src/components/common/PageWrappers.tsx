@@ -32,8 +32,8 @@ export const ScrollPageWrapper = React.memo(function ScrollPageWrapper({
             nestedScrollEnabled={true}
         >
             <LinearGradient
-                colors={['#000E14', "#001B29", "#00151F", "#000E14"]}
-                style={styles.fadeTop}
+                colors={['#000E14', "#001B29", "#020413"]}
+                style={{...styles.fadeTop, top: gradientOffset || 0}}
             />
             {children}
         </ScrollView>

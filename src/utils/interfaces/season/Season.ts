@@ -1,13 +1,13 @@
 export type Seasons = 'summer' | 'spring' | 'fall' | 'winter';
 export interface SeasonResult {
-     anime: Anime[];
+     anime: SeasonAnime[];
      request_cache_expiry: number;
      request_cached: boolean;
      request_hash: string;
      season_name: string;
      season_year: number;
 }
-interface Anime {
+export interface SeasonAnime {
      airing_start: Date | null;
      continuing: boolean;
      episodes: number | null;

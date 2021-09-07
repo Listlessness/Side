@@ -179,7 +179,7 @@ export class WatchEpisodePage extends PureComponent<Props, State> {
                 refreshing={refreshing}
                 onRefresh={this.__onRefresh}
             >
-                <SafeAreaView>
+                <SafeAreaView style={styles.mainView}>
                     <View style={styles.webViewVideo}>
                         {currEpisodeInfo && !refreshing && <WebView
                             automaticallyAdjustContentInsets={false}
@@ -248,7 +248,7 @@ export class WatchEpisodePage extends PureComponent<Props, State> {
 
 const styles = StyleSheet.create({
     mainView: {
-        height: windowHeight
+        width: '100%'
     },
     webViewVideo: {
         minHeight: windowHeight * .31,
@@ -280,12 +280,5 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.32,
         shadowRadius: 5.46,
         elevation: 9,
-    },
-    fadeTop: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        height: '100%'
     }
 })

@@ -3,6 +3,7 @@ import { ThumbnailProps } from './thumbnail.types';
 import { View, StyleSheet, Dimensions, ImageBackground, TouchableOpacity, Image } from 'react-native';
 import { Paragraph, Caption } from 'react-native-paper';
 import { UseNavigation } from '../../utils';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -53,11 +54,11 @@ export const Thumbnail = React.memo(
                     </Paragraph>
                     { !isBasic && (
                         <View style={styles.meta}>
-                            <Caption style={styles.score}>
-                                {score}
+                            <Caption style={styles.score || 0}>
+                                <MaterialCommunityIcons name="star-circle-outline" size={12} color="#FCBF49" /> {score}
                             </Caption>
                             <Caption style={styles.type}>
-                                {type}
+                                <MaterialCommunityIcons name="movie-filter-outline" size={12} color="#F77F00" /> {type}
                             </Caption>
                         </View>
                     )}
