@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
-import { Chip, Paragraph } from 'react-native-paper'
+import { StyleSheet } from 'react-native'
+import { Chip } from 'react-native-paper'
 import { MALItem, UseNavigation } from '../../../utils'
 
 export const BasicMalItem = React.memo(function BasicMalItem({
@@ -19,7 +19,7 @@ export const BasicMalItem = React.memo(function BasicMalItem({
                 url: url
             })
         },
-        [mal_id],
+        [mal_id]
     );
 
     return (

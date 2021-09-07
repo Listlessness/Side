@@ -23,7 +23,7 @@ export const CollapsibleParagraph = React.memo(function CollapsibleParagraph(pro
             >
                 {props.children}
             </Paragraph>
-            <Caption {...props}>Touch to read more</Caption>
+            <Caption {...props}>Touch to show {`${synopsisShowMore ? 'less' : 'more'}`}</Caption>
         </TouchableOpacity>
         
 )
