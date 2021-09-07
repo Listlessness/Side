@@ -3,8 +3,8 @@ import { StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { DefaultTheme, Paragraph, Provider as PaperProvider, Snackbar } from 'react-native-paper';
-import { RootStackParamList, SnackContext, SnackMessage } from './src/utils';
+import { DefaultTheme, IconButton, Paragraph, Provider as PaperProvider, Snackbar } from 'react-native-paper';
+import { RootStackParamList, SnackContext, SnackMessage, UseNavigation } from './src/utils';
 import { 
   EpisodeFullScreenPage, LandingPage, LatestEpisodesPage,
   SearchPage, TopAnimePage, WatchEpisodePage, AnimeDetailsPage 

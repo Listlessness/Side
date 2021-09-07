@@ -31,7 +31,7 @@ export class CustomCarousel<T> extends PureComponent<CustomCarouselProps<T>, Cus
         if (this.props.refreshing) {
             this.setState({messageText: "Refreshing ...", items: []})
         } else {
-            this.setState({messageText: "Fetching anime ..."})
+            this.setState({messageText: "Fetching items ..."})
         }
         
 
@@ -46,7 +46,7 @@ export class CustomCarousel<T> extends PureComponent<CustomCarouselProps<T>, Cus
                 items: []
             }
             this.context.showMessage({
-                message: `Failed to retrieve ${this.props.title} results.`
+                message: `Failed to retrieve "${this.props.title}" result.`
             });
         }).finally(() => {
             this.setState(newStateItemValue)
@@ -88,7 +88,7 @@ export class CustomCarousel<T> extends PureComponent<CustomCarouselProps<T>, Cus
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Subheading style={styles.carouselTitle}>{title}</Subheading>
-                    <SeeMoreButton onPress={onPress} />
+                    {onPress && <SeeMoreButton onPress={onPress} />}
                 </View>
                 <FlatList
                     horizontal

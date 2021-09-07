@@ -4,7 +4,7 @@ export interface Recommendations {
      request_cached: boolean;
      request_hash: string;
 }
-interface Recommendation {
+export interface Recommendation {
      image_url: string;
      mal_id: number;
      recommendation_count: number;

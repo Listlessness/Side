@@ -17,6 +17,7 @@ type Props = WatchEpisodePageProps;
 
 export class WatchEpisodePage extends PureComponent<Props, State> {
 
+    static contextType = SnackContext;
     declare context: React.ContextType<typeof SnackContext>;
     
     constructor(props: WatchEpisodePageProps) {
@@ -109,7 +110,7 @@ export class WatchEpisodePage extends PureComponent<Props, State> {
                 refreshing: false
             })
             this.context.showMessage({
-                message: `Failed to current episode.`,
+                message: 'Failed to retrieve current episode.',
                 type: "info"
             });
         })

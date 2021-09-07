@@ -9,8 +9,9 @@ interface ThumbnailProps {
     description?:  string;
     url:  string;
     picture_url: string,
-    score: number,
-    type: string
+    score?: number,
+    type?: string,
+    isBasic?: boolean
 }
 
 interface EpisodeThumbnailProps {

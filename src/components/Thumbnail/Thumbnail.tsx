@@ -14,7 +14,8 @@ export const Thumbnail = React.memo(
         description,
         url,
         type,
-        picture_url
+        picture_url,
+        isBasic=false
     }: ThumbnailProps) {
     
         const navigation = UseNavigation();
@@ -50,14 +51,17 @@ export const Thumbnail = React.memo(
                     <Paragraph numberOfLines={1} style={styles.title}>
                         {title}
                     </Paragraph>
-                    <View style={styles.meta}>
-                        <Caption style={styles.score}>
-                            {score}
-                        </Caption>
-                        <Caption style={styles.type}>
-                            {type}
-                        </Caption>
-                    </View>
+                    { !isBasic && (
+                        <View style={styles.meta}>
+                            <Caption style={styles.score}>
+                                {score}
+                            </Caption>
+                            <Caption style={styles.type}>
+                                {type}
+                            </Caption>
+                        </View>
+                    )}
+                    
                 </View>
             </TouchableOpacity>
         )

@@ -7,7 +7,7 @@ interface CustomCarouselProps<T> {
     title: string,
     keyPrefix: string,
     fetchItems: () => Promise<T[]>,
-    onPress: () => void,
+    onPress?: () => void,
     type: 'stack' | 'thumbnail',
     renderItem: (arg: RenderItemArg<T>) => JSX.Element,
     refreshing: boolean,

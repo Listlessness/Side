@@ -6,7 +6,7 @@ interface MessageCompProps {
 }
 
 export const MessageComp = React.memo(function MessageComp({
-    message = "No Anime Found."
+    message = "No Item Found."
 }: MessageCompProps) {
     return (
         <View style={styles.container}>

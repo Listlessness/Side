@@ -1,11 +1,11 @@
 export interface CharactersStaff {
-     characters: Character[];
+     characters: CharacterItem[];
      request_cache_expiry: number;
      request_cached: boolean;
      request_hash: string;
      staff: Staff[];
 }
-interface Character {
+export interface CharacterItem {
      image_url: string;
      mal_id: number;
      name: string;

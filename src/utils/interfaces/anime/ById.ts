@@ -54,10 +54,10 @@ interface From {
 export interface MALItem {
      mal_id: number;
      name: string;
-     type: Type;
+     type: MALType;
      url: string;
 }
-enum Type {
+export enum MALType {
     Anime = "anime",
     Manga = "manga"
 }
