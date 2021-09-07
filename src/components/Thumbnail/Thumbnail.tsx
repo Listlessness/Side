@@ -27,7 +27,7 @@ export const Thumbnail = React.memo(
                     url: url
                 })
             },
-            [mal_id],
+            [mal_id, url, navigation],
         );
 
 

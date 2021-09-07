@@ -19,7 +19,7 @@ export const BasicMalItem = React.memo(function BasicMalItem({
                 url: url
             })
         },
-        [mal_id]
+        [mal_id, url, navigation]
     );
 
     return (

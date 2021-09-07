@@ -23,7 +23,7 @@ export const EpisodeFullScreenPage = React.memo(function EpisodeFullScreenPage({
                 ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
                 setStatusBarHidden(false, 'slide')
             };
-        }, [videoLink])
+        }, [])
     );
 
     return (

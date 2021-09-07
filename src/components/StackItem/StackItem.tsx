@@ -27,19 +27,9 @@ export const StackItem = React.memo(
                     default_ep: episodeNum
                 })
             },
-            [id, episodeNum],
+            [id, episodeNum, navigation],
         );
           
-        const __animeDetails = useCallback(
-            () => {
-                navigation.navigate('Anime Details', {
-                    mal_id: 1,
-                    url: url
-                })
-            },
-            [id, episodeNum],
-        );
-
         return (
             <TouchableOpacity style={styles.container} onPress={__watchEpisode}>
                 <ImageBackground
@@ -120,4 +110,3 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     }
 });
-

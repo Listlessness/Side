@@ -358,9 +358,6 @@ const styles = StyleSheet.create({
     title: {
         textAlign: 'center'
     },
-    subTitle: {
-        textAlign: 'left'
-    },
     headerContainer: {
         width: windowWidth * .9,
         flexDirection: 'row',
