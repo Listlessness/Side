@@ -41,4 +41,4 @@ Retrieves content from the third party sources (MyAnimeList, Streamani.net, and 
 
 ## DISCLAIMER
 
-I do not own any content made available through this app; all of which, are provided by non-affiliated third parties. All rights reserved to the copyright owners.
+I do not own any content made available through this app. All contents are provided by non-affiliated third party sources. All rights reserved to the copyright owners.
