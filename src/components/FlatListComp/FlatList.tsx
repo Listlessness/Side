@@ -87,6 +87,7 @@ export class FlatListComp<T> extends PureComponent<FlatListProps<T>, FlatListSta
 
 const styles = StyleSheet.create({
     list: {
+        paddingTop: 20,
         alignItems: 'center',
         justifyContent: 'center'
     },

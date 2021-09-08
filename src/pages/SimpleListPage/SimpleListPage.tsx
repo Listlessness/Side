@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
 import { createRef } from 'react';
-import { Dimensions, NativeSyntheticEvent, ScrollView, StyleSheet, TextInputEndEditingEventData, View } from 'react-native';
-import { ActivityIndicator, Button, Headline, IconButton, Searchbar, Text } from 'react-native-paper';
-import { Thumbnail, FlatListComp, CustomModal, CustomPicker, SimplePageWrapper } from '../../components';
-import { JikanService } from '../../services';
-import { JikanSearchAnimeSubType, JikanSearchGenre, JikanSearchOrderBy, JikanSearchRated, JikanSearchSort, JikanSearchType, SearchResultItem, SeasonAnime, SeasonResult, SnackContext } from '../../utils';
+import { Dimensions } from 'react-native';
+import { FlatListComp, CustomModal, SimplePageWrapper } from '../../components';
+import { SnackContext } from '../../utils';
 import { SimpleListPageProps, SimpleListPageState } from './simpleListPage.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
@@ -150,29 +148,3 @@ export class SimpleListPage<T, R> extends PureComponent<Props<T>, State<T, R>> {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    tools: {
-        padding: 15,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row'
-    },
-    inputContainer: {
-        backgroundColor: '#00151F',
-        width: windowWidth * 0.7,
-    },
-    inputText: {
-        color: '#F5F1DB',
-        minHeight: windowHeight * .04
-    },
-    modal: {
-        width: windowWidth * .6,
-        padding: 10,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    modalTitle: {
-        color: '#E75414'
-    }
-});
