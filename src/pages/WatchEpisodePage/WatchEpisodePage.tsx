@@ -248,7 +248,8 @@ export class WatchEpisodePage extends PureComponent<Props, State> {
 
 const styles = StyleSheet.create({
     mainView: {
-        width: '100%'
+        width: '100%',
+        minHeight: windowHeight
     },
     webViewVideo: {
         minHeight: windowHeight * .31,

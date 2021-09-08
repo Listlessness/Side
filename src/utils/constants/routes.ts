@@ -16,5 +16,6 @@ interface SimpleListPageParams {
     fetchItems: () => Promise<any>;
     itemsExtracter: (response: any) => any[];
     renderItem:  (arg: {item: any, index: number}) => JSX.Element;
-    currPageExtracter?: (...args: any[]) => number
+    currPageExtracter?: (...args: any[]) => number,
+    nameExtracter: (response: any) => string;
 }

@@ -87,17 +87,15 @@ export class FlatListComp<T> extends PureComponent<FlatListProps<T>, FlatListSta
 
 const styles = StyleSheet.create({
     list: {
-        paddingTop: 20,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'flex-start'
     },
     column: {
-        paddingBottom: 15
+        paddingTop: 15
     },
     content: {
-        paddingTop: 10,
         width: '100%',
-        height: '80%',
+        height: '100%',
         paddingRight: 10,
         paddingLeft: 10
     },

@@ -20,4 +20,5 @@ interface SimpleListPageState<T, R> {
     loadingMore: boolean,
     lastPage?: number,
     fetching: boolean,
+    pageName: string
 }

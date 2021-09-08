@@ -88,6 +88,7 @@ export default function App() {
                     <Stack.Screen
                       name={'Simple List'}
                       component={SimpleListPage}
+                      options={{headerTitle: 'Lists'}}
                     />
                   </Stack.Group>
 

@@ -147,8 +147,9 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
                     onPress={() => {
                         navigation.navigate("Simple List", {
                             fetchItems: () =>  JikanService.fetchSeason(),
-                            itemsExtracter: (resp) => resp.anime,
-                            renderItem: this.__renderThumbnailItem
+                            itemsExtracter: (resp: SeasonResult) => resp.anime,
+                            renderItem: this.__renderThumbnailItem,
+                            nameExtracter: (resp: SeasonResult) => `${resp.season_name} ${resp.season_year}`
                         })
                     }}
                 />

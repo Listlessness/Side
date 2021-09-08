@@ -64,12 +64,12 @@ export const SimplePageWrapper = React.memo(function SimplePageWrapper({
 const styles = StyleSheet.create({
     page: {
         backgroundColor: '#000E14',
-        flex: 1
+        flex: 1,
+        paddingBottom: 20,
     },
     content: {
         alignItems: 'center',
         justifyContent: 'center',
-        paddingBottom: 20,
         paddingRight: 15,
         paddingLeft: 15
     },

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { createRef } from 'react';
 import { Dimensions } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatListComp, CustomModal, SimplePageWrapper } from '../../components';
 import { SnackContext } from '../../utils';
 import { SimpleListPageProps, SimpleListPageState } from './simpleListPage.types';
@@ -26,6 +27,7 @@ export class SimpleListPage<T, R> extends PureComponent<Props<T>, State<T, R>> {
             loadingMore: false,
             lastPage: undefined,
             fetching: false,
+            pageName: ''
         }
 
         this.modalRef = createRef()
@@ -35,7 +37,8 @@ export class SimpleListPage<T, R> extends PureComponent<Props<T>, State<T, R>> {
         
         const {
             fetchItems,
-            itemsExtracter
+            itemsExtracter,
+            nameExtracter
         } = this.props.route.params;
 
         const {
@@ -56,6 +59,7 @@ export class SimpleListPage<T, R> extends PureComponent<Props<T>, State<T, R>> {
                 refreshing: false,
                 loadingMore: false,
                 fetching: false,
+                pageName: nameExtracter(resp)
             }
         }).catch(reason => {
             newStateItemValue = {
@@ -80,7 +84,8 @@ export class SimpleListPage<T, R> extends PureComponent<Props<T>, State<T, R>> {
     componentDidUpdate(prevProps: Props<T>, prevState: State<T, R>) {
         const {
             currPage,
-            refreshing
+            refreshing,
+            pageName
         } = this.state;
 
         if (
@@ -89,6 +94,10 @@ export class SimpleListPage<T, R> extends PureComponent<Props<T>, State<T, R>> {
         ) {
             this.fetchListItems()
         }
+
+        if (prevState.pageName !== pageName) this.props.navigation.setOptions({
+            headerTitle: pageName
+        })
     }
 
     __onEndReached = (info: {distanceFromEnd: number}) => {
@@ -132,18 +141,20 @@ export class SimpleListPage<T, R> extends PureComponent<Props<T>, State<T, R>> {
 
         return (
             <SimplePageWrapper>
-                <FlatListComp
-                    shouldShow
-                    items={items}
-                    messageText={messageText}
-                    renderItem={renderItem}
-                    onEndReached={this.__onEndReached}
-                    keyExtractor={this.__keyExtractor}
-                    getItemLayout={this.__getItemLayout}
-                    onRefresh={this.__onRefresh}
-                    refreshing={refreshing}
-                    loadingMore={loadingMore}
-                />
+                <SafeAreaView>
+                    <FlatListComp
+                        shouldShow
+                        items={items}
+                        messageText={messageText}
+                        renderItem={renderItem}
+                        onEndReached={this.__onEndReached}
+                        keyExtractor={this.__keyExtractor}
+                        getItemLayout={this.__getItemLayout}
+                        onRefresh={this.__onRefresh}
+                        refreshing={refreshing}
+                        loadingMore={loadingMore}
+                    />
+                </SafeAreaView>
             </SimplePageWrapper>
         );
     }
