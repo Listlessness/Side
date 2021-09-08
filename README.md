@@ -19,7 +19,7 @@
 
 ## Description
 
-Retrieves content from the third party sources (MyAnimeList, Streamani.net, and GoGoAnime); and makes them available to you.
+Retrieves content from the third party sources (MyAnimeList, Streamani.net, and GoGoAnime); and makes them available to you in a user-friendly interface.
 
 ### Features
 
@@ -39,6 +39,6 @@ Retrieves content from the third party sources (MyAnimeList, Streamani.net, and 
 * <a href="https://github.com/GyanendroKh/gogoanime-api">GoGoAnime API</a> (created by <a href="https://github.com/GyanendroKh)">GyanendroKh</a>)
 * <a href="https://docs.expo.dev/">Expo</a>
 
-### DISCLAIMER
+## DISCLAIMER
 
-I do not own any content made available through this app. All rights reserved to the copyright owners.
+I do not own any content made available through this app; all of which, are provided by non-affiliated third parties. All rights reserved to the copyright owners.
