@@ -1,4 +1,4 @@
-<p align="center"><a href="https://github.com/Neko-R/Side"><img src="/meta/sideStream.png" width="150"></a></p> 
+<p align="center"><a href="https://github.com/Neko-R/Side"><img src="/meta/sideStream.png" width="300"></a></p> 
 <h4 align="center">Anime streaming app. A personal side project.</h4> 
 <hr>
 
