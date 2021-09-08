@@ -10,13 +10,12 @@
 [<img src="meta/screenshots/screenshot_4.jpg" width=160>](meta/screenshots/screenshot_4.jpg)
 [<img src="meta/screenshots/screenshot_5.jpg" width=160>](meta/screenshots/screenshot_5.jpg)
 [<img src="meta/screenshots/screenshot_6.jpg" width=160>](meta/screenshots/screenshot_6.jpg)
-[<img src="meta/screenshots/screenshot_7.jpg" width=160>](meta/screenshots/screenshot_7.jpg)
 [<img src="meta/screenshots/screenshot_8.jpg" width=160>](meta/screenshots/screenshot_8.jpg)
 [<img src="meta/screenshots/screenshot_9.jpg" width=160>](meta/screenshots/screenshot_9.jpg)
 [<img src="meta/screenshots/screenshot_10.jpg" width=160>](meta/screenshots/screenshot_10.jpg)
-[<img src="meta/screenshots/screenshot_11.jpg" width=405>](meta/screenshots/screenshot_11.jpg)
-[<img src="meta/screenshots/screenshot_12.jpg" width=405>](meta/screenshots/screenshot_12.jpg)
-
+[<img src="meta/screenshots/screenshot_11.jpg" width=160>](meta/screenshots/screenshot_11.jpg)
+[<img src="meta/screenshots/screenshot_12.jpg" width=160>](meta/screenshots/screenshot_12.jpg)
+[<img src="meta/screenshots/screenshot_7.jpg" width=405>](meta/screenshots/screenshot_7.jpg)
 
 ## Description
 
