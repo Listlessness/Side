@@ -37,7 +37,7 @@ Retrieves content from the third party sources (MyAnimeList, Streamani.net, and 
 * <a href="https://jikan.moe/">Jikan API (UNOFFICIAL MYANIMELIST API)</a>
 * <a href="https://gogoanime.pe/">GoGoAime</a>
 * <a href="https://streamani.net/">Streamani</a>
-* <a href="https://github.com/GyanendroKh/gogoanime-api">GoGoAnime API (created by <a href="https://github.com/GyanendroKh)">GyanendroKh</a></a>
+* <a href="https://github.com/GyanendroKh/gogoanime-api">GoGoAnime API</a> (created by <a href="https://github.com/GyanendroKh)">GyanendroKh</a>)
 * <a href="https://docs.expo.dev/">Expo</a>
 
 ### DISCLAIMER
