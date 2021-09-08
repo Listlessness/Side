@@ -31,4 +31,4 @@ Retrieves content from the third party sources (MyAnimeList, Streamani.net, and 
 * Current Season's Anime
 * Stream anime
 
-*DISCLAIMER: All rights reserved to the copyright owners.
+DISCLAIMER: I do not own any content made available through this app. All rights reserved to the copyright owners.
