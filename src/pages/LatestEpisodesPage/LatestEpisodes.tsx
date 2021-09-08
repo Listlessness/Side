@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { Dimensions } from 'react-native';
-import { extractEpisodeNumer, RECENT_RELEASE_TYPE, SnackContext } from '../../utils';
-import { EpisodeThumbnail, TabbedList, TabListItem } from '../../components';
+import { extractEpisodeNumer, RECENT_RELEASE_TYPE } from '../../utils';
+import { EpisodeThumbnail, SideStreamComponent, TabbedList, TabListItem } from '../../components';
 import { GogoAnimeService } from '../../services';
 import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
 import { LatestEpisodeProps, LatestEpisodeState } from './latestEpisodes.types';
@@ -11,10 +11,8 @@ const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 type Props = LatestEpisodeProps<GogoRecentRelease>;
 type State = LatestEpisodeState<GogoRecentRelease>;
 
-export class LatestEpisodesPage extends PureComponent<Props, State> {
+export class LatestEpisodesPage extends SideStreamComponent<Props, State> {
     tabListItems: TabListItem[];
-    static contextType = SnackContext;
-    declare context: React.ContextType<typeof SnackContext>;
 
     constructor(props: Props) {
         super(props)

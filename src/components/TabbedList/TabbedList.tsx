@@ -1,13 +1,11 @@
-import React, { PureComponent } from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { Tabs, TabScreen} from 'react-native-paper-tabs';
-import { SimplePageWrapper } from '../common';
+import { SideStreamComponent, SimplePageWrapper } from '../common';
 import { FlatListComp } from '../FlatListComp';
 import { TabbedListProps, TabbedListState } from './tabbedList.types';
 
-const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
-
-export class TabbedList<T> extends PureComponent<TabbedListProps<T>, TabbedListState<T>> {
+export class TabbedList<T> extends SideStreamComponent<TabbedListProps<T>, TabbedListState<T>> {
 
     renderList: (shouldShow: boolean) => JSX.Element;
     TAB_ITEMS: JSX.Element[];

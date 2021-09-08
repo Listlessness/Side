@@ -1,23 +1,24 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { AnimeDetailsPageProps, AnimeDetailsPageState } from './animeDetailsPage.types'
-import { AnimeById, CharacterItem, MALItem, MALType, Recommendation, SnackContext } from '../../utils';
+import { AnimeById, CharacterItem, MALItem, MALType, Recommendation } from '../../utils';
 import { JikanService } from '../../services';
 import { Dimensions, ImageBackground, StyleSheet, View, Image, ScrollView, Linking } from 'react-native';
-import { CollapsibleParagraph, CustomCarousel, MessageComp, ScrollPageWrapper, Thumbnail } from '../../components';
+import { CollapsibleParagraph, CustomCarousel, MessageComp, ScrollPageWrapper, SideStreamComponent, Thumbnail } from '../../components';
 import { Badge, Button, Caption, IconButton, List, Subheading, Title } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
-import { AnimeCharacter, BasicMalItem, GridStat } from './helpers';
+import { AnimeCharacter, BasicMalItem, GogoAnimeItem, GridStat } from './helpers';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { GogoAnimeService } from './../../services/GogoanimeAPI/gogoanime.service';
+import { IAnime } from '../../services/GogoanimeAPI/gogoanimeScraper';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 type State = AnimeDetailsPageState<AnimeById>;
 type Props = AnimeDetailsPageProps;
 
-export class AnimeDetailsPage extends PureComponent<Props, State> {
-    static contextType = SnackContext;
-    declare context: React.ContextType<typeof SnackContext>;
+export class AnimeDetailsPage extends SideStreamComponent<Props, State> {
+
     scrollRef: React.RefObject<ScrollView>;
     
     constructor(props: Props) {
@@ -108,6 +109,29 @@ export class AnimeDetailsPage extends PureComponent<Props, State> {
                 picture_url={item.image_url}
             />
         );
+    }
+
+    __renderGogoAnimeItem = ({item, index}: { item: IAnime; index: number; }) => {
+        return (
+            <GogoAnimeItem
+                {...item}
+            />
+        );
+    }
+
+    __fetchAnimeStreamSources = () => {
+        const {
+            animeDetailsById
+        } = this.state;
+
+        if (animeDetailsById?.title) {
+            this.props.navigation.navigate("Simple List", {
+                fetchItems: () =>  GogoAnimeService.searchAnime(animeDetailsById.title),
+                itemsExtracter: (resp: IAnime[]) => resp,
+                renderItem: this.__renderGogoAnimeItem,
+                nameExtracter: () => animeDetailsById.title
+            })
+        }
     }
 
     render() {
@@ -209,7 +233,7 @@ export class AnimeDetailsPage extends PureComponent<Props, State> {
                                     color='#F77F00'
                                     style={{maxWidth: '50%', ...styles.containers}}
                                     labelStyle={{color: '#fff'}}
-                                    onPress={() => console.log('Pressed')}
+                                    onPress={this.__fetchAnimeStreamSources}
                                     disabled={animeDetailsById.status === 'Not yet aired'}
                                 >
                                     Find Video Sources

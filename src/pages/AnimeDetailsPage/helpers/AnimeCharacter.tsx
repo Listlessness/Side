@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import { Avatar, Caption, Paragraph, Subheading, Title } from 'react-native-paper'
-import { CharacterItem, MALItem, UseNavigation } from '../../../utils'
+import React from 'react'
+import { StyleSheet, View } from 'react-native'
+import { Avatar, Caption, Paragraph } from 'react-native-paper'
+import { CharacterItem } from '../../../utils'
 
 export const AnimeCharacter = React.memo(function AnimeCharacter({
     mal_id,

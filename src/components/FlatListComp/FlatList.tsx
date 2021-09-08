@@ -1,12 +1,10 @@
-import React, { createRef, PureComponent } from 'react';
-import { Dimensions, StyleSheet, View, FlatList, ActivityIndicator } from 'react-native';
+import React, { createRef } from 'react';
+import { StyleSheet, View, FlatList, ActivityIndicator } from 'react-native';
 import { FAB } from 'react-native-paper';
-import { MessageComp } from '../common';
+import { MessageComp, SideStreamComponent } from '../common';
 import { FlatListProps, FlatListState } from "./flatList.types"
 
-const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
-
-export class FlatListComp<T> extends PureComponent<FlatListProps<T>, FlatListState<T>> {
+export class FlatListComp<T> extends SideStreamComponent<FlatListProps<T>, FlatListState<T>> {
 
     listRef: React.RefObject<FlatList<any>>;
 

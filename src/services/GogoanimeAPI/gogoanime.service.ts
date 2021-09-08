@@ -1,4 +1,4 @@
-import { GoGoAnime, GogoEntityBasic, GogoPagination, GogoRecentRelease, IAnimeEpisodeInfo, IVideoRes } from './gogoanimeScraper'
+import { GoGoAnime, GogoEntity, GogoEntityBasic, GogoPagination, GogoRecentRelease, IAnime, IAnimeEpisodeInfo, IVideoRes } from './gogoanimeScraper'
 
 class GogoAnimeAPI {
     gogoanime: GoGoAnime;
@@ -25,6 +25,18 @@ class GogoAnimeAPI {
         })
     }
 
+    searchAnime = async (query: string) => {
+        return await this.gogoanime.searchAjax(query).then(async (resp) => {
+            let finalList: IAnime[] = []
+            await Promise.all( resp.map( item => this.gogoanime.animeInfo(item.id) ) ).then(animeItems => {
+                finalList = animeItems
+            }).catch(reason => {
+                throw reason
+            })
+            return finalList
+        })
+    }
+
     GetVideoUrl = (movieId: string) => {
         return `${this.gogoanime.getVideoApiUrl()}?id=${movieId}`
     }
@@ -37,21 +49,3 @@ class GogoAnimeAPI {
 }
 
 export const GogoAnimeService = new GogoAnimeAPI();
-
-// // import AnimuGetter, { RecentlyAddedAnime } from "animu-desu";
-
-// // class GogoAnimeAPI {
-// //     // gogoanime: GoGoAnime;
-
-// //     // constructor() {
-// //     //     this.gogoanime = new GoGoAnime()
-// //     // }
-
-// //     fetchRecentlyAddedEpisodes = (page?: number, type?: number) => {
-// //         return AnimuGetter.getRecentlyAdded(page || 1).then(resp => {
-// //             return resp as RecentlyAddedAnime[];
-// //         })
-// //     }
-// // }
-
-// // export const GogoAnimeService = new GogoAnimeAPI();

@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { createRef } from 'react';
 import { Dimensions, NativeSyntheticEvent, ScrollView, StyleSheet, TextInputEndEditingEventData, View } from 'react-native';
-import { ActivityIndicator, Button, Headline, IconButton, Searchbar, Text } from 'react-native-paper';
-import { Thumbnail, FlatListComp, CustomModal, CustomPicker, SimplePageWrapper } from '../../components';
+import { ActivityIndicator, Button, Headline, IconButton, Searchbar } from 'react-native-paper';
+import { Thumbnail, FlatListComp, CustomModal, CustomPicker, SimplePageWrapper, SideStreamComponent } from '../../components';
 import { JikanService } from '../../services';
-import { JikanSearchAnimeSubType, JikanSearchGenre, JikanSearchOrderBy, JikanSearchRated, JikanSearchSort, JikanSearchType, SearchResultItem, SnackContext } from '../../utils';
+import { JikanSearchAnimeSubType, JikanSearchGenre, JikanSearchOrderBy, JikanSearchRated, JikanSearchSort, JikanSearchType, SearchResultItem } from '../../utils';
 import { SearchPageProps, SearchPageState } from './searchPage.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
@@ -12,10 +12,8 @@ const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 type Props = SearchPageProps<SearchResultItem>;
 type State = SearchPageState<SearchResultItem>;
 
-export class SearchPage extends PureComponent<Props, State> {
+export class SearchPage extends SideStreamComponent<Props, State> {
     modalRef: React.RefObject<CustomModal>;
-    static contextType = SnackContext;
-    declare context: React.ContextType<typeof SnackContext>;
 
     constructor(props: Props) {
         super(props)

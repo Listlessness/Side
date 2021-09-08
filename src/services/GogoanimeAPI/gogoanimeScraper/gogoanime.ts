@@ -1,14 +1,16 @@
-import axios, { AxiosRequestConfig } from 'axios';
-import cheerioModule from 'cheerio';
+/**
+ * Initial @author Gyanendro Kh <https://gyanendrokh.github.io>
+ */
+
+import axios from 'axios';
 import {
   GogoEntity,
   GogoEntityBasic,
   GogoPagination,
   GogoRecentRelease,
-  GogoUrlParamsType,
+  IAnime,
   IAnimeEpisodeInfo,
   IEpisodePage,
-  IVideoRes
 } from './types';
 import { getIdFromPath } from './utils';
 
@@ -207,6 +209,98 @@ export class GoGoAnime {
       episodeCount,
       episodePages
     };
+  }
+
+  async animeInfo(
+    id: string,
+  ): Promise<IAnime> {
+    const link = this.getUrlWithBase(`/category/${id}`);
+    const res = await axios.get(link);
+    const $ = cheerio.load(res.data);
+
+    const animeInfoBody = $('.anime_info_body');
+    const animeInfoBodyBg = animeInfoBody.children('.anime_info_body_bg');
+
+    const movieId =
+      $('input#movie_id.movie_id[type="hidden"]').attr('value') ?? '';
+    const thumbnail = animeInfoBodyBg.children('img').attr('src') ?? '';
+    const title = animeInfoBodyBg.children('h1').text().trim();
+
+    const info: IAnime = {
+      id,
+      link,
+      title,
+      thumbnail,
+      movieId,
+      genres: [],
+      episodeCount: 0,
+      episodePages: []
+    };
+
+    animeInfoBodyBg.children('p.type').each((_: any, ele: any) => {
+      const p = $(ele);
+
+      const type = p
+        .children('span')
+        .text()
+        .replace(':', '')
+        .trim()
+        .toLowerCase();
+
+      const text = p.text().slice(`${type}:`.length).trim();
+
+      if (type === 'type') {
+        info.type = text;
+        return;
+      }
+
+      if (type === 'plot summary') {
+        info.summary = text;
+        return;
+      }
+
+      if (type === 'genre') {
+        p.children('a').each((_: any, _ele: any) => {
+          info.genres.push(this._getEntityFromA($(_ele)));
+        });
+        return;
+      }
+
+      if (type === 'status') {
+        info.status = text;
+        return;
+      }
+
+      if (type === 'released') {
+        info.released = text;
+        return;
+      }
+
+      if (type === 'other name') {
+        info.otherNames = text
+          .split(', ')
+          .map((t: string) => t.trim())
+          .filter((t: string) => t !== '');
+        return;
+      }
+    });
+
+    $('.anime_video_body ul#episode_page li').each((_: any, ele: any) => {
+      const a = $(ele).children('a');
+
+      const start = Number(a.attr('ep_start'));
+      const end = Number(a.attr('ep_end'));
+
+      info.episodePages.push({ start, end });
+    });
+
+    info.episodePages.forEach(d => {
+      if (d.end > info.episodeCount) {
+        info.episodeCount = d.end;
+      }
+    });
+
+    return info;
   }
 
   // async animeEpisodeVideo(

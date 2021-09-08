@@ -1,9 +1,8 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { createRef } from 'react';
 import { Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FlatListComp, CustomModal, SimplePageWrapper } from '../../components';
-import { SnackContext } from '../../utils';
+import { FlatListComp, CustomModal, SimplePageWrapper, SideStreamComponent } from '../../components';
 import { SimpleListPageProps, SimpleListPageState } from './simpleListPage.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
@@ -11,10 +10,8 @@ const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 type Props<T> = SimpleListPageProps<T>;
 type State<T, R> = SimpleListPageState<T, R>;
 
-export class SimpleListPage<T, R> extends PureComponent<Props<T>, State<T, R>> {
+export class SimpleListPage<T, R> extends SideStreamComponent<Props<T>, State<T, R>> {
     modalRef: React.RefObject<CustomModal>;
-    static contextType = SnackContext;
-    declare context: React.ContextType<typeof SnackContext>;
 
     constructor(props: Props<T>) {
         super(props)

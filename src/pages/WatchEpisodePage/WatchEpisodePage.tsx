@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react'
-import { Dimensions, FlatList, RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
+import React from 'react'
+import { Dimensions, ScrollView, StyleSheet, View } from 'react-native'
 import { GogoAnimeService } from '../../services'
 import { GogoEntityBasic, IAnimeEpisodeInfo, IEpisodePage } from '../../services/GogoanimeAPI/gogoanimeScraper'
 import { SnackContext } from '../../utils'
@@ -7,17 +7,14 @@ import { WatchEpisodePageProps, WatchEpisodePageState } from './watchEpisodePage
 import { Appbar, Chip, Divider, List } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
-import { MessageComp, ScrollPageWrapper, TabbedList } from '../../components'
+import { MessageComp, ScrollPageWrapper, SideStreamComponent } from '../../components'
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 type State = WatchEpisodePageState<IAnimeEpisodeInfo, GogoEntityBasic, IEpisodePage>;
 type Props = WatchEpisodePageProps;
 
-export class WatchEpisodePage extends PureComponent<Props, State> {
-
-    static contextType = SnackContext;
-    declare context: React.ContextType<typeof SnackContext>;
+export class WatchEpisodePage extends SideStreamComponent<Props, State> {
     
     constructor(props: WatchEpisodePageProps) {
         super(props)

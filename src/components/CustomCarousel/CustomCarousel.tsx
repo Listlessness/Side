@@ -1,7 +1,7 @@
-import React, { createRef, PureComponent } from 'react';
+import React, { createRef } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import { CustomCarouselProps, CustomCarouselState } from './customCarousel.types';
-import { MessageComp , SeeMoreButton} from '../common';
+import { MessageComp , SeeMoreButton, SideStreamComponent} from '../common';
 import { FlatList } from 'react-native';
 import { SnackContext } from '../../utils';
 import { Subheading } from 'react-native-paper';
@@ -9,10 +9,8 @@ import { Subheading } from 'react-native-paper';
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 
-export class CustomCarousel<T> extends PureComponent<CustomCarouselProps<T>, CustomCarouselState<T>> {
+export class CustomCarousel<T> extends SideStreamComponent<CustomCarouselProps<T>, CustomCarouselState<T>> {
     carouselRef: React.MutableRefObject<null>;
-    static contextType = SnackContext;
-    declare context: React.ContextType<typeof SnackContext>;
 
     constructor(props: CustomCarouselProps<T>) {
         super(props)

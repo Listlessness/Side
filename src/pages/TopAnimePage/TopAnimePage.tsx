@@ -1,7 +1,7 @@
-import React, { useState, useEffect, PureComponent } from 'react';
+import React from 'react';
 import { Dimensions } from 'react-native';
-import { JikanAnimeSubTypes, JikanTypes, SnackContext, SubTypes, TopItem } from '../../utils';
-import { Thumbnail, TabListItem, TabbedList } from '../../components';
+import { JikanAnimeSubTypes, JikanTypes, SubTypes, TopItem } from '../../utils';
+import { Thumbnail, TabListItem, TabbedList, SideStreamComponent } from '../../components';
 import { JikanService } from '../../services';
 import { TopAnimeProps, TopAnimeState } from './topAnimePage.types';
 
@@ -11,9 +11,7 @@ const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 type Props = TopAnimeProps<TopItem>;
 type State = TopAnimeState<TopItem>;
 
-export class TopAnimePage extends PureComponent<Props, State> {
-    static contextType = SnackContext;
-    declare context: React.ContextType<typeof SnackContext>;
+export class TopAnimePage extends SideStreamComponent<Props, State> {
     valueToType: { [x: number]: SubTypes; };
     tabListItems: TabListItem[];
     typeTopValue: { [x: string]: number; };

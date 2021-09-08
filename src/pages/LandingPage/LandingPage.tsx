@@ -1,12 +1,12 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { Colors, IconButton } from 'react-native-paper';
-import { CustomCarousel, StackItem, Thumbnail, ScrollPageWrapper } from '../../components';
+import { CustomCarousel, StackItem, Thumbnail, ScrollPageWrapper, SideStreamComponent } from '../../components';
 import { JikanService, GogoAnimeService } from '../../services';
 import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
 import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes, SeasonAnime, SeasonResult } from '../../utils';
 import { LandingPageProps, LandingPageState } from './landingPage.types';
 
-export class LandingPage extends PureComponent<LandingPageProps, LandingPageState> {
+export class LandingPage extends SideStreamComponent<LandingPageProps, LandingPageState> {
     
     constructor(props: LandingPageProps) {
         super(props)
@@ -137,8 +137,8 @@ export class LandingPage extends PureComponent<LandingPageProps, LandingPageStat
                     }}
                 />
                 <CustomCarousel
-                    title="This Season's Anime"
-                    keyPrefix='TSA'
+                    title="Current Season's Anime"
+                    keyPrefix='CSA'
                     refreshing={refreshingCount !== 0}
                     onRefreshComplete={this.__reduceRefreshCount}
                     fetchItems={this.__fetchThisSeasonsItems}
