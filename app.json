@@ -32,7 +32,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "Anime streaming app. A side project. Retrieves content from the third party sources (MyAnimeList, Streamani.net, and GoGoAnime); and makes them available to you in a user-friendly interface.",
+    "description": "Anime streaming app. A side project. Retrieves content from third party sources (MyAnimeList, Streamani.net, and GoGoAnime); and makes them available to you in a user-friendly interface.",
     "githubUrl": "https://github.com/Neko-R/Side"
   }
 }

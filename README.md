@@ -19,25 +19,25 @@
 
 ## Description
 
-Retrieves content from the third party sources (MyAnimeList, Streamani.net, and GoGoAnime); and makes them available to you in a user-friendly interface.
+Retrieves content from third party sources (MyAnimeList, Streamani.net, and GoGoAnime); and makes them available to you in a user-friendly interface.
 
 ### Features
 
-* Search Anime
-* Anime Details (including characters and related anime)
-* Latest Anime Episodes
-* Top Animes
-* Current Season's Anime
-* Stream anime
+- Search Anime
+- Anime Details (including characters and related anime)
+- Latest Anime Episodes
+- Top Animes
+- Current Season's Anime
+- Stream anime
 
 ### Credits
 
-* <a href="https://myanimelist.net/">MyAnimeList</a>
-* <a href="https://jikan.moe/">Jikan API (UNOFFICIAL MYANIMELIST API)</a>
-* <a href="https://gogoanime.pe/">GoGoAnime</a>
-* <a href="https://streamani.net/">Streamani</a>
-* <a href="https://github.com/GyanendroKh/gogoanime-api">GoGoAnime API</a> (created by <a href="https://github.com/GyanendroKh)">GyanendroKh</a>)
-* <a href="https://docs.expo.dev/">Expo</a>
+- <a href="https://myanimelist.net/">MyAnimeList</a>
+- <a href="https://jikan.moe/">Jikan API (UNOFFICIAL MYANIMELIST API)</a>
+- <a href="https://gogoanime.pe/">GoGoAnime</a>
+- <a href="https://streamani.net/">Streamani</a>
+- <a href="https://github.com/GyanendroKh/gogoanime-api">GoGoAnime API</a> (created by <a href="https://github.com/GyanendroKh)">GyanendroKh</a>)
+- <a href="https://docs.expo.dev/">Expo</a>
 
 ## DISCLAIMER
 
