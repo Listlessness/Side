@@ -31,7 +31,7 @@ export class FlatListComp<T> extends SideStreamComponent<FlatListProps<T>, FlatL
         const {
             shouldShow,
             items,
-            numColumns = 3,
+            numColumns,
             renderItem,
             onEndReached,
             keyExtractor,
@@ -49,8 +49,8 @@ export class FlatListComp<T> extends SideStreamComponent<FlatListProps<T>, FlatL
                         ref={this.listRef}
                         indicatorStyle='white'
                         contentContainerStyle={styles.list}
-                        columnWrapperStyle={styles.column}
-                        numColumns={numColumns !== undefined ? numColumns : 3}
+                        columnWrapperStyle={(numColumns && (numColumns > 1)) ? styles.column : undefined}
+                        numColumns={numColumns === undefined ? 3 : numColumns}
                         data={items}
                         renderItem={renderItem}
                         keyExtractor={keyExtractor}

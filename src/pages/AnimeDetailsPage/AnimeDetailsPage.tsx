@@ -129,7 +129,8 @@ export class AnimeDetailsPage extends SideStreamComponent<Props, State> {
                 fetchItems: () =>  GogoAnimeService.searchAnime(animeDetailsById.title),
                 itemsExtracter: (resp: IAnime[]) => resp,
                 renderItem: this.__renderGogoAnimeItem,
-                nameExtracter: () => animeDetailsById.title
+                nameExtracter: () => animeDetailsById.title,
+                numColumns: 1
             })
         }
     }

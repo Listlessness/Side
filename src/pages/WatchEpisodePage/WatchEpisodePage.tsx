@@ -20,11 +20,10 @@ export class WatchEpisodePage extends SideStreamComponent<Props, State> {
         super(props)
         
         const {
-            id
+            episodeId
         } = this.props.route.params;
         
         this.state = {
-            currEpisodeId: id,
             episodeListMessage: undefined,
             currEpisodeMessage: undefined,
             refreshing: false,
@@ -37,16 +36,25 @@ export class WatchEpisodePage extends SideStreamComponent<Props, State> {
     async fetchEpisodeList() {
 
         const {
+            movieId
+        } = this.props.route.params;
+
+        const {
             currEpisodeInfo,
             currEpisodeSection
         } = this.state;
 
-        if (currEpisodeInfo?.movieId && currEpisodeSection ) {
+        const currMovieId = movieId ? movieId : currEpisodeInfo?.movieId;
+        const epStart = currEpisodeSection ? currEpisodeSection.start : 0;
+        const epEnd = currEpisodeSection ? currEpisodeSection.end : 1;
+
+        if (currMovieId) {
             this.setState({
                 episodeListMessage: "Fetching episodes ..."
             })
-            return await GogoAnimeService.fetchEpisodeList(currEpisodeInfo.movieId, currEpisodeSection.start, currEpisodeSection.end).then(list => {
+            return await GogoAnimeService.fetchEpisodeList(currMovieId, epStart, epEnd).then(list => {
                 this.setState({episodeListMessage: undefined, episodeList: list})
+                return list;
             }).catch(reason => {
                 this.setState({
                     episodeListMessage: reason.toString()
@@ -55,14 +63,17 @@ export class WatchEpisodePage extends SideStreamComponent<Props, State> {
                     message: `Failed to retrieve episodes.`,
                     type: "info"
                 });
+                throw reason.toString()
             })
+        } else {
+            return Promise.resolve(undefined);
         }
         
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
 
-        const { currEpisodeInfo, currEpisodeSection, currEpisodeId } = this.state;
+        const { currEpisodeInfo, currEpisodeSection } = this.state;
         if  (
             (currEpisodeInfo?.movieId !== prevState.currEpisodeInfo?.movieId) ||
             (currEpisodeSection?.start !== prevState.currEpisodeSection?.start) ||
@@ -71,7 +82,11 @@ export class WatchEpisodePage extends SideStreamComponent<Props, State> {
             this.fetchEpisodeList()
         }
 
-        if (currEpisodeId !== prevState.currEpisodeId) this.loadPageInfo()
+        const {
+            episodeId
+        } = this.props.route.params;
+
+        if (episodeId !== prevProps.route.params.episodeId) this.loadPageInfo()
     }
 
     findEpisodeSection = (info: IAnimeEpisodeInfo) => {
@@ -89,31 +104,49 @@ export class WatchEpisodePage extends SideStreamComponent<Props, State> {
         })
 
         const {
-            currEpisodeId,
-        } = this.state;
+            episodeId
+        } = this.props.route.params;
 
-        return await GogoAnimeService.fetchEpisodeInfo(currEpisodeId).then( async info => {
-            this.setState({
-                currEpisodeMessage: undefined,
-                currEpisodeInfo: info,
-                currEpisodeSection: this.findEpisodeSection(info),
-                refreshing: false
+        if (episodeId) {
+
+            return await GogoAnimeService.fetchEpisodeInfo(episodeId).then( async info => {
+                this.setState({
+                    currEpisodeMessage: undefined,
+                    currEpisodeInfo: info,
+                    currEpisodeSection: this.findEpisodeSection(info),
+                    refreshing: false
+                })
+            }).catch(reason => {
+                this.setState({
+                    currEpisodeMessage: reason.toString(),
+                    episodeListMessage: reason.toString(),
+                    refreshing: false
+                })
+                this.context.showMessage({
+                    message: 'Failed to retrieve current episode.',
+                    type: "info"
+                });
             })
-        }).catch(reason => {
-            this.setState({
-                currEpisodeMessage: reason.toString(),
-                episodeListMessage: reason.toString(),
-                refreshing: false
-            })
-            this.context.showMessage({
-                message: 'Failed to retrieve current episode.',
-                type: "info"
-            });
-        })
+
+        }
     }
 
     async componentDidMount() {
-        await this.loadPageInfo()
+        const {
+            episodeId, movieId
+        } = this.props.route.params;
+
+        if (episodeId) {
+            await this.loadPageInfo()
+        } else if (movieId) {
+            await this.fetchEpisodeList().then(list => {
+                if ((list !== undefined) && list.length > 0) {
+                    this.props.navigation.setParams({
+                        episodeId: list[0].id
+                    });
+                }
+            })
+        }
     }
 
     __onRefresh = async () => {
@@ -127,10 +160,8 @@ export class WatchEpisodePage extends SideStreamComponent<Props, State> {
 
     __selectEpisode = (id: string) => {
         this.props.navigation.setParams({
-            id: id
+            episodeId: id
         });
-
-        this.setState({currEpisodeId: id})
     }
 
     __renderEpisodePageChip = (currPage: IEpisodePage, pages: IEpisodePage, index: number) => {

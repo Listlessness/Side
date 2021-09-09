@@ -1,8 +1,12 @@
 import React, { useCallback } from 'react'
-import { Image, ImageBackground, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Image, ImageBackground, StyleSheet, TouchableOpacity, View, Dimensions } from 'react-native'
 import { Avatar, Badge, Caption, Paragraph, Subheading, Title } from 'react-native-paper'
 import { IAnime } from '../../../services/GogoanimeAPI/gogoanimeScraper'
 import { UseNavigation } from '../../../utils'
+import { Ionicons } from '@expo/vector-icons';
+
+
+const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 export const GogoAnimeItem = React.memo(function GogoAnimeItem({
     id,
@@ -14,11 +18,21 @@ export const GogoAnimeItem = React.memo(function GogoAnimeItem({
     summary,
     status,
     genres,
-    released
+    released,
+    movieId
 } : IAnime) {
 
+    const navigation = UseNavigation();
+
+    const goToEpisodePage = React.useCallback(() => {
+        navigation.navigate('Watch Episode', {
+            movieId: movieId,
+            default_ep: 1
+         } )
+    }, [id, link, navigation])
+
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={goToEpisodePage}>
             <ImageBackground
                 style={styles.background}
                 resizeMode="cover"
@@ -32,60 +46,67 @@ export const GogoAnimeItem = React.memo(function GogoAnimeItem({
                     resizeMode="contain"
                     defaultSource={require('../../../../assets/img/placeholderPic.jpg')}
                 />
-            </ImageBackground>
-            <View>
-                <Subheading style={styles.title}>
-                    {title}
-                </Subheading>
-                <Paragraph numberOfLines={3}>
-                    {summary || '?'}
-                </Paragraph>
-                <Caption style={styles.title}>
-                    {episodeCount || '?'} Episodes
-                </Caption>
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center'}}>
-                    <Badge style={{ ...styles.title, margin: 3}}>
-                        {type || '?'}
-                    </Badge>
-                    <Badge style={{ ...styles.title, margin: 3, backgroundColor: '#F5F1DB'}}>
-                        {status || '?'}
-                    </Badge>
-                    <Badge style={{ ...styles.title, margin: 3, backgroundColor: '#F5F1DB'}}>
-                        {released || '?'}
-                    </Badge>
-                </View>
-            </View>
 
+                <View style={styles.info}>
+                    <Paragraph style={{...styles.text, color: '#FCBF49'}}>
+                        {title}
+                    </Paragraph>
+                    <Caption numberOfLines={3} style={{...styles.text, color: '#F5F1DB'}}>
+                        {summary || '?'}
+                    </Caption>
+                    <Caption style={{...styles.text, color: '#F5F1DB'}}>
+                        <Ionicons name="tv-outline" size={12} color="#F77F00" /> {episodeCount || '?'} Episode(s)
+                    </Caption>
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center'}}>
+                        <Badge style={{ margin: 3}}>
+                            {type || '?'}
+                        </Badge>
+                        <Badge style={{ margin: 3, backgroundColor: '#F5F1DB'}}>
+                            {status || '?'}
+                        </Badge>
+                        <Badge style={{ margin: 3, backgroundColor: '#F5F1DB'}}>
+                            {released || '?'}
+                        </Badge>
+                    </View>
+                </View>
+            </ImageBackground>
+          
         </TouchableOpacity>
     )
 })
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 10
+        width: windowWidth * .9,
+        height: windowHeight * 0.2,
+        backgroundColor: '#00151F',
+        marginBottom: 10
     },
     background: {
-        width: '40%',
-        height: '100%',
+        width: windowWidth * .9,
+        height: windowHeight * 0.2,
         borderRadius: 10,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 10,
     },
     picture: {
-        width: '100%',
-        height: '100%',
+        width: '30%',
+        height: windowHeight * 0.25,
         borderRadius: 10,
         overflow: 'hidden'
     },
     info: {
-        flex: 1,
-        flexDirection: 'column'
+        width: '67%',
+        flexDirection: 'column',
+        backgroundColor: "#000000c0",
+        padding: 5,
+        borderRadius: 10,
     },
-    title: {
+    text: {
         width: '100%',
-        color: '#F5F1DB',
         textAlign: 'left'
     }
 })

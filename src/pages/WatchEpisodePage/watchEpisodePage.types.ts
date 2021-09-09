@@ -13,7 +13,6 @@ interface WatchEpisodePageProps extends WEPBaseProps{
 }
 
 interface WatchEpisodePageState<T, R, V> {
-    currEpisodeId: string;
     episodeListMessage?: string,
     currEpisodeMessage?: string,
     episodeList: R[];

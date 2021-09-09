@@ -133,7 +133,8 @@ export class SimpleListPage<T, R> extends SideStreamComponent<Props<T>, State<T,
         } = this.state;
 
         const {
-            renderItem
+            renderItem,
+            numColumns
         } = this.props.route.params
 
         return (
@@ -142,6 +143,7 @@ export class SimpleListPage<T, R> extends SideStreamComponent<Props<T>, State<T,
                     <FlatListComp
                         shouldShow
                         items={items}
+                        numColumns={numColumns}
                         messageText={messageText}
                         renderItem={renderItem}
                         onEndReached={this.__onEndReached}

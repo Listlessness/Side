@@ -24,7 +24,7 @@ export const StackItem = React.memo(
         const __watchEpisode = useCallback(
             () => {
                 navigation.navigate('Watch Episode', {
-                    id: id,
+                    episodeId: id,
                     default_ep: episodeNum
                 })
             },
