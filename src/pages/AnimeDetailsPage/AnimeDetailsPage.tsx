@@ -4,7 +4,7 @@ import { AnimeById, CharacterItem, MALItem, MALType, Recommendation } from '../.
 import { JikanService } from '../../services';
 import { Dimensions, ImageBackground, StyleSheet, View, Image, ScrollView, Linking } from 'react-native';
 import { CollapsibleParagraph, CustomCarousel, MessageComp, ScrollPageWrapper, SideStreamComponent, Thumbnail } from '../../components';
-import { Badge, Button, Caption, IconButton, List, Subheading, Title } from 'react-native-paper';
+import { Badge, Button, Caption, IconButton, List, Subheading, Title, Surface } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AnimeCharacter, BasicMalItem, GogoAnimeItem, GridStat } from './helpers';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -239,14 +239,14 @@ export class AnimeDetailsPage extends SideStreamComponent<Props, State> {
                                 >
                                     Find Video Sources
                                 </Button>
-                                <View style={{...styles.containers, width: '100%', padding: 10, borderRadius: 10, backgroundColor: '#00151F'}}>
+                                <Surface style={{...styles.containers, width: '100%', padding: 10, borderRadius: 10, backgroundColor: '#00151F', elevation: 5}}>
                                     <Subheading style={{ color: '#FCBF49'}}>Synopsis</Subheading>
                                     <CollapsibleParagraph
                                         style={{ color: '#F5F1DB' }}
                                     >
                                         {animeDetailsById.synopsis || '?'}
                                     </CollapsibleParagraph>
-                                </View>
+                                </Surface>
 
                                 <View style={{...styles.containers, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                                     <Button

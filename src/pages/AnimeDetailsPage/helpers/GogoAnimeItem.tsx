@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { Image, ImageBackground, StyleSheet, TouchableOpacity, View, Dimensions } from 'react-native'
-import { Avatar, Badge, Caption, Paragraph, Subheading, Title } from 'react-native-paper'
+import { Badge, Caption, Paragraph } from 'react-native-paper'
 import { IAnime } from '../../../services/GogoanimeAPI/gogoanimeScraper'
 import { UseNavigation } from '../../../utils'
 import { Ionicons } from '@expo/vector-icons';
@@ -28,8 +28,8 @@ export const GogoAnimeItem = React.memo(function GogoAnimeItem({
         navigation.navigate('Watch Episode', {
             movieId: movieId,
             default_ep: 1
-         } )
-    }, [id, link, navigation])
+         })
+    }, [movieId, navigation])
 
     return (
         <TouchableOpacity style={styles.container} onPress={goToEpisodePage}>
