@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "Side",
-    "slug": "Side",
+    "name": "Side Stream",
+    "slug": "Side-Stream",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -32,7 +32,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "",
+    "description": "Anime streaming app. A side project. Retrieves content from the third party sources (MyAnimeList, Streamani.net, and GoGoAnime); and makes them available to you in a user-friendly interface.",
     "githubUrl": "https://github.com/Neko-R/Side"
   }
 }
