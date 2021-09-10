@@ -1,9 +1,11 @@
+import { SideStreamWrapperContextProps } from "../../utils"
+
 export type {
     CustomCarouselProps,
     CustomCarouselState
 }
 
-interface CustomCarouselProps<T> {
+interface CustomCarouselProps<T> extends SideStreamWrapperContextProps{
     title: string,
     keyPrefix: string,
     fetchItems: () => Promise<T[]>,

@@ -1,12 +1,12 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../utils";
+import { RootStackParamList, SideStreamWrapperContextProps } from "../../utils";
 
 export type {
     LatestEpisodeProps,
     LatestEpisodeState
 }
 
-type LEPBaseProps = NativeStackScreenProps<RootStackParamList, 'Latest Episodes'>;
+type LEPBaseProps = NativeStackScreenProps<RootStackParamList, 'Latest Episodes'> & SideStreamWrapperContextProps;
 
 interface LatestEpisodeProps<T> extends LEPBaseProps{
     

@@ -1,12 +1,12 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../utils";
+import { RootStackParamList, SideStreamWrapperContextProps } from "../../utils";
 
 export type {
     GenresProps,
     GenresState
 }
 
-type TAPBaseProps = NativeStackScreenProps<RootStackParamList, 'Top Anime'>;
+type TAPBaseProps = NativeStackScreenProps<RootStackParamList, 'Genres'> & SideStreamWrapperContextProps;
 
 interface GenresProps<T> extends TAPBaseProps{
     

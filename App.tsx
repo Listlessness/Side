@@ -28,7 +28,8 @@ import {
   WatchEpisodePage,
   AnimeDetailsPage,
   SimpleListPage,
-  GenresPage
+  GenresPage,
+  BookmarkedAnimePage
 } from './src/pages';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
@@ -160,16 +161,8 @@ const BookMarkStackNavigator = () => {
         headerTitleStyle: styles.headerTitleStyle,
       }}>
         <Stack.Screen
-          name={'Simple List'}
-          component={SimpleListPage}
-          options={{
-            headerTitle: 'Your Bookmarked Anime',
-          }}
-          initialParams={{
-            fetchItems: () =>  Promise.resolve(),
-            itemsExtracter: () => [],
-            renderItem: () => <></>,
-        }}
+          name={'Bookmarked Anime'}
+          component={BookmarkedAnimePage}
         />
         <Stack.Screen
           name={'Search'}

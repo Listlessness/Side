@@ -1,12 +1,12 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Filters, RootStackParamList } from "../../utils";
+import { Filters, RootStackParamList, SideStreamWrapperContextProps } from "../../utils";
 
 export type {
     SearchPageProps,
     SearchPageState
 }
 
-type LEPBaseProps = NativeStackScreenProps<RootStackParamList, 'Search'>;
+type LEPBaseProps = NativeStackScreenProps<RootStackParamList, 'Search'> & SideStreamWrapperContextProps;
 
 interface SearchPageProps<T> extends LEPBaseProps{
     

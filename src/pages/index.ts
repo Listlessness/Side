@@ -7,3 +7,4 @@ export * from './EpisodeFullScreenPage';
 export * from './AnimeDetailsPage';
 export * from './SimpleListPage';
 export * from './GenresPage';
+export * from './BookmarkedAnimePage';

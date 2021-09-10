@@ -1,12 +1,12 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../utils";
+import { RootStackParamList, SideStreamWrapperContextProps } from "../../utils";
 
 export type {
     WatchEpisodePageProps,
     WatchEpisodePageState
 }
 
-type WEPBaseProps = NativeStackScreenProps<RootStackParamList, "Watch Episode">;
+type WEPBaseProps = NativeStackScreenProps<RootStackParamList, "Watch Episode"> & SideStreamWrapperContextProps;
 
 interface WatchEpisodePageProps extends WEPBaseProps{
 

@@ -307,7 +307,7 @@ class AnimeDetailsPageComponent extends PureComponent<Props, State> {
                                         MyAnimeList
                                     </Button>
                                     <IconButton
-                                        icon={ssBookmarkedAnimeContext?.bookmarkedAnime[animeDetailsById.mal_id] ? "bookmark-minus" : "bookmark-plus"}
+                                        icon={ssBookmarkedAnimeContext?.bookmarkedAnime[animeDetailsById.mal_id] ? "bookmark-minus-outline" : "bookmark-plus"}
                                         color='#F5F1DB'
                                         size={25}
                                         onPress={this.__updateBookMark}
