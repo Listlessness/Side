@@ -13,7 +13,7 @@ const SnackContext = React.createContext<SnackContextType>({showMessage: () => {
 type BookmarkedAnime = {[index: number]: ThumbnailProps}
 interface SSBookmarkedAnimeContextType {
     bookmarkedAnime: BookmarkedAnime,
-    updateBookmarks: (value?: BookmarkedAnime | ((prevValue: BookmarkedAnime) => BookmarkedAnime) | undefined) => void
+    updateBookmarks: (newValue: BookmarkedAnime) => void
 }
 
 const SSBookmarkedAnimeContext = React.createContext<SSBookmarkedAnimeContextType>({

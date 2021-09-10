@@ -17,8 +17,7 @@ import {
   RootStackParamList,
   SnackContext,
   SnackMessage,
-  SSBookmarkedAnimeContext,
-  useStorage,
+  SSBookmarkedAnimeContext
 } from './src/utils';
 import {
   EpisodeFullScreenPage,
@@ -33,6 +32,7 @@ import {
 } from './src/pages';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
+import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 
 const theme = {
   ...DefaultTheme,
@@ -191,8 +191,22 @@ export default function App() {
     setVisible(true);
   }, []);
 
-  const [bookmarkedAnime, updateBookmarks] = useStorage<BookmarkedAnime>(bookMarkedStorageKey);
+  const [bookmarkedAnime, setBookmarkValue] = React.useState<BookmarkedAnime>({});
+  const { getItem, setItem } = useAsyncStorage(bookMarkedStorageKey);
 
+  const readItemFromStorage = async () => {
+    const item = await getItem();
+    setBookmarkValue(JSON.parse(item || '{}'));
+  };
+
+  const updateBookmarks = async (newValue: BookmarkedAnime) => {
+    await setItem(JSON.stringify(newValue));
+    setBookmarkValue(newValue);
+  };
+
+  React.useEffect(() => {
+    readItemFromStorage();
+  }, []);
 
   return (
     <>
