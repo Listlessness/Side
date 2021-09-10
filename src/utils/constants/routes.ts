@@ -6,7 +6,7 @@ export type RootStackParamList = {
     "Latest Episodes": undefined;
     "Search": undefined;
     "Top Anime": { topType: SubTypes };
-    "Watch Episode": {episodeId?: string; movieId?: string; default_ep?: number};
+    "Watch Episode": {episodeId?: string; movieId?: string; default_ep?: number, img_url: string};
     "Episode Full Screen": {link: string};
     "Anime Details": {mal_id: number; url: string};
     "Simple List": SimpleListPageParams;

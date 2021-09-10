@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
-import { Colors, IconButton } from 'react-native-paper';
 import { CustomCarousel, StackItem, Thumbnail, ScrollPageWrapper, sideStreamWrapper } from '../../components';
 import { JikanService, GogoAnimeService } from '../../services';
-import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes, SeasonAnime, SeasonResult, GogoRecentRelease } from '../../utils';
+import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes, SeasonAnime, SeasonResult, GogoRecentRelease, LastWatchedAnimeItem } from '../../utils';
 import { LandingPageProps, LandingPageState } from './landingPage.types';
+import { EpisodeThumbnail } from './../../components/Thumbnail/EpisodeThumbnail';
 
 class LandingPageComponent extends PureComponent<LandingPageProps, LandingPageState> {
     
@@ -16,7 +16,7 @@ class LandingPageComponent extends PureComponent<LandingPageProps, LandingPageSt
     }
 
     __onRefresh = () => {
-        this.setState({refreshingCount: 4})
+        this.setState({refreshingCount: 5})
     }
 
     __reduceRefreshCount = () => {
@@ -51,6 +51,15 @@ class LandingPageComponent extends PureComponent<LandingPageProps, LandingPageSt
             />
         );
     }
+
+    __renderLastWatchedItems = ({item, index}: { item: LastWatchedAnimeItem; index: number; }) => {
+        return (
+            <EpisodeThumbnail
+                key={index}
+                {...item}
+            />
+        );
+    }
     
     __fetchStackItems = () => GogoAnimeService.fetchRecentlyAddedEpisodes().then(resp => {
         return resp.data.slice(0,10);
@@ -63,6 +72,16 @@ class LandingPageComponent extends PureComponent<LandingPageProps, LandingPageSt
     __fetchThisSeasonsItems = () => JikanService.fetchSeason().then(resp => {
         return resp.anime.slice(0,10);
     })
+
+    __fetchLastWatchedItems = () => {
+        if (this.props.ssLastWatchedAnimeContext) {
+            return Promise.resolve(
+                Object.values(this.props.ssLastWatchedAnimeContext.lastWatchedAnime).sort((a, b) => new Date(b.dateAdded).valueOf() - new Date(a.dateAdded).valueOf())
+            )
+        } else {
+            return []
+        }
+    }
 
     render() {
         const { route, navigation } = this.props;
@@ -85,18 +104,15 @@ class LandingPageComponent extends PureComponent<LandingPageProps, LandingPageSt
                         navigation.navigate("Latest Episodes")
                     }}
                 />
-                {/* <CustomCarousel
-                    title="Continue Watching"
-                    keyPrefix='CW'
+                <CustomCarousel
+                    title="Last Watched Anime"
+                    keyPrefix='LWA'
                     refreshing={refreshingCount !== 0}
                     onRefreshComplete={this.__reduceRefreshCount}
-                    fetchItems={this.__fetchThisSeasonsItems}
-                    renderItem={this.__renderThumbnailItem}
+                    fetchItems={this.__fetchLastWatchedItems}
+                    renderItem={this.__renderLastWatchedItems}
                     type='thumbnail'
-                    onPress={() => {
-                        navigation.navigate("Top Anime", {topType: JikanAnimeSubTypes.Upcoming})
-                    }}
-                /> */}
+                />
                 <CustomCarousel
                     title="Top Airing Anime"
                     keyPrefix='TAA'

@@ -70,6 +70,36 @@ class WatchEpisodePageComponent extends PureComponent<Props, State> {
         
     }
 
+    __updateLastWatched() {
+        const {
+            currEpisodeInfo
+        } = this.state;
+
+        if (currEpisodeInfo && this.props.ssLastWatchedAnimeContext) {
+            const {
+                lastWatchedAnime, updateLastWatched
+            } = this.props.ssLastWatchedAnimeContext;
+    
+            lastWatchedAnime[currEpisodeInfo.movieId] = {
+                title: currEpisodeInfo.anime.title,
+                id: currEpisodeInfo.id,
+                picture_url: this.props.route.params.img_url,
+                url: currEpisodeInfo.anime.link,
+                episode: `Episode ${currEpisodeInfo.episode}`,
+                dateAdded: new Date().toString(),
+                movieId: currEpisodeInfo.movieId
+            }
+
+            const lastwatchedArray =  Object.values(this.props.ssLastWatchedAnimeContext.lastWatchedAnime).sort((a, b) => new Date(b.dateAdded).valueOf() - new Date(a.dateAdded).valueOf());
+
+            if (lastwatchedArray.length === 11) {
+                delete lastWatchedAnime[lastwatchedArray[10].movieId]
+            }
+
+            updateLastWatched(lastWatchedAnime)
+        }
+    }
+
     componentDidUpdate(prevProps: Props, prevState: State) {
 
         const { currEpisodeInfo, currEpisodeSection } = this.state;
@@ -79,6 +109,12 @@ class WatchEpisodePageComponent extends PureComponent<Props, State> {
             (currEpisodeSection?.end !== prevState.currEpisodeSection?.end)
         ) {
             this.fetchEpisodeList()
+        }
+
+        if  (
+            (currEpisodeInfo?.id !== prevState.currEpisodeInfo?.id)
+        ) {
+            this.__updateLastWatched()
         }
 
         const {

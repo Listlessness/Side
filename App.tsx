@@ -14,10 +14,12 @@ import {
 import {
   BookmarkedAnime,
   bookMarkedStorageKey,
+  LastWatchedAnime,
   RootStackParamList,
   SnackContext,
   SnackMessage,
-  SSBookmarkedAnimeContext
+  SSBookmarkedAnimeContext,
+  SSLastWatchedAnimeContext
 } from './src/utils';
 import {
   EpisodeFullScreenPage,
@@ -185,16 +187,30 @@ export default function App() {
   }, []);
 
   const [bookmarkedAnime, setBookmarkValue] = React.useState<BookmarkedAnime>({});
-  const { getItem, setItem } = useAsyncStorage(bookMarkedStorageKey);
-
-  const readItemFromStorage = async () => {
-    const item = await getItem();
-    setBookmarkValue(JSON.parse(item || '{}'));
-  };
+  const { getItem: getBookmarks, setItem: setBookmarks } = useAsyncStorage(bookMarkedStorageKey);
 
   const updateBookmarks = async (newValue: BookmarkedAnime) => {
-    await setItem(JSON.stringify(newValue));
+    await setBookmarks(JSON.stringify(newValue));
     setBookmarkValue(Object.assign({},newValue));
+  };
+
+
+  const [lastWatchedAnime, setLastWatchedValue] = React.useState<LastWatchedAnime>({});
+  const { getItem: getLastWatched, setItem: setLastWatched } = useAsyncStorage(bookMarkedStorageKey);
+
+
+  const updateLastWatched = async (newValue: LastWatchedAnime) => {
+    await setLastWatched(JSON.stringify(newValue));
+    setLastWatchedValue(Object.assign({},newValue));
+  };
+
+  
+  const readItemFromStorage = async () => {
+    const bookmarks = await getBookmarks();
+    setBookmarkValue(JSON.parse(bookmarks || '{}'));
+
+    const lastWatched = await getLastWatched();
+    setLastWatchedValue(JSON.parse(lastWatched || '{}'));
   };
 
   React.useEffect(() => {
@@ -211,37 +227,39 @@ export default function App() {
       <SafeAreaProvider>
           <SnackContext.Provider value={{ showMessage }}>
             <SSBookmarkedAnimeContext.Provider value={ {bookmarkedAnime, updateBookmarks} }>
-              <PaperProvider theme={theme}>
-                <NavigationContainer>
-                  <Tab.Navigator
-                    barStyle={{ backgroundColor: "#000000c0" }}
-                    screenOptions={({ route }) => ({
-                      tabBarIcon: ({ focused, color }) => {
-                        let iconName: any;
-            
-                        if (route.name === 'Home') {
-                          iconName = focused
-                            ? 'ios-home'
-                            : 'ios-home-outline';
-                        } else if (route.name === 'Genres') {
-                          iconName = focused ? 'grid' : 'grid-outline';
-                        } else if (route.name === 'Bookmarks') {
-                          iconName = focused ? 'md-bookmarks' : 'md-bookmarks-outline';
-                        }
-                        // You can return any component that you like here!
-                        return <Ionicons name={iconName} color={color} />;
-                      },
-                      tabBarActiveTintColor: 'tomato',
-                      tabBarInactiveTintColor: 'gray',
-                    })}
-                  >
-                    <Tab.Screen name="Home" component={HomeStackNavigator} />
-                    <Tab.Screen name="Genres" component={GenreStackNavigator} />
-                    <Tab.Screen name="Bookmarks" component={BookMarkStackNavigator} />
-                  </Tab.Navigator>
+              <SSLastWatchedAnimeContext.Provider value={ {lastWatchedAnime, updateLastWatched} }>
+                <PaperProvider theme={theme}>
+                  <NavigationContainer>
+                    <Tab.Navigator
+                      barStyle={styles.tabStyle}
+                      screenOptions={({ route }) => ({
+                        tabBarIcon: ({ focused, color }) => {
+                          let iconName: any;
+              
+                          if (route.name === 'Home') {
+                            iconName = focused
+                              ? 'ios-home'
+                              : 'ios-home-outline';
+                          } else if (route.name === 'Genres') {
+                            iconName = focused ? 'grid' : 'grid-outline';
+                          } else if (route.name === 'Bookmarks') {
+                            iconName = focused ? 'md-bookmarks' : 'md-bookmarks-outline';
+                          }
+                          // You can return any component that you like here!
+                          return <Ionicons name={iconName} color={color} />;
+                        },
+                        tabBarActiveTintColor: 'tomato',
+                        tabBarInactiveTintColor: 'gray',
+                      })}
+                    >
+                      <Tab.Screen name="Home" component={HomeStackNavigator} />
+                      <Tab.Screen name="Genres" component={GenreStackNavigator} />
+                      <Tab.Screen name="Bookmarks" component={BookMarkStackNavigator} />
+                    </Tab.Navigator>
 
-                </NavigationContainer>
-              </PaperProvider>
+                  </NavigationContainer>
+                </PaperProvider>
+              </SSLastWatchedAnimeContext.Provider>
             </SSBookmarkedAnimeContext.Provider>
           </SnackContext.Provider>
         <Snackbar
@@ -281,6 +299,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#fff',
     borderWidth: 0.5,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
+    elevation: 5,
+  },
+  tabStyle: {
+    backgroundColor: '#00151F',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

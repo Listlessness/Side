@@ -105,7 +105,7 @@ class BookmarkedAnimePageComponent extends PureComponent<Props, State> {
         return (
             <SimplePageWrapper>
                 <SafeAreaView>
-                    {this.props.OnScreenFocusComp({callback: this.fetchListItems})}
+                    <this.props.OnScreenFocusComp callback={this.fetchListItems.bind(this)} />
                     <FlatListComp
                         shouldShow
                         items={items}

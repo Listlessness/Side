@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { PureComponent } from 'react'
-import { ContextTypeNames, SnackContext, SSBookmarkedAnimeContext, SSBookmarkedAnimeContextType } from '../../utils';
+import { ContextTypeNames, SnackContext, SSBookmarkedAnimeContext, SSBookmarkedAnimeContextType, SSLastWatchedAnimeContext, SSLastWatchedAnimeContextType } from '../../utils';
 
 export function sideStreamWrapper(WrappedComponent: React.ComponentClass<any, any>, desiredContexts?: ContextTypeNames[]) {
     class SideStreamWrapper<P, S> extends PureComponent<P, S> {
@@ -18,7 +18,7 @@ export function sideStreamWrapper(WrappedComponent: React.ComponentClass<any, an
             return null;
         }
 
-        conditionalSubscribedProp(ssBookmarkedAnimeContext: SSBookmarkedAnimeContextType): {[index: string]: any} {
+        conditionalSubscribedProp(ssBookmarkedAnimeContext: SSBookmarkedAnimeContextType, ssLastWatchedAnimeContext: SSLastWatchedAnimeContextType): {[index: string]: any} {
             let desiredProps: {[index: string]: any} = {};
             
             if (desiredContexts) {
@@ -26,6 +26,9 @@ export function sideStreamWrapper(WrappedComponent: React.ComponentClass<any, an
                     switch (context) {
                         case ContextTypeNames.SSBookmarkedAnimeContext:
                             desiredProps['ssBookmarkedAnimeContext'] = ssBookmarkedAnimeContext
+                            break;
+                        case ContextTypeNames.SSLastWatchedAnimeContext:
+                            desiredProps['ssLastWatchedAnimeContext'] = ssLastWatchedAnimeContext
                             break;
                         default:
                             break;
@@ -43,7 +46,11 @@ export function sideStreamWrapper(WrappedComponent: React.ComponentClass<any, an
                     {(SnackContext) => (
                         <SSBookmarkedAnimeContext.Consumer>
                              {(SSBookmarkedAnimeContext) => (
-                                <WrappedComponent snackContext={SnackContext} OnScreenFocusComp={this.OnScreenFocusComp} {...this.conditionalSubscribedProp(SSBookmarkedAnimeContext)} {...this.props} />
+                                <SSLastWatchedAnimeContext.Consumer>
+                                    {(SSLastWatchedAnimeContext) => (
+                                        <WrappedComponent snackContext={SnackContext} OnScreenFocusComp={this.OnScreenFocusComp} {...this.conditionalSubscribedProp(SSBookmarkedAnimeContext, SSLastWatchedAnimeContext)} {...this.props} />
+                                    )}
+                                </SSLastWatchedAnimeContext.Consumer>
                             )}
                         </SSBookmarkedAnimeContext.Consumer>
                     )}

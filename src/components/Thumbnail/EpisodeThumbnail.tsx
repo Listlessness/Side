@@ -23,7 +23,8 @@ export const EpisodeThumbnail = React.memo(
             () => {
                 navigation.navigate('Watch Episode', {
                     episodeId: id,
-                    default_ep: episodeNum
+                    default_ep: episodeNum,
+                    img_url: picture_url
                 })
             },
             [id, episodeNum, navigation],

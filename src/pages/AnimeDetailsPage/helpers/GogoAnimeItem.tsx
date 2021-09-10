@@ -23,7 +23,8 @@ export const GogoAnimeItem = React.memo(function GogoAnimeItem({
     const goToEpisodePage = React.useCallback(() => {
         navigation.navigate('Watch Episode', {
             movieId: movieId,
-            default_ep: 1
+            default_ep: 1, 
+            img_url: thumbnail
          })
     }, [movieId, navigation])
 
