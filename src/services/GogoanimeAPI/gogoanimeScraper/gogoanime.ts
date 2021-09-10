@@ -11,7 +11,7 @@ import {
   IAnime,
   IAnimeEpisodeInfo,
   IEpisodePage,
-} from './types';
+} from '../../../utils/interfaces';
 import { getIdFromPath } from './utils';
 
 const cheerio = require('react-native-cheerio')

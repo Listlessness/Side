@@ -1,23 +1,19 @@
 import React from 'react'
 import { Image, ImageBackground, StyleSheet, TouchableOpacity, View, Dimensions } from 'react-native'
 import { Badge, Caption, Paragraph } from 'react-native-paper'
-import { IAnime } from '../../../services/GogoanimeAPI/gogoanimeScraper'
-import { UseNavigation } from '../../../utils'
+import { IAnime, UseNavigation } from '../../../utils'
 import { Ionicons } from '@expo/vector-icons';
 
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 export const GogoAnimeItem = React.memo(function GogoAnimeItem({
-    id,
     title,
     thumbnail,
     type,
-    link,
     episodeCount,
     summary,
     status,
-    genres,
     released,
     movieId
 } : IAnime) {
@@ -55,7 +51,7 @@ export const GogoAnimeItem = React.memo(function GogoAnimeItem({
                         {summary || '?'}
                     </Caption>
                     <Caption style={{...styles.text, color: '#F5F1DB'}}>
-                        <Ionicons name="tv-outline" size={12} color="#F77F00" /> {episodeCount || '?'} Episode(s)
+                        <Ionicons name="tv-outline" size={12} color="#F77F00" /> {episodeCount || '?'} Episode(s) available
                     </Caption>
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center'}}>
                         <Badge style={{ margin: 3}}>

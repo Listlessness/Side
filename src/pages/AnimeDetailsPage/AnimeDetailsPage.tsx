@@ -1,7 +1,7 @@
 import React from 'react'
 import { AnimeDetailsPageProps, AnimeDetailsPageState } from './animeDetailsPage.types'
-import { AnimeById, CharacterItem, MALItem, MALType, Recommendation } from '../../utils';
-import { JikanService } from '../../services';
+import { AnimeById, CharacterItem, IAnime, MALItem, MALType, Recommendation } from '../../utils';
+import { GogoAnimeService, JikanService } from '../../services';
 import { Dimensions, ImageBackground, StyleSheet, View, Image, ScrollView, Linking } from 'react-native';
 import { CollapsibleParagraph, CustomCarousel, MessageComp, ScrollPageWrapper, SideStreamComponent, Thumbnail } from '../../components';
 import { Badge, Button, Caption, IconButton, List, Subheading, Title, Surface } from 'react-native-paper';
@@ -9,8 +9,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { AnimeCharacter, BasicMalItem, GogoAnimeItem, GridStat } from './helpers';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import { GogoAnimeService } from './../../services/GogoanimeAPI/gogoanime.service';
-import { IAnime } from '../../services/GogoanimeAPI/gogoanimeScraper';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 

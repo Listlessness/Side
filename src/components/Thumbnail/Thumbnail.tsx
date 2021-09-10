@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     title: {
         color: '#F5F1DB',
         fontWeight: '500',
+        textAlign: 'center'
     },
     meta: {
         display: 'flex',

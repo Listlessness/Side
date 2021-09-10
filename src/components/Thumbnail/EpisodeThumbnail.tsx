@@ -1,4 +1,4 @@
-import React, { PureComponent, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { EpisodeThumbnailProps } from './thumbnail.types';
 import { View, StyleSheet, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
 import { Paragraph } from 'react-native-paper';
@@ -32,7 +32,7 @@ export const EpisodeThumbnail = React.memo(
         return (
             <TouchableOpacity style={styles.container} onPress={__watchEpisode}>
                 <ImageBackground
-                    style={{...styles.picture, borderRadius: 10}}
+                    style={styles.picture}
                     resizeMode="cover"
                     blurRadius={5}
                     source={{uri: picture_url}}
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     },
     picture: {
         width: '100%',
-        height: windowHeight * .25,
+        height: windowHeight * .23,
         justifyContent: 'flex-end',
         borderRadius: 10,
         overflow: 'hidden'

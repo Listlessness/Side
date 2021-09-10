@@ -1,9 +1,8 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import { extractEpisodeNumer, RECENT_RELEASE_TYPE } from '../../utils';
+import { extractEpisodeNumer, GogoRecentRelease, RECENT_RELEASE_TYPE } from '../../utils';
 import { EpisodeThumbnail, SideStreamComponent, TabbedList, TabListItem } from '../../components';
 import { GogoAnimeService } from '../../services';
-import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
 import { LatestEpisodeProps, LatestEpisodeState } from './latestEpisodes.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');

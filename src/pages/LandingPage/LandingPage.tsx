@@ -2,8 +2,7 @@ import React from 'react';
 import { Colors, IconButton } from 'react-native-paper';
 import { CustomCarousel, StackItem, Thumbnail, ScrollPageWrapper, SideStreamComponent } from '../../components';
 import { JikanService, GogoAnimeService } from '../../services';
-import { GogoRecentRelease } from '../../services/GogoanimeAPI/gogoanimeScraper';
-import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes, SeasonAnime, SeasonResult } from '../../utils';
+import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes, SeasonAnime, SeasonResult, GogoRecentRelease } from '../../utils';
 import { LandingPageProps, LandingPageState } from './landingPage.types';
 
 export class LandingPage extends SideStreamComponent<LandingPageProps, LandingPageState> {
@@ -17,7 +16,7 @@ export class LandingPage extends SideStreamComponent<LandingPageProps, LandingPa
     }
 
     __onRefresh = () => {
-        this.setState({refreshingCount: 5})
+        this.setState({refreshingCount: 4})
     }
 
     __reduceRefreshCount = () => {

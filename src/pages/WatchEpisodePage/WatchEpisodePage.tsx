@@ -1,13 +1,12 @@
 import React from 'react'
 import { Dimensions, ScrollView, StyleSheet, View } from 'react-native'
 import { GogoAnimeService } from '../../services'
-import { GogoEntityBasic, IAnimeEpisodeInfo, IEpisodePage } from '../../services/GogoanimeAPI/gogoanimeScraper'
-import { SnackContext } from '../../utils'
 import { WatchEpisodePageProps, WatchEpisodePageState } from './watchEpisodePage.types';
 import { Appbar, Chip, Divider, List } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
 import { MessageComp, ScrollPageWrapper, SideStreamComponent } from '../../components'
+import { IAnimeEpisodeInfo, GogoEntityBasic, IEpisodePage } from '../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
