@@ -21,7 +21,8 @@ interface TabbedListProps<T> {
 
 interface TabListItem {
     title: string,
-    shouldShowCheck: (...args: any[]) => boolean
+    shouldShowCheck: (...args: any[]) => boolean,
+    value?: any
 }
 
 type RenderListItemArgs<T> = { item: T; index: number; }

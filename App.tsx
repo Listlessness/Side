@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import {
   DefaultTheme,
-  IconButton,
   Paragraph,
   Provider as PaperProvider,
   Snackbar,
@@ -14,7 +14,6 @@ import {
   RootStackParamList,
   SnackContext,
   SnackMessage,
-  UseNavigation,
 } from './src/utils';
 import {
   EpisodeFullScreenPage,
@@ -24,7 +23,8 @@ import {
   TopAnimePage,
   WatchEpisodePage,
   AnimeDetailsPage,
-  SimpleListPage
+  SimpleListPage,
+  GenresPage
 } from './src/pages';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
@@ -39,6 +39,83 @@ const theme = {
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
+const Tab = createMaterialBottomTabNavigator();
+
+const HomeStackNavigator = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName={'Home'}
+      screenOptions={{
+        headerStyle: styles.headerStyle,
+        headerTintColor: '#fff',
+        headerTitleStyle: styles.headerTitleStyle,
+      }}>
+      <Stack.Group>
+        <Stack.Screen name={'Home'} component={LandingPage} />
+        <Stack.Screen
+          name={'Latest Episodes'}
+          component={LatestEpisodesPage}
+        />
+        <Stack.Screen name={'Top Anime'} component={TopAnimePage} />
+        <Stack.Screen
+          name={'Search'}
+          component={SearchPage}
+          options={{ title: 'Search for your favourite Anime!' }}
+        />
+        <Stack.Screen
+          name={'Watch Episode'}
+          component={WatchEpisodePage}
+        />
+        <Stack.Screen
+          name={'Simple List'}
+          component={SimpleListPage}
+          options={{headerTitle: '...'}}
+        />
+      </Stack.Group>
+
+      <Stack.Group
+        screenOptions={{
+          headerTransparent: true,
+          headerBlurEffect: 'regular',
+          headerStyle: { backgroundColor: 'transparent' },
+          headerTintColor: '#fff',
+          headerShadowVisible: false,
+          title: '',
+        }}>
+        <Stack.Screen
+          name={'Anime Details'}
+          component={AnimeDetailsPage}
+        />
+      </Stack.Group>
+
+      <Stack.Group
+        screenOptions={{ presentation: 'modal', headerShown: false }}>
+        <Stack.Screen
+          name={'Episode Full Screen'}
+          component={EpisodeFullScreenPage}
+        />
+      </Stack.Group>
+    </Stack.Navigator>
+  )
+}
+
+const GenreStackNavigator = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName={'Home'}
+      screenOptions={{
+        headerStyle: styles.headerStyle,
+        headerTintColor: '#fff',
+        headerTitleStyle: styles.headerTitleStyle,
+      }}>
+        <Stack.Screen
+          name={'Genres'}
+          component={GenresPage}
+        />
+    </Stack.Navigator>
+  )
+}
 
 export default function App() {
   const [visible, setVisible] = React.useState(false);
@@ -62,62 +139,36 @@ export default function App() {
           <SnackContext.Provider value={{ showMessage }}>
             <PaperProvider theme={theme}>
               <NavigationContainer>
-                <Stack.Navigator
-                  initialRouteName={'Home'}
-                  screenOptions={{
-                    headerStyle: styles.headerStyle,
-                    headerTintColor: '#fff',
-                    headerTitleStyle: styles.headerTitleStyle,
-                  }}>
-                  <Stack.Group>
-                    <Stack.Screen name={'Home'} component={LandingPage} />
-                    <Stack.Screen
-                      name={'Latest Episodes'}
-                      component={LatestEpisodesPage}
-                    />
-                    <Stack.Screen name={'Top Anime'} component={TopAnimePage} />
-                    <Stack.Screen
-                      name={'Search'}
-                      component={SearchPage}
-                      options={{ title: 'Search for your favourite Anime!' }}
-                    />
-                    <Stack.Screen
-                      name={'Watch Episode'}
-                      component={WatchEpisodePage}
-                    />
-                    <Stack.Screen
-                      name={'Simple List'}
-                      component={SimpleListPage}
-                      options={{headerTitle: '...'}}
-                    />
-                  </Stack.Group>
+                
 
-                  <Stack.Group
-                    screenOptions={{
-                      headerTransparent: true,
-                      headerBlurEffect: 'regular',
-                      headerStyle: { backgroundColor: 'transparent' },
-                      headerTintColor: '#fff',
-                      headerShadowVisible: false,
-                      title: '',
-                    }}>
-                    <Stack.Screen
-                      name={'Anime Details'}
-                      component={AnimeDetailsPage}
-                    />
-                  </Stack.Group>
+                <Tab.Navigator
+                  barStyle={{ backgroundColor: "#000000c0" }}
+                  screenOptions={({ route }) => ({
+                    tabBarIcon: ({ focused, color }) => {
+                      let iconName: any;
+          
+                      if (route.name === 'Home') {
+                        iconName = focused
+                          ? 'ios-information-circle'
+                          : 'ios-information-circle-outline';
+                      } else if (route.name === 'Browse') {
+                        iconName = focused ? 'ios-search-circle' : 'ios-search-circle-outline';
+                      }
+                      // You can return any component that you like here!
+                      return <Ionicons name={iconName} size={24} color={color} />;
+                    },
+                    tabBarActiveTintColor: 'tomato',
+                    tabBarInactiveTintColor: 'gray',
+                  })}
+                >
+                  <Tab.Screen name="Home" component={HomeStackNavigator} />
+                  <Tab.Screen name="Genres" component={GenreStackNavigator} />
+                </Tab.Navigator>
 
-                  <Stack.Group
-                    screenOptions={{ presentation: 'modal', headerShown: false }}>
-                    <Stack.Screen
-                      name={'Episode Full Screen'}
-                      component={EpisodeFullScreenPage}
-                    />
-                  </Stack.Group>
-                </Stack.Navigator>
               </NavigationContainer>
             </PaperProvider>
           </SnackContext.Provider>
+
           <Snackbar
             visible={visible}
             style={styles.snackbar}

@@ -1,12 +1,12 @@
-export interface Anime {
-     anime: AnimeElement[];
+export interface GenreAnime {
+     anime: GenreAnimeItem[];
      item_count: number;
      mal_url: MalURL;
      request_cache_expiry: number;
      request_cached: boolean;
      request_hash: string;
 }
-export interface Manga {
+export interface GenreManga {
      item_count: number;
      mal_url: MalURL;
      manga: MangaElement[];
@@ -14,7 +14,7 @@ export interface Manga {
      request_cached: boolean;
      request_hash: string;
 }
-interface AnimeElement {
+export interface GenreAnimeItem {
      airing_start: Date | null;
      episodes: number | null;
      genres: MalURL[];

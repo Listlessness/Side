@@ -1,7 +1,7 @@
 import {
     Types, SubTypes, AnimeById, CharactersStaff, Days, Filters,
     Recommendations, ScheduleResult, SearchTypes, SeasonLater, 
-    SeasonResult, Seasons, TopResult, MonthNumSeason, SearchResult, PicturesResults 
+    SeasonResult, Seasons, TopResult, MonthNumSeason, SearchResult, PicturesResults, GenreAnime 
 } from '../../utils';
 import axios, { AxiosInstance } from 'axios';
 import { anime_request_endpoints, endpoints } from './endpoints';
@@ -99,6 +99,14 @@ export class JikanAPI {
 
         return this.jikanRequest.get<ScheduleResult>(path)
                             .then(resp => resp.data as ScheduleResult);
+    }
+
+    @handleResponse
+    async fetchGenre(type: Types, genre_id: number, page?: number) {
+        let path = `${endpoints.genre}/${type}/${genre_id}/${page || 1}`;
+
+        return this.jikanRequest.get<GenreAnime>(path)
+                            .then(resp => resp.data as GenreAnime);
     }
 
     @handleResponse

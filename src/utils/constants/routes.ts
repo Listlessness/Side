@@ -10,6 +10,7 @@ export type RootStackParamList = {
     "Episode Full Screen": {link: string};
     "Anime Details": {mal_id: number; url: string};
     "Simple List": SimpleListPageParams;
+    "Genres": undefined
 };
 
 interface SimpleListPageParams {

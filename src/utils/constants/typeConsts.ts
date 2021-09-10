@@ -88,7 +88,7 @@ const JikanSearchRated = {
     RX : 'rx',
 }
 
-const JikanSearchGenre = {
+const JikanSearchGenre: {[index: string]: number} = {
     ACTION : 1,
     ADVENTURE : 2,
     CARS : 3,
