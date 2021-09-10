@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Dimensions } from 'react-native';
 import { JikanAnimeSubTypes, JikanTypes, SubTypes, TopItem } from '../../utils';
-import { Thumbnail, TabListItem, TabbedList, SideStreamComponent } from '../../components';
+import { Thumbnail, TabListItem, TabbedList, sideStreamWrapper } from '../../components';
 import { JikanService } from '../../services';
 import { TopAnimeProps, TopAnimeState } from './topAnimePage.types';
 
@@ -11,7 +11,7 @@ const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 type Props = TopAnimeProps<TopItem>;
 type State = TopAnimeState<TopItem>;
 
-export class TopAnimePage extends SideStreamComponent<Props, State> {
+class TopAnimePageComponent extends PureComponent<Props, State> {
     valueToType: { [x: number]: SubTypes; };
     tabListItems: TabListItem[];
     typeTopValue: { [x: string]: number; };
@@ -80,7 +80,7 @@ export class TopAnimePage extends SideStreamComponent<Props, State> {
                 refreshing: false,
                 loadingMore: false
             }
-            this.context.showMessage({
+             this.props.snackContext.showMessage({
                 message: `Failed to retrieve ${loadingMore ? 'more' : ''} results.`,
                 type: "info",
             });
@@ -185,3 +185,5 @@ export class TopAnimePage extends SideStreamComponent<Props, State> {
     }
 
 }
+
+export const TopAnimePage = sideStreamWrapper(TopAnimePageComponent)

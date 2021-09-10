@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Dimensions } from 'react-native';
 import { extractEpisodeNumer, GogoRecentRelease, RECENT_RELEASE_TYPE } from '../../utils';
-import { EpisodeThumbnail, SideStreamComponent, TabbedList, TabListItem } from '../../components';
+import { EpisodeThumbnail, sideStreamWrapper, TabbedList, TabListItem } from '../../components';
 import { GogoAnimeService } from '../../services';
 import { LatestEpisodeProps, LatestEpisodeState } from './latestEpisodes.types';
 
@@ -10,7 +10,7 @@ const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 type Props = LatestEpisodeProps<GogoRecentRelease>;
 type State = LatestEpisodeState<GogoRecentRelease>;
 
-export class LatestEpisodesPage extends SideStreamComponent<Props, State> {
+class LatestEpisodesPageComponent extends PureComponent<Props, State> {
     tabListItems: TabListItem[];
 
     constructor(props: Props) {
@@ -69,7 +69,7 @@ export class LatestEpisodesPage extends SideStreamComponent<Props, State> {
                 refreshing: false,
                 loadingMore: false
             }
-            this.context.showMessage({
+             this.props.snackContext.showMessage({
                 message: `Failed to retrieve ${loadingMore ? 'more' : ''} results.`,
                 type: "info"
             });
@@ -170,3 +170,5 @@ export class LatestEpisodesPage extends SideStreamComponent<Props, State> {
         );
     }
 }
+
+export const LatestEpisodesPage = sideStreamWrapper(LatestEpisodesPageComponent)

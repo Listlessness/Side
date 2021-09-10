@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { createRef } from 'react';
 import { Dimensions, NativeSyntheticEvent, ScrollView, StyleSheet, TextInputEndEditingEventData, View } from 'react-native';
 import { ActivityIndicator, Button, Headline, IconButton, Searchbar } from 'react-native-paper';
-import { Thumbnail, FlatListComp, CustomModal, CustomPicker, SimplePageWrapper, SideStreamComponent } from '../../components';
+import { Thumbnail, FlatListComp, CustomModal, CustomPicker, SimplePageWrapper, sideStreamWrapper } from '../../components';
 import { JikanService } from '../../services';
 import { JikanSearchAnimeSubType, JikanSearchGenre, JikanSearchOrderBy, JikanSearchRated, JikanSearchSort, JikanSearchType, SearchResultItem } from '../../utils';
 import { SearchPageProps, SearchPageState } from './searchPage.types';
@@ -12,7 +12,7 @@ const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 type Props = SearchPageProps<SearchResultItem>;
 type State = SearchPageState<SearchResultItem>;
 
-export class SearchPage extends SideStreamComponent<Props, State> {
+class SearchPageComponent extends PureComponent<Props, State> {
     modalRef: React.RefObject<CustomModal>;
 
     constructor(props: Props) {
@@ -72,7 +72,7 @@ export class SearchPage extends SideStreamComponent<Props, State> {
                     justFiltered: false,
                     loadingMore: false
                 }
-                this.context.showMessage({
+                 this.props.snackContext.showMessage({
                     message: `Failed to retrieve ${loadingMore ? 'more' : ''} results.`,
                     type: "info",
                 });
@@ -255,6 +255,8 @@ export class SearchPage extends SideStreamComponent<Props, State> {
         );
     }
 }
+
+export const SearchPage = sideStreamWrapper(SearchPageComponent)
 
 const styles = StyleSheet.create({
     tools: {

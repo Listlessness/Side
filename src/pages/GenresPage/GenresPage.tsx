@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Dimensions } from 'react-native';
 import { GenreAnimeItem, JikanTypes, JikanSearchGenre } from '../../utils';
-import { Thumbnail, TabListItem, TabbedList, SideStreamComponent } from '../../components';
+import { Thumbnail, TabListItem, TabbedList, sideStreamWrapper } from '../../components';
 import { JikanService } from '../../services';
 import { GenresProps, GenresState } from './genresPage.types';
 
@@ -11,7 +11,7 @@ const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 type Props = GenresProps<GenreAnimeItem>;
 type State = GenresState<GenreAnimeItem>;
 
-export class GenresPage extends SideStreamComponent<Props, State> {
+class GenresPageComponent extends PureComponent<Props, State> {
     tabListItems: TabListItem[];
 
     constructor(props: Props) {
@@ -63,7 +63,7 @@ export class GenresPage extends SideStreamComponent<Props, State> {
                 refreshing: false,
                 loadingMore: false
             }
-            this.context.showMessage({
+             this.props.snackContext.showMessage({
                 message: `Failed to retrieve ${loadingMore ? 'more' : ''} results.`,
                 type: "info",
             });
@@ -165,3 +165,5 @@ export class GenresPage extends SideStreamComponent<Props, State> {
     }
 
 }
+
+export const GenresPage = sideStreamWrapper(GenresPageComponent)

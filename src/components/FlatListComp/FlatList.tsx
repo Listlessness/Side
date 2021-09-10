@@ -1,10 +1,10 @@
-import React, { createRef } from 'react';
+import React, { createRef, PureComponent } from 'react';
 import { StyleSheet, View, FlatList, ActivityIndicator } from 'react-native';
 import { FAB } from 'react-native-paper';
-import { MessageComp, SideStreamComponent } from '../common';
+import { MessageComp, sideStreamWrapper } from '../common';
 import { FlatListProps, FlatListState } from "./flatList.types"
 
-export class FlatListComp<T> extends SideStreamComponent<FlatListProps<T>, FlatListState<T>> {
+class FlatListCompComponent<T> extends PureComponent<FlatListProps<T>, FlatListState<T>> {
 
     listRef: React.RefObject<FlatList<any>>;
 
@@ -82,6 +82,8 @@ export class FlatListComp<T> extends SideStreamComponent<FlatListProps<T>, FlatL
         )
     }
 }
+
+export const FlatListComp = sideStreamWrapper(FlatListCompComponent)
 
 const styles = StyleSheet.create({
     list: {

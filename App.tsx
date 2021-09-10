@@ -12,10 +12,13 @@ import {
   Snackbar,
 } from 'react-native-paper';
 import {
-  MainSSAppStorage,
+  BookmarkedAnime,
+  bookMarkedStorageKey,
   RootStackParamList,
   SnackContext,
   SnackMessage,
+  SSBookmarkedAnimeContextType,
+  useStorage,
 } from './src/utils';
 import {
   EpisodeFullScreenPage,
@@ -187,6 +190,15 @@ export default function App() {
     setSetSnackMessage(arg.message);
     setVisible(true);
   }, []);
+
+  const [bookmarkedAnime, updateBookmarks] = useStorage<BookmarkedAnime>(bookMarkedStorageKey);
+
+  const SSBookmarkedAnimeContext: SSBookmarkedAnimeContextType = React.useMemo( () => {
+    return {
+      bookmarkedAnime,
+      updateBookmarks
+    }
+  }, [bookmarkedAnime])
 
   return (
     <>

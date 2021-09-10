@@ -1,7 +1,7 @@
-import React, { createRef } from 'react';
+import React, { createRef, PureComponent } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import { CustomCarouselProps, CustomCarouselState } from './customCarousel.types';
-import { MessageComp , SeeMoreButton, SideStreamComponent} from '../common';
+import { MessageComp , SeeMoreButton, sideStreamWrapper} from '../common';
 import { FlatList } from 'react-native';
 import { SnackContext } from '../../utils';
 import { Subheading } from 'react-native-paper';
@@ -9,7 +9,7 @@ import { Subheading } from 'react-native-paper';
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 
-export class CustomCarousel<T> extends SideStreamComponent<CustomCarouselProps<T>, CustomCarouselState<T>> {
+class CustomCarouselComponent<T> extends PureComponent<CustomCarouselProps<T>, CustomCarouselState<T>> {
     carouselRef: React.MutableRefObject<null>;
 
     constructor(props: CustomCarouselProps<T>) {
@@ -43,7 +43,7 @@ export class CustomCarousel<T> extends SideStreamComponent<CustomCarouselProps<T
                 messageText: reason.toString(),
                 items: []
             }
-            this.context.showMessage({
+             this.props.snackContext.showMessage({
                 message: `Failed to retrieve "${this.props.title}" result.`
             });
         }).finally(() => {
@@ -105,6 +105,8 @@ export class CustomCarousel<T> extends SideStreamComponent<CustomCarouselProps<T
         )
     }
 }
+
+export const CustomCarousel = sideStreamWrapper(CustomCarouselComponent)
 
 
 const styles = StyleSheet.create({

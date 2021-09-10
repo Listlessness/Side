@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Tabs, TabScreen} from 'react-native-paper-tabs';
-import { SideStreamComponent, SimplePageWrapper } from '../common';
+import { sideStreamWrapper, SimplePageWrapper } from '../common';
 import { FlatListComp } from '../FlatListComp';
 import { TabbedListProps, TabbedListState } from './tabbedList.types';
 
-export class TabbedList<T> extends SideStreamComponent<TabbedListProps<T>, TabbedListState<T>> {
+class TabbedListComponent<T> extends PureComponent<TabbedListProps<T>, TabbedListState<T>> {
 
     renderList: (shouldShow: boolean) => JSX.Element;
     TAB_ITEMS: JSX.Element[];
@@ -91,6 +91,8 @@ export class TabbedList<T> extends SideStreamComponent<TabbedListProps<T>, Tabbe
         );
     }
 }
+
+export const TabbedList = sideStreamWrapper(TabbedListComponent)
 
 const styles = StyleSheet.create({
     content: {

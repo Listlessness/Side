@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { createRef } from 'react';
 import { Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FlatListComp, CustomModal, SimplePageWrapper, SideStreamComponent } from '../../components';
+import { FlatListComp, CustomModal, sideStreamWrapper, SimplePageWrapper } from '../../components';
 import { SimpleListPageProps, SimpleListPageState } from './simpleListPage.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
@@ -10,7 +10,7 @@ const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 type Props<T> = SimpleListPageProps<T>;
 type State<T, R> = SimpleListPageState<T, R>;
 
-export class SimpleListPage<T, R> extends SideStreamComponent<Props<T>, State<T, R>> {
+class SimpleListPageComponent<T, R> extends PureComponent<Props<T>, State<T, R>> {
     modalRef: React.RefObject<CustomModal>;
 
     constructor(props: Props<T>) {
@@ -65,7 +65,7 @@ export class SimpleListPage<T, R> extends SideStreamComponent<Props<T>, State<T,
                 fetching: false,
                 loadingMore: false
             }
-            this.context.showMessage({
+             this.props.snackContext.showMessage({
                 message: `Failed to retrieve ${loadingMore ? 'more' : ''} results.`,
                 type: "info",
             });
@@ -158,3 +158,5 @@ export class SimpleListPage<T, R> extends SideStreamComponent<Props<T>, State<T,
         );
     }
 }
+
+export const SimpleListPage = sideStreamWrapper(SimpleListPageComponent)

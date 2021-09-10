@@ -1,12 +1,12 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../utils";
+import { RootStackParamList, SideStreamWrapperContextProps } from "../../utils";
 
 export type {
     AnimeDetailsPageProps,
     AnimeDetailsPageState
 }
 
-type AnimeDetailsPageProps = NativeStackScreenProps<RootStackParamList, "Anime Details">;
+type AnimeDetailsPageProps = NativeStackScreenProps<RootStackParamList, "Anime Details"> & SideStreamWrapperContextProps;
 
 interface AnimeDetailsPageState<T> {
     animeDetailsById?: T;

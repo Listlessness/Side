@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { AnimeDetailsPageProps, AnimeDetailsPageState } from './animeDetailsPage.types'
-import { AnimeById, CharacterItem, IAnime, MainSSAppStorage, MALItem, MALType, Recommendation } from '../../utils';
+import { AnimeById, CharacterItem, ContextTypeNames, IAnime, MALItem, MALType, Recommendation } from '../../utils';
 import { GogoAnimeService, JikanService } from '../../services';
 import { Dimensions, ImageBackground, StyleSheet, View, Image, ScrollView, Linking } from 'react-native';
-import { CollapsibleParagraph, CustomCarousel, MessageComp, ScrollPageWrapper, SideStreamComponent, Thumbnail } from '../../components';
+import { CollapsibleParagraph, CustomCarousel, MessageComp, ScrollPageWrapper, sideStreamWrapper, Thumbnail } from '../../components';
 import { Badge, Button, Caption, IconButton, List, Subheading, Title, Surface } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AnimeCharacter, BasicMalItem, GogoAnimeItem, GridStat } from './helpers';
@@ -15,7 +15,7 @@ const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 type State = AnimeDetailsPageState<AnimeById>;
 type Props = AnimeDetailsPageProps;
 
-export class AnimeDetailsPage extends SideStreamComponent<Props, State> {
+class AnimeDetailsPageComponent extends PureComponent<Props, State> {
 
     scrollRef: React.RefObject<ScrollView>;
     
@@ -47,7 +47,7 @@ export class AnimeDetailsPage extends SideStreamComponent<Props, State> {
                 detailsMessage: reason.toString(),
                 refreshing: false
             })
-            this.context.showMessage({
+            this.props.snackContext.showMessage({
                 message: 'Failed to fetch anime details.',
                 type: "info"
             });
@@ -139,27 +139,34 @@ export class AnimeDetailsPage extends SideStreamComponent<Props, State> {
             animeDetailsById
         } = this.state;
 
-        if (animeDetailsById) {
+        if (animeDetailsById && this.props.ssBookmarkedAnimeContext) {
             const {
-                bookMarkedAnime, updateBookMarks
-            } = MainSSAppStorage.SSBookMarkedAnime;
+                bookmarkedAnime, updateBookmarks
+            } = this.props.ssBookmarkedAnimeContext;
     
     
-            if (bookMarkedAnime[animeDetailsById.mal_id]) {
-                delete bookMarkedAnime[animeDetailsById.mal_id];
+            if (bookmarkedAnime[animeDetailsById.mal_id]) {
+                delete bookmarkedAnime[animeDetailsById.mal_id];
             } else {
-                bookMarkedAnime[animeDetailsById.mal_id] = true
+                bookmarkedAnime[animeDetailsById.mal_id] = {
+                    title: animeDetailsById.title,
+                    mal_id: animeDetailsById.mal_id,
+                    picture_url: animeDetailsById.image_url,
+                    url: animeDetailsById.url,
+                    score: animeDetailsById.score,
+                    type: animeDetailsById.type
+                }
             }
 
-            updateBookMarks(bookMarkedAnime)
+            updateBookmarks(bookmarkedAnime)
         }
     }
 
     render() {
 
         const {
-            bookMarkedAnime
-        } = MainSSAppStorage.SSBookMarkedAnime;
+            ssBookmarkedAnimeContext
+        } = this.props;
 
         const {
             animeDetailsById,
@@ -300,7 +307,7 @@ export class AnimeDetailsPage extends SideStreamComponent<Props, State> {
                                         MyAnimeList
                                     </Button>
                                     <IconButton
-                                        icon={bookMarkedAnime[animeDetailsById.mal_id] ? "bookmark-minus" : "bookmark-plus"}
+                                        icon={ssBookmarkedAnimeContext?.bookmarkedAnime[animeDetailsById.mal_id] ? "bookmark-minus" : "bookmark-plus"}
                                         color='#F5F1DB'
                                         size={25}
                                         onPress={this.__updateBookMark}
@@ -360,6 +367,8 @@ export class AnimeDetailsPage extends SideStreamComponent<Props, State> {
         )
     }
 }
+
+export const AnimeDetailsPage = sideStreamWrapper(AnimeDetailsPageComponent, [ContextTypeNames.SSBookmarkedAnimeContext])
 
 
 const styles = StyleSheet.create({

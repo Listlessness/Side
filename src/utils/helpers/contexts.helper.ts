@@ -1,7 +1,7 @@
 import React from "react";
-import { MainSSAppStorage } from "./storage.helper";
+import { ThumbnailProps } from "../../components";
 
-export interface SnackMessage {
+interface SnackMessage {
     message: string,
     type?: 'info' | 'default'
 }
@@ -10,16 +10,34 @@ interface SnackContextType {
 }
 const SnackContext = React.createContext<SnackContextType>({showMessage: () => {}});
 
-type SSAppStorageContextType = typeof MainSSAppStorage;
+type BookmarkedAnime = {[index: number]: ThumbnailProps}
+interface SSBookmarkedAnimeContextType {
+    bookmarkedAnime: BookmarkedAnime,
+    updateBookmarks: (value?: BookmarkedAnime | ((prevValue: BookmarkedAnime) => BookmarkedAnime) | undefined) => void
+}
 
-const SSAppStorageContext = React.createContext<SSAppStorageContextType>({
-    SSBookMarkedAnime: {
-        bookMarkedAnime: {},
-        updateBookMarks: () => {}
-    }
+const SSBookmarkedAnimeContext = React.createContext<SSBookmarkedAnimeContextType>({
+    bookmarkedAnime: {},
+    updateBookmarks: () => {}
 });
+
+export enum ContextTypeNames {
+    SSBookmarkedAnimeContext = "SS-Bookmarked-Anime-Context",
+    SnackContext = "Snack-Context"
+}
+
+SSBookmarkedAnimeContext.displayName = ContextTypeNames.SSBookmarkedAnimeContext;
+SnackContext.displayName = ContextTypeNames.SnackContext
+
+
+interface SideStreamWrapperContextProps {
+    snackContext: SnackContextType,
+    ssBookmarkedAnimeContext?: SSBookmarkedAnimeContextType
+}
 
 export {
     SnackContext,
-    SSAppStorageContext
-}
+    SSBookmarkedAnimeContext
+};
+
+export type { SideStreamWrapperContextProps, SSBookmarkedAnimeContextType, SnackMessage, BookmarkedAnime };

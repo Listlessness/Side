@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { Dimensions, ScrollView, StyleSheet, View } from 'react-native'
 import { GogoAnimeService } from '../../services'
 import { WatchEpisodePageProps, WatchEpisodePageState } from './watchEpisodePage.types';
 import { Appbar, Chip, Divider, List } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
-import { MessageComp, ScrollPageWrapper, SideStreamComponent } from '../../components'
+import { MessageComp, ScrollPageWrapper, sideStreamWrapper } from '../../components'
 import { IAnimeEpisodeInfo, GogoEntityBasic, IEpisodePage } from '../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
@@ -13,7 +13,7 @@ const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 type State = WatchEpisodePageState<IAnimeEpisodeInfo, GogoEntityBasic, IEpisodePage>;
 type Props = WatchEpisodePageProps;
 
-export class WatchEpisodePage extends SideStreamComponent<Props, State> {
+class WatchEpisodePageComponent extends PureComponent<Props, State> {
     
     constructor(props: WatchEpisodePageProps) {
         super(props)
@@ -58,7 +58,7 @@ export class WatchEpisodePage extends SideStreamComponent<Props, State> {
                 this.setState({
                     episodeListMessage: reason.toString()
                 })
-                this.context.showMessage({
+                 this.props.snackContext.showMessage({
                     message: `Failed to retrieve episodes.`,
                     type: "info"
                 });
@@ -121,7 +121,7 @@ export class WatchEpisodePage extends SideStreamComponent<Props, State> {
                     episodeListMessage: reason.toString(),
                     refreshing: false
                 })
-                this.context.showMessage({
+                 this.props.snackContext.showMessage({
                     message: 'Failed to retrieve current episode.',
                     type: "info"
                 });
@@ -272,6 +272,8 @@ export class WatchEpisodePage extends SideStreamComponent<Props, State> {
         )
     }
 }
+
+export const WatchEpisodePage = sideStreamWrapper(WatchEpisodePageComponent)
 
 const styles = StyleSheet.create({
     mainView: {

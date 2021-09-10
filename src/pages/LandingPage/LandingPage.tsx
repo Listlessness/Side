@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Colors, IconButton } from 'react-native-paper';
-import { CustomCarousel, StackItem, Thumbnail, ScrollPageWrapper, SideStreamComponent } from '../../components';
+import { CustomCarousel, StackItem, Thumbnail, ScrollPageWrapper, sideStreamWrapper } from '../../components';
 import { JikanService, GogoAnimeService } from '../../services';
 import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes, SeasonAnime, SeasonResult, GogoRecentRelease } from '../../utils';
 import { LandingPageProps, LandingPageState } from './landingPage.types';
 
-export class LandingPage extends SideStreamComponent<LandingPageProps, LandingPageState> {
+class LandingPageComponent extends PureComponent<LandingPageProps, LandingPageState> {
     
     constructor(props: LandingPageProps) {
         super(props)
@@ -142,3 +142,5 @@ export class LandingPage extends SideStreamComponent<LandingPageProps, LandingPa
         );
     }
 }
+
+export const LandingPage = sideStreamWrapper(LandingPageComponent)
