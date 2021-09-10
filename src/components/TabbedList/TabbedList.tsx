@@ -99,10 +99,5 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingTop: 20,
         height: '100%',
-    },
-    tabs: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
     }
 });

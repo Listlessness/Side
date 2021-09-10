@@ -17,7 +17,7 @@ import {
   RootStackParamList,
   SnackContext,
   SnackMessage,
-  SSBookmarkedAnimeContextType,
+  SSBookmarkedAnimeContext,
   useStorage,
 } from './src/utils';
 import {
@@ -193,12 +193,6 @@ export default function App() {
 
   const [bookmarkedAnime, updateBookmarks] = useStorage<BookmarkedAnime>(bookMarkedStorageKey);
 
-  const SSBookmarkedAnimeContext: SSBookmarkedAnimeContextType = React.useMemo( () => {
-    return {
-      bookmarkedAnime,
-      updateBookmarks
-    }
-  }, [bookmarkedAnime])
 
   return (
     <>
@@ -209,37 +203,39 @@ export default function App() {
       />
       <SafeAreaProvider>
           <SnackContext.Provider value={{ showMessage }}>
-            <PaperProvider theme={theme}>
-              <NavigationContainer>
-                <Tab.Navigator
-                  barStyle={{ backgroundColor: "#000000c0" }}
-                  screenOptions={({ route }) => ({
-                    tabBarIcon: ({ focused, color }) => {
-                      let iconName: any;
-          
-                      if (route.name === 'Home') {
-                        iconName = focused
-                          ? 'ios-home'
-                          : 'ios-home-outline';
-                      } else if (route.name === 'Genres') {
-                        iconName = focused ? 'grid' : 'grid-outline';
-                      } else if (route.name === 'Bookmarks') {
-                        iconName = focused ? 'md-bookmarks' : 'md-bookmarks-outline';
-                      }
-                      // You can return any component that you like here!
-                      return <Ionicons name={iconName} color={color} />;
-                    },
-                    tabBarActiveTintColor: 'tomato',
-                    tabBarInactiveTintColor: 'gray',
-                  })}
-                >
-                  <Tab.Screen name="Home" component={HomeStackNavigator} />
-                  <Tab.Screen name="Genres" component={GenreStackNavigator} />
-                  <Tab.Screen name="Bookmarks" component={BookMarkStackNavigator} />
-                </Tab.Navigator>
+            <SSBookmarkedAnimeContext.Provider value={ {bookmarkedAnime, updateBookmarks} }>
+              <PaperProvider theme={theme}>
+                <NavigationContainer>
+                  <Tab.Navigator
+                    barStyle={{ backgroundColor: "#000000c0" }}
+                    screenOptions={({ route }) => ({
+                      tabBarIcon: ({ focused, color }) => {
+                        let iconName: any;
+            
+                        if (route.name === 'Home') {
+                          iconName = focused
+                            ? 'ios-home'
+                            : 'ios-home-outline';
+                        } else if (route.name === 'Genres') {
+                          iconName = focused ? 'grid' : 'grid-outline';
+                        } else if (route.name === 'Bookmarks') {
+                          iconName = focused ? 'md-bookmarks' : 'md-bookmarks-outline';
+                        }
+                        // You can return any component that you like here!
+                        return <Ionicons name={iconName} color={color} />;
+                      },
+                      tabBarActiveTintColor: 'tomato',
+                      tabBarInactiveTintColor: 'gray',
+                    })}
+                  >
+                    <Tab.Screen name="Home" component={HomeStackNavigator} />
+                    <Tab.Screen name="Genres" component={GenreStackNavigator} />
+                    <Tab.Screen name="Bookmarks" component={BookMarkStackNavigator} />
+                  </Tab.Navigator>
 
-              </NavigationContainer>
-            </PaperProvider>
+                </NavigationContainer>
+              </PaperProvider>
+            </SSBookmarkedAnimeContext.Provider>
           </SnackContext.Provider>
         <Snackbar
           visible={visible}
