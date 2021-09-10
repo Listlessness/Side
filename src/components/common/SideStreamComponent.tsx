@@ -1,3 +1,4 @@
+import { useFocusEffect } from '@react-navigation/native';
 import React, { PureComponent } from 'react'
 import { ContextTypeNames, SnackContext, SSBookmarkedAnimeContext, SSBookmarkedAnimeContextType } from '../../utils';
 
@@ -7,6 +8,14 @@ export function sideStreamWrapper(WrappedComponent: React.ComponentClass<any, an
         
         constructor(props: P) {
             super(props)
+        }
+
+        OnScreenFocusComp({callback, dependencies = []}: {callback: () => any, dependencies?: any[]}) {
+            useFocusEffect(
+              React.useCallback(callback, dependencies)
+            );
+          
+            return null;
         }
 
         conditionalSubscribedProp(ssBookmarkedAnimeContext: SSBookmarkedAnimeContextType): {[index: string]: any} {
@@ -34,7 +43,7 @@ export function sideStreamWrapper(WrappedComponent: React.ComponentClass<any, an
                     {(SnackContext) => (
                         <SSBookmarkedAnimeContext.Consumer>
                              {(SSBookmarkedAnimeContext) => (
-                                <WrappedComponent snackContext={SnackContext} {...this.conditionalSubscribedProp(SSBookmarkedAnimeContext)} {...this.props} />
+                                <WrappedComponent snackContext={SnackContext} OnScreenFocusComp={this.OnScreenFocusComp} {...this.conditionalSubscribedProp(SSBookmarkedAnimeContext)} {...this.props} />
                             )}
                         </SSBookmarkedAnimeContext.Consumer>
                     )}

@@ -1,8 +1,9 @@
 import React, { createRef, PureComponent } from 'react';
-import { StyleSheet, View, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, FlatList, ActivityIndicator, Dimensions } from 'react-native';
 import { FAB } from 'react-native-paper';
 import { MessageComp, sideStreamWrapper } from '../common';
 import { FlatListProps, FlatListState } from "./flatList.types"
+const {height: windowHeight} = Dimensions.get('window');
 
 class FlatListCompComponent<T> extends PureComponent<FlatListProps<T>, FlatListState<T>> {
 
@@ -88,7 +89,8 @@ export const FlatListComp = sideStreamWrapper(FlatListCompComponent)
 const styles = StyleSheet.create({
     list: {
         alignItems: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        minHeight: windowHeight
     },
     column: {
         paddingTop: 15

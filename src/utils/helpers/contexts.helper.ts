@@ -32,7 +32,8 @@ SnackContext.displayName = ContextTypeNames.SnackContext
 
 interface SideStreamWrapperContextProps {
     snackContext: SnackContextType,
-    ssBookmarkedAnimeContext?: SSBookmarkedAnimeContextType
+    ssBookmarkedAnimeContext?: SSBookmarkedAnimeContextType,
+    OnScreenFocusComp: React.FunctionComponent<{callback: () => any, dependencies?: any[]}>
 }
 
 export {

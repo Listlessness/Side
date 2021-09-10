@@ -194,7 +194,7 @@ export default function App() {
 
   const updateBookmarks = async (newValue: BookmarkedAnime) => {
     await setItem(JSON.stringify(newValue));
-    setBookmarkValue(newValue);
+    setBookmarkValue(Object.assign({},newValue));
   };
 
   React.useEffect(() => {
