@@ -217,10 +217,10 @@ export class WatchEpisodePage extends SideStreamComponent<Props, State> {
                     <SafeAreaView>
                         <Appbar style={styles.appBar}>
                             <Appbar.Content title={currEpisodeInfo?.anime.title} subtitle={`Episode ${currEpisodeInfo?.episode || '...'}`} />
-                            <Appbar.Action
-                                icon={true ? "heart-outline" : "cards-heart" }
+                            {/* <Appbar.Action
+                                icon={true ? "bookmark-plus" : "bookmark-minus"}
                                 disabled 
-                            />
+                            /> */}
                             <Appbar.Action
                                 icon="fullscreen"
                                 color="#FCBF49"

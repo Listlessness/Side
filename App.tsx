@@ -6,11 +6,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import {
   DefaultTheme,
+  IconButton,
   Paragraph,
   Provider as PaperProvider,
   Snackbar,
 } from 'react-native-paper';
 import {
+  MainSSAppStorage,
   RootStackParamList,
   SnackContext,
   SnackMessage,
@@ -52,7 +54,20 @@ const HomeStackNavigator = () => {
         headerTitleStyle: styles.headerTitleStyle,
       }}>
       <Stack.Group>
-        <Stack.Screen name={'Home'} component={LandingPage} />
+        <Stack.Screen
+          name={'Home'}
+          component={LandingPage}
+          options={({ navigation, route }) => ({
+            headerRight: () => (
+              <IconButton
+                  icon='magnify'
+                  color={"#fff"}
+                  size={25}
+                  onPress={() => navigation.navigate('Search')}
+              />
+            ),
+          })}
+        />
         <Stack.Screen
           name={'Latest Episodes'}
           component={LatestEpisodesPage}
@@ -112,6 +127,51 @@ const GenreStackNavigator = () => {
         <Stack.Screen
           name={'Genres'}
           component={GenresPage}
+          options={({ navigation, route }) => ({
+            headerRight: () => (
+              <IconButton
+                  icon='magnify'
+                  color={"#fff"}
+                  size={25}
+                  onPress={() => navigation.navigate('Search')}
+              />
+            ),
+          })}
+        />
+        <Stack.Screen
+          name={'Search'}
+          component={SearchPage}
+          options={{ title: 'Search for your favourite Anime!' }}
+        />
+    </Stack.Navigator>
+  )
+}
+
+const BookMarkStackNavigator = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName={'Home'}
+      screenOptions={{
+        headerStyle: styles.headerStyle,
+        headerTintColor: '#fff',
+        headerTitleStyle: styles.headerTitleStyle,
+      }}>
+        <Stack.Screen
+          name={'Simple List'}
+          component={SimpleListPage}
+          options={{
+            headerTitle: 'Your Bookmarked Anime',
+          }}
+          initialParams={{
+            fetchItems: () =>  Promise.resolve(),
+            itemsExtracter: () => [],
+            renderItem: () => <></>,
+        }}
+        />
+        <Stack.Screen
+          name={'Search'}
+          component={SearchPage}
+          options={{ title: 'Search for your favourite Anime!' }}
         />
     </Stack.Navigator>
   )
@@ -139,8 +199,6 @@ export default function App() {
           <SnackContext.Provider value={{ showMessage }}>
             <PaperProvider theme={theme}>
               <NavigationContainer>
-                
-
                 <Tab.Navigator
                   barStyle={{ backgroundColor: "#000000c0" }}
                   screenOptions={({ route }) => ({
@@ -149,13 +207,15 @@ export default function App() {
           
                       if (route.name === 'Home') {
                         iconName = focused
-                          ? 'ios-information-circle'
-                          : 'ios-information-circle-outline';
-                      } else if (route.name === 'Browse') {
-                        iconName = focused ? 'ios-search-circle' : 'ios-search-circle-outline';
+                          ? 'ios-home'
+                          : 'ios-home-outline';
+                      } else if (route.name === 'Genres') {
+                        iconName = focused ? 'grid' : 'grid-outline';
+                      } else if (route.name === 'Bookmarks') {
+                        iconName = focused ? 'md-bookmarks' : 'md-bookmarks-outline';
                       }
                       // You can return any component that you like here!
-                      return <Ionicons name={iconName} size={24} color={color} />;
+                      return <Ionicons name={iconName} color={color} />;
                     },
                     tabBarActiveTintColor: 'tomato',
                     tabBarInactiveTintColor: 'gray',
@@ -163,22 +223,22 @@ export default function App() {
                 >
                   <Tab.Screen name="Home" component={HomeStackNavigator} />
                   <Tab.Screen name="Genres" component={GenreStackNavigator} />
+                  <Tab.Screen name="Bookmarks" component={BookMarkStackNavigator} />
                 </Tab.Navigator>
 
               </NavigationContainer>
             </PaperProvider>
           </SnackContext.Provider>
-
-          <Snackbar
-            visible={visible}
-            style={styles.snackbar}
-            onDismiss={onDismissSnackBar}
-            action={{
-              label: 'Okay',
-              onPress: onDismissSnackBar,
-            }}>
-            <Paragraph style={styles.snackMessage}><Ionicons name="information-circle-outline" size={14} color="white" /> {snackMessage}</Paragraph>
-          </Snackbar>
+        <Snackbar
+          visible={visible}
+          style={styles.snackbar}
+          onDismiss={onDismissSnackBar}
+          action={{
+            label: 'Okay',
+            onPress: onDismissSnackBar,
+          }}>
+          <Paragraph style={styles.snackMessage}><Ionicons name="information-circle-outline" size={14} color="white" /> {snackMessage}</Paragraph>
+        </Snackbar>
       </SafeAreaProvider>
     </>
   );

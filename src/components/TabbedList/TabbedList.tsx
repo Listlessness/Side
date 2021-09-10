@@ -73,11 +73,17 @@ export class TabbedList<T> extends SideStreamComponent<TabbedListProps<T>, Tabbe
     render() {
         this.__generateTabElements()
 
+        const {
+          currIndex, tabsList
+        } = this.props;
+
         return (
             <SimplePageWrapper>
                 <Tabs
-                    defaultIndex={this.props.currIndex}
-                    onChangeIndex={this.__onChange}
+                  uppercase={false}
+                  defaultIndex={currIndex}
+                  onChangeIndex={this.__onChange}
+                  mode={tabsList.length > 4 ? "scrollable" : undefined}
                 >
                     {this.TAB_ITEMS}
                 </Tabs>
@@ -91,5 +97,10 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingTop: 20,
         height: '100%',
+    },
+    tabs: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
     }
 });

@@ -63,20 +63,6 @@ export class LandingPage extends SideStreamComponent<LandingPageProps, LandingPa
     __fetchThisSeasonsItems = () => JikanService.fetchSeason().then(resp => {
         return resp.anime.slice(0,10);
     })
-    
-    
-    componentDidMount() {
-        this.props.navigation.setOptions({
-            headerRight: () => (
-                <IconButton
-                    icon='magnify'
-                    color={Colors.white}
-                    size={25}
-                    onPress={() => this.props.navigation.navigate('Search')}
-                />
-              ),
-          });
-    }
 
     render() {
         const { route, navigation } = this.props;

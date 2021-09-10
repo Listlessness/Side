@@ -1,6 +1,6 @@
 import React from 'react'
 import { AnimeDetailsPageProps, AnimeDetailsPageState } from './animeDetailsPage.types'
-import { AnimeById, CharacterItem, IAnime, MALItem, MALType, Recommendation } from '../../utils';
+import { AnimeById, CharacterItem, IAnime, MainSSAppStorage, MALItem, MALType, Recommendation } from '../../utils';
 import { GogoAnimeService, JikanService } from '../../services';
 import { Dimensions, ImageBackground, StyleSheet, View, Image, ScrollView, Linking } from 'react-native';
 import { CollapsibleParagraph, CustomCarousel, MessageComp, ScrollPageWrapper, SideStreamComponent, Thumbnail } from '../../components';
@@ -133,7 +133,33 @@ export class AnimeDetailsPage extends SideStreamComponent<Props, State> {
         }
     }
 
+    __updateBookMark = () => {
+
+        const {
+            animeDetailsById
+        } = this.state;
+
+        if (animeDetailsById) {
+            const {
+                bookMarkedAnime, updateBookMarks
+            } = MainSSAppStorage.SSBookMarkedAnime;
+    
+    
+            if (bookMarkedAnime[animeDetailsById.mal_id]) {
+                delete bookMarkedAnime[animeDetailsById.mal_id];
+            } else {
+                bookMarkedAnime[animeDetailsById.mal_id] = true
+            }
+
+            updateBookMarks(bookMarkedAnime)
+        }
+    }
+
     render() {
+
+        const {
+            bookMarkedAnime
+        } = MainSSAppStorage.SSBookMarkedAnime;
 
         const {
             animeDetailsById,
@@ -274,10 +300,10 @@ export class AnimeDetailsPage extends SideStreamComponent<Props, State> {
                                         MyAnimeList
                                     </Button>
                                     <IconButton
-                                        icon={true ? "heart-outline" : "cards-heart"}
+                                        icon={bookMarkedAnime[animeDetailsById.mal_id] ? "bookmark-minus" : "bookmark-plus"}
                                         color='#F5F1DB'
                                         size={25}
-                                        disabled
+                                        onPress={this.__updateBookMark}
                                     />
                                 </View>
                                 
