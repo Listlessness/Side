@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { CustomCarousel, StackItem, Thumbnail, ScrollPageWrapper, sideStreamWrapper } from '../../components';
 import { JikanService, GogoAnimeService } from '../../services';
-import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes, SeasonAnime, SeasonResult, GogoRecentRelease, LastWatchedAnimeItem } from '../../utils';
+import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes, SeasonAnime, SeasonResult, GogoRecentRelease, LastWatchedAnimeItem, ContextTypeNames } from '../../utils';
 import { LandingPageProps, LandingPageState } from './landingPage.types';
 import { EpisodeThumbnail } from './../../components/Thumbnail/EpisodeThumbnail';
 
@@ -79,7 +79,7 @@ class LandingPageComponent extends PureComponent<LandingPageProps, LandingPageSt
                 Object.values(this.props.ssLastWatchedAnimeContext.lastWatchedAnime).sort((a, b) => new Date(b.dateAdded).valueOf() - new Date(a.dateAdded).valueOf())
             )
         } else {
-            return []
+            return  Promise.resolve([])
         }
     }
 
@@ -112,6 +112,7 @@ class LandingPageComponent extends PureComponent<LandingPageProps, LandingPageSt
                     fetchItems={this.__fetchLastWatchedItems}
                     renderItem={this.__renderLastWatchedItems}
                     type='thumbnail'
+                    horizontal={false}
                 />
                 <CustomCarousel
                     title="Top Airing Anime"
@@ -159,4 +160,4 @@ class LandingPageComponent extends PureComponent<LandingPageProps, LandingPageSt
     }
 }
 
-export const LandingPage = sideStreamWrapper(LandingPageComponent)
+export const LandingPage = sideStreamWrapper(LandingPageComponent, [ContextTypeNames.SSLastWatchedAnimeContext])

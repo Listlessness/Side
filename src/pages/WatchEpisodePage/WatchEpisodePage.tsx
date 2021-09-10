@@ -6,7 +6,7 @@ import { Appbar, Chip, Divider, List } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
 import { MessageComp, ScrollPageWrapper, sideStreamWrapper } from '../../components'
-import { IAnimeEpisodeInfo, GogoEntityBasic, IEpisodePage } from '../../utils';
+import { IAnimeEpisodeInfo, GogoEntityBasic, IEpisodePage, ContextTypeNames } from '../../utils';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -309,7 +309,7 @@ class WatchEpisodePageComponent extends PureComponent<Props, State> {
     }
 }
 
-export const WatchEpisodePage = sideStreamWrapper(WatchEpisodePageComponent)
+export const WatchEpisodePage = sideStreamWrapper(WatchEpisodePageComponent, [ContextTypeNames.SSLastWatchedAnimeContext])
 
 const styles = StyleSheet.create({
     mainView: {

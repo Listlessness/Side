@@ -15,6 +15,7 @@ import {
   BookmarkedAnime,
   bookMarkedStorageKey,
   LastWatchedAnime,
+  lastWatchedStorageKey,
   RootStackParamList,
   SnackContext,
   SnackMessage,
@@ -196,7 +197,7 @@ export default function App() {
 
 
   const [lastWatchedAnime, setLastWatchedValue] = React.useState<LastWatchedAnime>({});
-  const { getItem: getLastWatched, setItem: setLastWatched } = useAsyncStorage(bookMarkedStorageKey);
+  const { getItem: getLastWatched, setItem: setLastWatched } = useAsyncStorage(lastWatchedStorageKey);
 
 
   const updateLastWatched = async (newValue: LastWatchedAnime) => {

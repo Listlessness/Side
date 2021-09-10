@@ -74,7 +74,8 @@ class CustomCarouselComponent<T> extends PureComponent<CustomCarouselProps<T>, C
         const {
             title,
             renderItem,
-            onPress
+            onPress,
+            horizontal=true
         } = this.props;
 
         const {
@@ -84,12 +85,14 @@ class CustomCarouselComponent<T> extends PureComponent<CustomCarouselProps<T>, C
 
         return (
             <View style={styles.container}>
+                <this.props.OnScreenFocusComp callback={this.__fetchItems.bind(this)} />
                 <View style={styles.header}>
                     <Subheading style={styles.carouselTitle}>{title}</Subheading>
                     {onPress && <SeeMoreButton onPress={onPress} />}
                 </View>
                 <FlatList
-                    horizontal
+                    horizontal={horizontal}
+                    numColumns={!horizontal ? 3 : undefined}
                     indicatorStyle='white'
                     contentContainerStyle={styles.list}
                     data={items}

@@ -26,7 +26,7 @@ export const GogoAnimeItem = React.memo(function GogoAnimeItem({
             default_ep: 1, 
             img_url: thumbnail
          })
-    }, [movieId, navigation])
+    }, [movieId, navigation, thumbnail])
 
     return (
         <TouchableOpacity style={styles.container} onPress={goToEpisodePage}>

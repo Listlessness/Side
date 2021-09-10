@@ -27,7 +27,7 @@ export const EpisodeThumbnail = React.memo(
                     img_url: picture_url
                 })
             },
-            [id, episodeNum, navigation],
+            [id, episodeNum, navigation, picture_url],
         );
 
         return (

@@ -13,7 +13,8 @@ interface CustomCarouselProps<T> extends SideStreamWrapperContextProps{
     type: 'stack' | 'thumbnail',
     renderItem: (arg: RenderItemArg<T>) => JSX.Element,
     refreshing: boolean,
-    onRefreshComplete: () => void
+    onRefreshComplete: () => void,
+    horizontal?: boolean
 }
 
 type RenderItemArg<T> = { item: T; index: number; }
