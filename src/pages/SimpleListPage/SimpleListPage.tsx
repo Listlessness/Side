@@ -151,7 +151,7 @@ class SimpleListPageComponent<T, R> extends PureComponent<Props<T>, State<T, R>>
                         getItemLayout={this.__getItemLayout}
                         onRefresh={this.__onRefresh}
                         refreshing={refreshing}
-                        loadingMore={loadingMore}
+                        loadingMore={loadingMore || fetching}
                     />
                 </SafeAreaView>
             </SimplePageWrapper>

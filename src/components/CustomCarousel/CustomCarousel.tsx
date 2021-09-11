@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     list: { 
     },
     content: {
-        height: windowHeight * .3,
+        height: windowHeight * .15,
         width: windowWidth * .9
     }
 });

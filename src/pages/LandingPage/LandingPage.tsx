@@ -112,7 +112,6 @@ class LandingPageComponent extends PureComponent<LandingPageProps, LandingPageSt
                     fetchItems={this.__fetchLastWatchedItems}
                     renderItem={this.__renderLastWatchedItems}
                     type='thumbnail'
-                    horizontal={false}
                 />
                 <CustomCarousel
                     title="Top Airing Anime"
@@ -125,6 +124,7 @@ class LandingPageComponent extends PureComponent<LandingPageProps, LandingPageSt
                     onPress={() => {
                         navigation.navigate("Top Anime", {topType: JikanAnimeSubTypes.Airing})
                     }}
+                    checkOnFocus={false}
                 />
                 <CustomCarousel
                     title="Top Upcoming Anime"
@@ -137,6 +137,7 @@ class LandingPageComponent extends PureComponent<LandingPageProps, LandingPageSt
                     onPress={() => {
                         navigation.navigate("Top Anime", {topType: JikanAnimeSubTypes.Upcoming})
                     }}
+                    checkOnFocus={false}
                 />
                 <CustomCarousel
                     title="Current Season's Anime"
@@ -154,6 +155,7 @@ class LandingPageComponent extends PureComponent<LandingPageProps, LandingPageSt
                             nameExtracter: (resp: SeasonResult) => `${resp.season_name} ${resp.season_year}`
                         })
                     }}
+                    checkOnFocus={false}
                 />
             </ ScrollPageWrapper>
         );

@@ -12,7 +12,13 @@ export function sideStreamWrapper(WrappedComponent: React.ComponentClass<any, an
 
         OnScreenFocusComp({callback, dependencies = []}: {callback: () => any, dependencies?: any[]}) {
             useFocusEffect(
-              React.useCallback(callback, dependencies)
+              React.useCallback(() => {
+                  async function wrapperCallback () {
+                      await callback();
+                  }
+
+                  wrapperCallback();
+                }, dependencies)
             );
           
             return null;

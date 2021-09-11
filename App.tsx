@@ -195,25 +195,25 @@ const TabNavigator = () => {
         tabBarIcon: ({ focused, color }) => {
           let iconName: any;
 
-          if (route.name === 'Home') {
+          if (route.name === 'Home Tab Screen') {
             iconName = focused
               ? 'ios-home'
               : 'ios-home-outline';
-          } else if (route.name === 'Genres') {
+          } else if (route.name === 'Genres Tab Screen') {
             iconName = focused ? 'grid' : 'grid-outline';
-          } else if (route.name === 'Bookmarks') {
+          } else if (route.name === 'Bookmarks Tab Screen') {
             iconName = focused ? 'md-bookmarks' : 'md-bookmarks-outline';
           }
           // You can return any component that you like here!
-          return <Ionicons name={iconName} color={color} />;
+          return <Ionicons name={iconName} size={18} color={color} />;
         },
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name="Home" component={HomeStackNavigator} />
-      <Tab.Screen name="Genres" component={GenreStackNavigator} />
-      <Tab.Screen name="Bookmarks" component={BookMarkStackNavigator} />
+      <Tab.Screen name="Home Tab Screen" options={{title: "Home"}} component={HomeStackNavigator} />
+      <Tab.Screen name="Genres Tab Screen" options={{title: "Genres"}} component={GenreStackNavigator} />
+      <Tab.Screen name="Bookmarks Tab Screen" options={{title: "Bookmarks"}} component={BookMarkStackNavigator} />
     </Tab.Navigator>
   )
 }
