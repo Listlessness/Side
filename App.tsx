@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { Dimensions, Image, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -38,6 +38,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 
+const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
+
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -73,6 +75,13 @@ const HomeStackNavigator = () => {
                   onPress={() => navigation.navigate('Search')}
               />
             ),
+            headerTitle: () => (
+              <Image
+                style={{width: windowWidth * .4, height: windowHeight * .07}}
+                source={require('./assets/splash.png')}
+                resizeMode="contain"
+              />
+            )
           })}
         />
         <Stack.Screen
@@ -108,14 +117,6 @@ const HomeStackNavigator = () => {
         <Stack.Screen
           name={'Anime Details'}
           component={AnimeDetailsPage}
-        />
-      </Stack.Group>
-
-      <Stack.Group
-        screenOptions={{ presentation: 'modal', headerShown: false }}>
-        <Stack.Screen
-          name={'Episode Full Screen'}
-          component={EpisodeFullScreenPage}
         />
       </Stack.Group>
     </Stack.Navigator>
@@ -166,6 +167,16 @@ const BookMarkStackNavigator = () => {
         <Stack.Screen
           name={'Bookmarked Anime'}
           component={BookmarkedAnimePage}
+          options={({ navigation, route }) => ({
+            headerRight: () => (
+              <IconButton
+                  icon='magnify'
+                  color={"#fff"}
+                  size={25}
+                  onPress={() => navigation.navigate('Search')}
+              />
+            ),
+          })}
         />
         <Stack.Screen
           name={'Search'}
@@ -173,6 +184,37 @@ const BookMarkStackNavigator = () => {
           options={{ title: 'Search for your favourite Anime!' }}
         />
     </Stack.Navigator>
+  )
+}
+
+const TabNavigator = () => {
+  return (
+    <Tab.Navigator
+      barStyle={styles.tabStyle}
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color }) => {
+          let iconName: any;
+
+          if (route.name === 'Home') {
+            iconName = focused
+              ? 'ios-home'
+              : 'ios-home-outline';
+          } else if (route.name === 'Genres') {
+            iconName = focused ? 'grid' : 'grid-outline';
+          } else if (route.name === 'Bookmarks') {
+            iconName = focused ? 'md-bookmarks' : 'md-bookmarks-outline';
+          }
+          // You can return any component that you like here!
+          return <Ionicons name={iconName} color={color} />;
+        },
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
+      })}
+    >
+      <Tab.Screen name="Home" component={HomeStackNavigator} />
+      <Tab.Screen name="Genres" component={GenreStackNavigator} />
+      <Tab.Screen name="Bookmarks" component={BookMarkStackNavigator} />
+    </Tab.Navigator>
   )
 }
 
@@ -231,32 +273,27 @@ export default function App() {
               <SSLastWatchedAnimeContext.Provider value={ {lastWatchedAnime, updateLastWatched} }>
                 <PaperProvider theme={theme}>
                   <NavigationContainer>
-                    <Tab.Navigator
-                      barStyle={styles.tabStyle}
-                      screenOptions={({ route }) => ({
-                        tabBarIcon: ({ focused, color }) => {
-                          let iconName: any;
-              
-                          if (route.name === 'Home') {
-                            iconName = focused
-                              ? 'ios-home'
-                              : 'ios-home-outline';
-                          } else if (route.name === 'Genres') {
-                            iconName = focused ? 'grid' : 'grid-outline';
-                          } else if (route.name === 'Bookmarks') {
-                            iconName = focused ? 'md-bookmarks' : 'md-bookmarks-outline';
-                          }
-                          // You can return any component that you like here!
-                          return <Ionicons name={iconName} color={color} />;
-                        },
-                        tabBarActiveTintColor: 'tomato',
-                        tabBarInactiveTintColor: 'gray',
-                      })}
-                    >
-                      <Tab.Screen name="Home" component={HomeStackNavigator} />
-                      <Tab.Screen name="Genres" component={GenreStackNavigator} />
-                      <Tab.Screen name="Bookmarks" component={BookMarkStackNavigator} />
-                    </Tab.Navigator>
+
+                    <Stack.Navigator
+                      initialRouteName={'Main Screen'}
+                      screenOptions={{
+                        headerStyle: styles.headerStyle,
+                        headerTintColor: '#fff',
+                        headerTitleStyle: styles.headerTitleStyle,
+                        headerShown: false
+                      }}>
+                        <Stack.Screen
+                          name={'Main Screen'}
+                          component={TabNavigator}
+                        />
+                        <Stack.Screen
+                          name={'Episode Full Screen'}
+                          component={EpisodeFullScreenPage}
+                          options={{
+                            presentation: 'modal'
+                          }}
+                        />
+                    </Stack.Navigator>
 
                   </NavigationContainer>
                 </PaperProvider>
@@ -281,7 +318,7 @@ export default function App() {
 const styles = StyleSheet.create({
   headerStyle: {
     backgroundColor: '#00151F',
-    height: '8vh',
+    height: windowHeight * .08,
   },
   headerTitleStyle: {
     fontWeight: '500',

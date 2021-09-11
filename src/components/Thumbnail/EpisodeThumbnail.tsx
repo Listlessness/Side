@@ -3,6 +3,7 @@ import { EpisodeThumbnailProps } from './thumbnail.types';
 import { View, StyleSheet, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
 import { Paragraph } from 'react-native-paper';
 import { extractEpisodeNumer, UseNavigation } from '../../utils';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -45,6 +46,7 @@ export const EpisodeThumbnail = React.memo(
                         source={{uri: picture_url}}
                         loadingIndicatorSource={require('../../../assets/img/placeholderPic.jpg')}
                     >
+                        <MaterialCommunityIcons style={styles.playButton} name="play-circle" size={50} color="#F5F1DB" />
                         <View style={styles.info}>
                             <Paragraph style={styles.episode}>
                                 {episode}
@@ -95,6 +97,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#FCBF49',
         fontWeight: 'bold'
+    },
+    playButton: {
+        position: 'absolute',
+        right: 5,
+        top: 0
     }
 });
 

@@ -92,8 +92,8 @@ class WatchEpisodePageComponent extends PureComponent<Props, State> {
 
             const lastwatchedArray =  Object.values(this.props.ssLastWatchedAnimeContext.lastWatchedAnime).sort((a, b) => new Date(b.dateAdded).valueOf() - new Date(a.dateAdded).valueOf());
 
-            if (lastwatchedArray.length === 11) {
-                delete lastWatchedAnime[lastwatchedArray[10].movieId]
+            if (lastwatchedArray.length === 12) {
+                delete lastWatchedAnime[lastwatchedArray[11].movieId]
             }
 
             updateLastWatched(lastWatchedAnime)

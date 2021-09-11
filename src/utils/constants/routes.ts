@@ -11,7 +11,8 @@ export type RootStackParamList = {
     "Anime Details": {mal_id: number; url: string};
     "Simple List": SimpleListPageParams;
     "Genres": undefined,
-    "Bookmarked Anime": undefined
+    "Bookmarked Anime": undefined,
+    "Main Screen": undefined
 };
 
 interface SimpleListPageParams {

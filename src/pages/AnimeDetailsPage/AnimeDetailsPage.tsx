@@ -324,6 +324,7 @@ class AnimeDetailsPageComponent extends PureComponent<Props, State> {
                                 fetchItems={this.__fetchCharacters}
                                 renderItem={this.__renderCharacters}
                                 type='thumbnail'
+                                checkOnFocus={false}
                             />
 
                             <CustomCarousel
@@ -334,6 +335,7 @@ class AnimeDetailsPageComponent extends PureComponent<Props, State> {
                                 fetchItems={this.__fetchRecommendations}
                                 renderItem={this.__renderRecommendation}
                                 type='thumbnail'
+                                checkOnFocus={false}
                             />
                             
                             <List.Accordion
