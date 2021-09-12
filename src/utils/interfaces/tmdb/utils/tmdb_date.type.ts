@@ -8,9 +8,9 @@ class TMDB_Date {
     static format = 'YYYY-MM-DD';
     date: Date;
 
-    constructor(date?: Date) {
+    constructor(date?: Date | string) {
 
-        this.date = date ? date : new Date()
+        this.date = date ? (typeof date === 'string' ? new Date(date) : date) : new Date()
     }
 
     toString = () => {

@@ -15,7 +15,7 @@ export class JikanAPI {
             baseURL: 'https://api.jikan.moe/v3',
             timeout: 50000,
             headers: {}
-          });
+        });
     }
 
     @handleResponse
