@@ -5,7 +5,9 @@ export type {
 }
 
 interface TMDB_Genres_Request {
-    language?: string,
+    params: {
+        language?: string,
+    }
 }
 
 interface TMDB_Genres_Response {

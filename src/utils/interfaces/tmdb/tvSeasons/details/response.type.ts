@@ -1,3 +1,5 @@
+import { TMDB_TV_Seasons_Videos_Response } from "../videos";
+
 export type {
     TMDB_TV_Seasons_Details_Response
 }
@@ -10,7 +12,9 @@ interface TMDB_TV_Seasons_Details_Response {
     overview?: string,
     id?: number,
     poster_path?: string | null,
-    season_number?: number
+    season_number?: number,
+    
+    videos?: TMDB_TV_Seasons_Videos_Response
 }
 
 

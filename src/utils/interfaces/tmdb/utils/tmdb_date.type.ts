@@ -16,4 +16,8 @@ class TMDB_Date {
     toString = () => {
         return this.date.toISOString().split('T')[0]
     }
+
+    getDate = () => {
+        return this.date
+    }
 }

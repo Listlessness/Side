@@ -1,4 +1,5 @@
-import { GoGoAnime, GogoEntity, GogoEntityBasic, GogoPagination, GogoRecentRelease, IAnime, IAnimeEpisodeInfo, IVideoRes } from './gogoanimeScraper'
+import { GogoEntityBasic, GogoPagination, GogoRecentRelease, IAnime, IAnimeEpisodeInfo } from "../../utils";
+import { GoGoAnime } from "./gogoanimeScraper";
 
 class GogoAnimeAPI {
     gogoanime: GoGoAnime;

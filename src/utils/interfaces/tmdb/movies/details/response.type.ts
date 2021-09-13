@@ -1,4 +1,8 @@
-import { TMDB_Date } from "../..";
+import { TMDB_Date } from "../../utils";
+import { TMDB_Movie_External_Ids_Response } from "../external_ids";
+import { TMDB_Movie_Recommendations_Response } from "../recommendations";
+import { TMDB_Movie_Similar_Response } from "../similarMovies";
+import { TMDB_Movie_Videos_Response } from "../videos";
 
 export type {
     TMDB_Movie_Details_Response
@@ -29,6 +33,11 @@ interface TMDB_Movie_Details_Response {
     video?: boolean,
     vote_average?: number,
     vote_count?: number
+
+    videos?: TMDB_Movie_Videos_Response,
+    similar?: TMDB_Movie_Similar_Response,
+    recommendations?: TMDB_Movie_Recommendations_Response,
+    external_ids?: TMDB_Movie_External_Ids_Response,
 }
 
 interface TMDB_Movie_Details_Genre {

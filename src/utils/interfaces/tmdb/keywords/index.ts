@@ -4,7 +4,9 @@ export type {
 }
 
 interface TMDB_Keyword_Details_Request {
-    keyword_id: number,
+    path: {
+        keyword_id: number,
+    }   
 }
 
 interface TMDB_Keyword_Details_Response {

@@ -1,3 +1,10 @@
+import { TMDB_TV_Content_Ratings_Response } from "../contentRatings";
+import { TMDB_TV_EpisodeGroups_Response } from "../episodeGroups";
+import { TMDB_TV_External_Ids_Response } from "../external_ids";
+import { TMDB_TV_Recommendations_Response } from "../recommendations";
+import { TMDB_TV_Similar_Response } from "../similarTVShows";
+import { TMDB_TV_Videos_Response } from "../videos";
+
 export type {
     TMDB_TV_Details_Response
 }
@@ -33,7 +40,14 @@ interface TMDB_TV_Details_Response {
     tagline?: string,
     type?: string,
     vote_average: number,
-    vote_count?: number
+    vote_count?: number,
+
+    videos?: TMDB_TV_Videos_Response,
+    similar?: TMDB_TV_Similar_Response,
+    recommendations?: TMDB_TV_Recommendations_Response,
+    external_ids?: TMDB_TV_External_Ids_Response,
+    episode_groups?: TMDB_TV_EpisodeGroups_Response,
+    content_ratings?: TMDB_TV_Content_Ratings_Response
 }
 
 interface TMDB_TV_Details_Created_By {

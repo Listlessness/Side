@@ -4,8 +4,12 @@ export type {
 }
 
 interface TMDB_Episode_Group_Details_Request {
-    id: number,
-    language?: string
+    path: {
+        id: number
+    }
+    params: {
+        language?: string
+    }
 }
 
 interface TMDB_Episode_Group_Details_Response {
