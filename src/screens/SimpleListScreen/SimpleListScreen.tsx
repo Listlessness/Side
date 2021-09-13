@@ -3,17 +3,17 @@ import { createRef } from 'react';
 import { Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatListComp, CustomModal, sideStreamWrapper, SimpleScreenWrapper } from '../../components';
-import { SimpleListScreenProps, SimpleListScreenState } from './simpleListScreen.types';
+import { SimpleListScreenProps, SimpleListScreenState, SLSBaseProps } from './simpleListScreen.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-type Props<T> = SimpleListScreenProps<T>;
+type Props = SimpleListScreenProps;
 type State<T, R> = SimpleListScreenState<T, R>;
 
-class SimpleListScreenComponent<T, R> extends PureComponent<Props<T>, State<T, R>> {
+class SimpleListScreenComponent<T, R> extends PureComponent<Props, State<T, R>> {
     modalRef: React.RefObject<CustomModal>;
 
-    constructor(props: Props<T>) {
+    constructor(props: Props) {
         super(props)
     
         this.state = {
@@ -78,7 +78,7 @@ class SimpleListScreenComponent<T, R> extends PureComponent<Props<T>, State<T, R
         this.fetchListItems()
     }
 
-    componentDidUpdate(prevProps: Props<T>, prevState: State<T, R>) {
+    componentDidUpdate(prevProps: Props, prevState: State<T, R>) {
         const {
             currPage,
             refreshing,
@@ -159,4 +159,4 @@ class SimpleListScreenComponent<T, R> extends PureComponent<Props<T>, State<T, R
     }
 }
 
-export const SimpleListScreen = sideStreamWrapper(SimpleListScreenComponent)
+export const SimpleListScreen = sideStreamWrapper<SLSBaseProps>(SimpleListScreenComponent)

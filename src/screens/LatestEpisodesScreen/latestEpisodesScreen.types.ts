@@ -3,14 +3,13 @@ import { RootStackParamList, SideStreamWrapperContextProps } from "../../utils";
 
 export type {
     LatestEpisodeProps,
-    LatestEpisodeState
+    LatestEpisodeState,
+    LEPBaseProps
 }
 
 type LEPBaseProps = NativeStackScreenProps<RootStackParamList, 'Latest Episodes'> & SideStreamWrapperContextProps;
 
-interface LatestEpisodeProps<T> extends LEPBaseProps{
-    
-}
+type LatestEpisodeProps = LEPBaseProps & SideStreamWrapperContextProps;
 
 interface LatestEpisodeState<T> {
     currIndex: number,

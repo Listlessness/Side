@@ -1,5 +1,5 @@
-import axios, { AxiosInstance } from "axios";
-import { TMDB_Date, TMDB_Episode_Group_Details_Request, TMDB_Episode_Group_Details_Response, TMDB_Genres_Request, TMDB_Genres_Response, TMDB_Keyword_Details_Request, TMDB_Keyword_Details_Response, TMDB_Movie_Details_Request, TMDB_Movie_Details_Response, TMDB_Movie_Discover_Request, TMDB_Movie_Discover_Response, TMDB_TV_Details_Request, TMDB_TV_Details_Response, TMDB_TV_Discover_Request, TMDB_TV_Discover_Response, TMDB_TV_Seasons_Details_Request, TMDB_TV_Seasons_Details_Response } from "../../../utils";
+import axios, { AxiosInstance, AxiosResponse } from "axios";
+import { TMDB_Date, TMDB_Episode_Group_Details_Request, TMDB_Episode_Group_Details_Response, TMDB_Genres_Request, TMDB_Genres_Response, TMDB_Keyword_Details_Request, TMDB_Keyword_Details_Response, TMDB_Movie_Details_Request, TMDB_Movie_Details_Response, TMDB_Movie_Discover_Request, TMDB_Movie_Discover_Response, TMDB_Search_Keywords_Request, TMDB_Search_Keywords_Response, TMDB_TV_Details_Request, TMDB_TV_Details_Response, TMDB_TV_Discover_Request, TMDB_TV_Discover_Response, TMDB_TV_Seasons_Details_Request, TMDB_TV_Seasons_Details_Response } from "../../../utils";
 import { tmdb_endpoints } from "./endpoints";
 
 export default class TMDB_API {
@@ -17,6 +17,7 @@ export default class TMDB_API {
 
     timezone: { iso_3166_1: string; zones: string[]; };
     country: { iso_3166_1: string; english_name: string; native_name: string; };
+    anime_keyword_id: number;
 
     constructor() {
         this.tmdbRequest = axios.create({
@@ -47,6 +48,23 @@ export default class TMDB_API {
         this.timezone = {"iso_3166_1": "JP", "zones": ["Asia/Tokyo"]}
 
         this.country = {"iso_3166_1": "JP", "english_name": "Japan", "native_name": "Japan"}
+
+        this.anime_keyword_id = 210024
+    }
+
+    FetchAnimeKeywordId = async () => {
+        var request: TMDB_Search_Keywords_Request = {
+            params: { query: 'anime' } 
+        }
+
+        await this.tmdbRequest.get<TMDB_Search_Keywords_Response>(tmdb_endpoints.search.keywords(), {
+            params: request.params
+        }).then((response) => {
+            let item = response.data.results?.find(result => result.name?.toLowerCase() === 'anime')
+            this.anime_keyword_id =  item?.id ? item.id : 210024
+        }).catch(() => {
+            this.anime_keyword_id = 210024
+        })
     }
 
     generateBackdropURI = (path: string) => {
@@ -77,55 +95,59 @@ export default class TMDB_API {
         ).toISOString().split('T')[0]
     }
 
-    IMDB_Discover_Movie = (request: TMDB_Movie_Discover_Request) : Promise<TMDB_Movie_Discover_Response> => {
-        return this.tmdbRequest.get(tmdb_endpoints.discover.movie(), {
+    GetAnimeKeywordId = () => this.anime_keyword_id;
+
+    GetJapanTimezone = () => this.timezone.zones[0]
+
+    IMDB_Discover_Movie = async (request: TMDB_Movie_Discover_Request) => {
+        return await this.tmdbRequest.get<TMDB_Movie_Discover_Response>(tmdb_endpoints.discover.movie(), {
             params: request.params
-        })
+        }).then(resp => resp.data)
     }
 
-    IMDB_Discover_TV = (request: TMDB_TV_Discover_Request) : Promise<TMDB_TV_Discover_Response> => {
-        return this.tmdbRequest.get(tmdb_endpoints.discover.tv(), {
+    IMDB_Discover_TV = async (request: TMDB_TV_Discover_Request) => {
+        return await this.tmdbRequest.get<TMDB_TV_Discover_Response>(tmdb_endpoints.discover.tv(), {
             params: request.params
-        })
+        }).then(resp => resp.data)
     }
 
-    IMDB_Episode_Group_Details = (request: TMDB_Episode_Group_Details_Request) : Promise<TMDB_Episode_Group_Details_Response> => {
-        return this.tmdbRequest.get(tmdb_endpoints.episode_groups(request.path.id), {
+    IMDB_Episode_Group_Details = async (request: TMDB_Episode_Group_Details_Request) => {
+        return await this.tmdbRequest.get<TMDB_Episode_Group_Details_Response>(tmdb_endpoints.episode_groups(request.path.id), {
             params: request.params
-        })
+        }).then(resp => resp.data)
     }
 
-    IMDB_Movie_Genres = (request: TMDB_Genres_Request) : Promise<TMDB_Genres_Response> => {
-        return this.tmdbRequest.get(tmdb_endpoints.genres.movie(), {
+    IMDB_Movie_Genres = async (request: TMDB_Genres_Request) => {
+        return await this.tmdbRequest.get<TMDB_Genres_Response>(tmdb_endpoints.genres.movie(), {
             params: request.params
-        })
+        }).then(resp => resp.data)
     }
 
-    IMDB_TV_Genres = (request: TMDB_Genres_Request) : Promise<TMDB_Genres_Response> => {
-        return this.tmdbRequest.get(tmdb_endpoints.genres.tv(), {
+    IMDB_TV_Genres = async (request: TMDB_Genres_Request) => {
+        return await this.tmdbRequest.get<TMDB_Genres_Response>(tmdb_endpoints.genres.tv(), {
             params: request.params
-        })
+        }).then(resp => resp.data)
     }
 
-    IMDB_Keywords = (request: TMDB_Keyword_Details_Request) : Promise<TMDB_Keyword_Details_Response> => {
-        return this.tmdbRequest.get(tmdb_endpoints.keywords.details(request.path.keyword_id))
+    IMDB_Keywords = async (request: TMDB_Keyword_Details_Request) => {
+        return await this.tmdbRequest.get<TMDB_Keyword_Details_Response>(tmdb_endpoints.keywords.details(request.path.keyword_id))
     }
 
-    IMDB_Movie_Details = (request: TMDB_Movie_Details_Request) : Promise<TMDB_Movie_Details_Response> => {
-        return this.tmdbRequest.get(tmdb_endpoints.movies.details(request.path.movie_id), {
+    IMDB_Movie_Details = async (request: TMDB_Movie_Details_Request) => {
+        return await this.tmdbRequest.get<TMDB_Movie_Details_Response>(tmdb_endpoints.movies.details(request.path.movie_id), {
             params: request.params
-        })
+        }).then(resp => resp.data)
     }
 
-    IMDB_TV_Details = (request: TMDB_TV_Details_Request) : Promise<TMDB_TV_Details_Response> => {
-        return this.tmdbRequest.get(tmdb_endpoints.tv.details(request.path.tv_id), {
+    IMDB_TV_Details = async (request: TMDB_TV_Details_Request) => {
+        return await this.tmdbRequest.get<TMDB_TV_Details_Response>(tmdb_endpoints.tv.details(request.path.tv_id), {
             params: request.params
-        })
+        }).then(resp => resp.data)
     }
 
-    IMDB_TV_Season_Details = (request: TMDB_TV_Seasons_Details_Request) : Promise<TMDB_TV_Seasons_Details_Response> => {
-        return this.tmdbRequest.get(tmdb_endpoints.tv_season.details(request.path.tv_id, request.path.season_number), {
+    IMDB_TV_Season_Details = async (request: TMDB_TV_Seasons_Details_Request) => {
+        return await this.tmdbRequest.get<TMDB_TV_Seasons_Details_Response>(tmdb_endpoints.tv_season.details(request.path.tv_id, request.path.season_number), {
             params: request.params
-        })
+        }).then(resp => resp.data)
     }
 }

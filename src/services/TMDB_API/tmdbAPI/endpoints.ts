@@ -5,10 +5,16 @@ const tmdb_endpoint_types = {
     discover: 'discover',
     configuration: 'configuration',
     keyword: 'keyword',
-    collection: 'collection'
+    collection: 'collection',
+    search: 'search'
 }
 
 export const tmdb_endpoints = {
+    search: {
+        keywords: () => `/${tmdb_endpoint_types.search}/${tmdb_endpoint_types.keyword}`,
+        movie: () => `/${tmdb_endpoint_types.search}/${tmdb_endpoint_types.movie}`,
+        tv: () => `/${tmdb_endpoint_types.search}/${tmdb_endpoint_types.tv}`
+    },
     discover: {
         movie: () => `/${tmdb_endpoint_types.discover}/${tmdb_endpoint_types.movie}`,
         tv: () => `/${tmdb_endpoint_types.discover}/${tmdb_endpoint_types.tv}`

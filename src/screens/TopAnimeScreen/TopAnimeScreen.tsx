@@ -3,12 +3,12 @@ import { Dimensions } from 'react-native';
 import { JikanAnimeSubTypes, JikanTypes, SubTypes, TopItem } from '../../utils';
 import { Thumbnail, TabListItem, TabbedList, sideStreamWrapper } from '../../components';
 import { JikanService } from '../../services';
-import { TopAnimeProps, TopAnimeState } from './topAnimeScreen.types';
+import { TAPBaseProps, TopAnimeProps, TopAnimeState } from './topAnimeScreen.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 
-type Props = TopAnimeProps<TopItem>;
+type Props = TopAnimeProps;
 type State = TopAnimeState<TopItem>;
 
 class TopAnimeScreenComponent extends PureComponent<Props, State> {
@@ -186,4 +186,4 @@ class TopAnimeScreenComponent extends PureComponent<Props, State> {
 
 }
 
-export const TopAnimeScreen = sideStreamWrapper(TopAnimeScreenComponent)
+export const TopAnimeScreen = sideStreamWrapper<TAPBaseProps>(TopAnimeScreenComponent)

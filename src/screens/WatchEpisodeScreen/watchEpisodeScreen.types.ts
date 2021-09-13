@@ -3,14 +3,13 @@ import { RootStackParamList, SideStreamWrapperContextProps } from "../../utils";
 
 export type {
     WatchEpisodeScreenProps,
-    WatchEpisodeScreenState
+    WatchEpisodeScreenState,
+    WEPBaseProps
 }
 
-type WEPBaseProps = NativeStackScreenProps<RootStackParamList, "Watch Episode"> & SideStreamWrapperContextProps;
+type WEPBaseProps = NativeStackScreenProps<RootStackParamList, "Watch Episode">;
 
-interface WatchEpisodeScreenProps extends WEPBaseProps{
-
-}
+type WatchEpisodeScreenProps = WEPBaseProps & SideStreamWrapperContextProps;
 
 interface WatchEpisodeScreenState<T, R, V> {
     episodeListMessage?: string,

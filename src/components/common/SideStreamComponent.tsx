@@ -1,9 +1,9 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { PureComponent } from 'react'
-import { ContextTypeNames, SnackContext, SSBookmarkedAnimeContext, SSBookmarkedAnimeContextType, SSLastWatchedAnimeContext, SSLastWatchedAnimeContextType } from '../../utils';
+import { ContextTypeNames, SideStreamWrapperContextProps, SnackContext, SSBookmarkedAnimeContext, SSBookmarkedAnimeContextType, SSLastWatchedAnimeContext, SSLastWatchedAnimeContextType } from '../../utils';
 
-export function sideStreamWrapper(WrappedComponent: React.ComponentClass<any, any>, desiredContexts?: ContextTypeNames[]) {
-    class SideStreamWrapper<P, S> extends PureComponent<P, S> {
+export function sideStreamWrapper<PP>(WrappedComponent: React.ComponentClass<any, any>, desiredContexts?: ContextTypeNames[]) {
+    class SideStreamWrapper<P extends PP, S> extends PureComponent<P, S> {
         static displayName: string;
         
         constructor(props: P) {

@@ -3,14 +3,13 @@ import { Filters, RootStackParamList, SideStreamWrapperContextProps } from "../.
 
 export type {
     BookmarkedAnimeScreenProps,
-    BookmarkedAnimeScreenState
+    BookmarkedAnimeScreenState,
+    BABaseProps
 }
 
-type LEPBaseProps = NativeStackScreenProps<RootStackParamList, 'Bookmarked Anime'> & SideStreamWrapperContextProps;
+type BABaseProps = NativeStackScreenProps<RootStackParamList, 'Bookmarked Anime'>;
 
-interface BookmarkedAnimeScreenProps<T> extends LEPBaseProps{
-    
-}
+type BookmarkedAnimeScreenProps = BABaseProps & SideStreamWrapperContextProps;
 
 interface BookmarkedAnimeScreenState<T> {
     messageText: string | undefined,

@@ -6,4 +6,5 @@ export * from './movies';
 export * from './tv';
 export * from './episodeGroups';
 export * from './tvSeasons';
+export * from './search';
 export * from './utils';

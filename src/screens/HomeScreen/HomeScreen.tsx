@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react';
-import { CustomCarousel, StackItem, Thumbnail, ScrollScreenWrapper, sideStreamWrapper } from '../../components';
-import { JikanService, GogoAnimeService } from '../../services';
-import { TopItem, JikanTypes, JikanAnimeSubTypes, SubTypes, SeasonAnime, SeasonResult, GogoRecentRelease, LastWatchedAnimeItem, ContextTypeNames } from '../../utils';
+import { CustomCarousel, ScrollScreenWrapper, sideStreamWrapper } from '../../components';
+import { TMDBService } from '../../services';
+import { LastWatchedAnimeItem, ContextTypeNames, TMDB_TV_Discover_Results } from '../../utils';
 import { LandingScreenProps, LandingScreenState } from './homeScreen.types';
 import { EpisodeThumbnail } from '../../components/Thumbnail/EpisodeThumbnail';
+import { TV_AT_AR } from './helpers';
 
 class LandingScreenComponent extends PureComponent<LandingScreenProps, LandingScreenState> {
+    Carousels: { title: string; keyPrefix: string; fetchItems: () => Promise<any[]>; renderItem: ({ item, index }: { item: any; index: number; }) => JSX.Element; checkOnFocus?: boolean; }[];
     
     constructor(props: LandingScreenProps) {
         super(props)
@@ -13,10 +15,26 @@ class LandingScreenComponent extends PureComponent<LandingScreenProps, LandingSc
         this.state = {
             refreshingCount: 0
         }
+
+        this.Carousels = [
+            {
+                title: "Airing Today / Aired Recently",
+                keyPrefix: 'AT-AR',
+                fetchItems: this.__fetchTVAiring,
+                renderItem: this.__renderLastWatchedItems,
+            },
+            {
+                title: "Last Watched Anime",
+                keyPrefix: 'LWA',
+                fetchItems: this.__fetchLastWatchedItems,
+                renderItem: this.__renderLastWatchedItems,
+                checkOnFocus: true
+            }
+        ]
     }
 
     __onRefresh = () => {
-        this.setState({refreshingCount: 5})
+        this.setState({refreshingCount: this.Carousels.length})
     }
 
     __reduceRefreshCount = () => {
@@ -25,32 +43,31 @@ class LandingScreenComponent extends PureComponent<LandingScreenProps, LandingSc
         this.setState({refreshingCount: refreshingCount - 1})
     }
 
-    __renderStackItem = ({item, index}: { item: GogoRecentRelease; index: number; }) => {
+     /**
+     * Airing Today / Aired Recently block
+     */
+      __renderTVAiring = ({item, index}: { item: TMDB_TV_Discover_Results; index: number; }) => {
         return (
-            <StackItem
+            <EpisodeThumbnail
                 key={index}
-                id={item.id}
-                title={item.title}
-                picture_url={item.thumbnail}
-                url={item.link}
-                episode={item.episode}
+                id={item.id || ''}
+                title={item.name || '?'}
+                episode={'?'}
+                url={'?'}
+                picture_url={TMDBService.generatePosterURI(item.poster_path)}                
             />
         );
     }
-    
-    __renderThumbnailItem = ({item, index}: { item: TopItem | SeasonAnime; index: number; }) => {
-        return (
-            <Thumbnail
-                key={index}
-                mal_id={item.mal_id}
-                title={item.title}
-                url={item.url}
-                score={item.score}
-                picture_url={item.image_url}
-                type={item.type}
-            />
-        );
+
+    __fetchTVAiring = async () => {
+        return await TMDBService.discoverTV(TV_AT_AR).then(resp => {
+            return resp.results || [];
+        })
     }
+
+    /**
+     * Last Watched Anime block
+     */
 
     __renderLastWatchedItems = ({item, index}: { item: LastWatchedAnimeItem; index: number; }) => {
         return (
@@ -60,18 +77,6 @@ class LandingScreenComponent extends PureComponent<LandingScreenProps, LandingSc
             />
         );
     }
-    
-    __fetchStackItems = () => GogoAnimeService.fetchRecentlyAddedEpisodes().then(resp => {
-        return resp.data.slice(0,10);
-    })
-    
-    __fetchThumbnailItems = (subType: SubTypes) => JikanService.fetchTop(JikanTypes.Anime, 1, subType).then(resp => {
-        return resp.top.slice(0,10);
-    })
-
-    __fetchThisSeasonsItems = () => JikanService.fetchSeason().then(resp => {
-        return resp.anime.slice(0,10);
-    })
 
     __fetchLastWatchedItems = () => {
         if (this.props.ssLastWatchedAnimeContext) {
@@ -83,8 +88,12 @@ class LandingScreenComponent extends PureComponent<LandingScreenProps, LandingSc
         }
     }
 
+    /**
+     * 
+     * renderer
+     */
+
     render() {
-        const { route, navigation } = this.props;
         const { refreshingCount } = this.state;
 
         return (
@@ -92,71 +101,13 @@ class LandingScreenComponent extends PureComponent<LandingScreenProps, LandingSc
                 refreshing={refreshingCount !== 0}
                 onRefresh={this.__onRefresh}
             >
-                <CustomCarousel
-                    title="Latest Episodes"
-                    keyPrefix='LE'
-                    refreshing={refreshingCount !== 0}
-                    onRefreshComplete={this.__reduceRefreshCount}
-                    fetchItems={this.__fetchStackItems}
-                    renderItem={this.__renderStackItem}
-                    type='stack'
-                    onPress={() => {
-                        navigation.navigate("Latest Episodes")
-                    }}
-                />
-                <CustomCarousel
-                    title="Last Watched Anime"
-                    keyPrefix='LWA'
-                    refreshing={refreshingCount !== 0}
-                    onRefreshComplete={this.__reduceRefreshCount}
-                    fetchItems={this.__fetchLastWatchedItems}
-                    renderItem={this.__renderLastWatchedItems}
-                    type='thumbnail'
-                />
-                <CustomCarousel
-                    title="Top Airing Anime"
-                    keyPrefix='TAA'
-                    refreshing={refreshingCount !== 0}
-                    onRefreshComplete={this.__reduceRefreshCount}
-                    fetchItems={this.__fetchThumbnailItems.bind(this, JikanAnimeSubTypes.Airing)}
-                    renderItem={this.__renderThumbnailItem}
-                    type='thumbnail'
-                    onPress={() => {
-                        navigation.navigate("Top Anime", {topType: JikanAnimeSubTypes.Airing})
-                    }}
-                    checkOnFocus={false}
-                />
-                <CustomCarousel
-                    title="Top Upcoming Anime"
-                    keyPrefix='TUA'
-                    refreshing={refreshingCount !== 0}
-                    onRefreshComplete={this.__reduceRefreshCount}
-                    fetchItems={this.__fetchThumbnailItems.bind(this, JikanAnimeSubTypes.Upcoming)}
-                    renderItem={this.__renderThumbnailItem}
-                    type='thumbnail'
-                    onPress={() => {
-                        navigation.navigate("Top Anime", {topType: JikanAnimeSubTypes.Upcoming})
-                    }}
-                    checkOnFocus={false}
-                />
-                <CustomCarousel
-                    title="Current Season's Anime"
-                    keyPrefix='CSA'
-                    refreshing={refreshingCount !== 0}
-                    onRefreshComplete={this.__reduceRefreshCount}
-                    fetchItems={this.__fetchThisSeasonsItems}
-                    renderItem={this.__renderThumbnailItem}
-                    type='thumbnail'
-                    onPress={() => {
-                        navigation.navigate("Simple List", {
-                            fetchItems: () =>  JikanService.fetchSeason(),
-                            itemsExtracter: (resp: SeasonResult) => resp.anime,
-                            renderItem: this.__renderThumbnailItem,
-                            nameExtracter: (resp: SeasonResult) => `${resp.season_name} ${resp.season_year}`
-                        })
-                    }}
-                    checkOnFocus={false}
-                />
+                {this.Carousels.map((props, index) => {
+                    <CustomCarousel
+                        {...props}
+                        onRefreshComplete={this.__reduceRefreshCount}
+                        refreshing={refreshingCount !== 0}
+                    />
+                })}
             </ ScrollScreenWrapper>
         );
     }

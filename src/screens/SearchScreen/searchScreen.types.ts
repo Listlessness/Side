@@ -3,14 +3,13 @@ import { Filters, RootStackParamList, SideStreamWrapperContextProps } from "../.
 
 export type {
     SearchScreenProps,
-    SearchScreenState
+    SearchScreenState,
+    SSBaseProps
 }
 
-type LEPBaseProps = NativeStackScreenProps<RootStackParamList, 'Search'> & SideStreamWrapperContextProps;
+type SSBaseProps = NativeStackScreenProps<RootStackParamList, 'Search'>;
 
-interface SearchScreenProps<T> extends LEPBaseProps{
-    
-}
+type SearchScreenProps = SSBaseProps & SideStreamWrapperContextProps;
 
 interface SearchScreenState<T> {
     queryText: string,

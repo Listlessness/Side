@@ -3,11 +3,11 @@ import { Dimensions } from 'react-native';
 import { extractEpisodeNumer, GogoRecentRelease, RECENT_RELEASE_TYPE } from '../../utils';
 import { EpisodeThumbnail, sideStreamWrapper, TabbedList, TabListItem } from '../../components';
 import { GogoAnimeService } from '../../services';
-import { LatestEpisodeProps, LatestEpisodeState } from './latestEpisodesScreen.types';
+import { LatestEpisodeProps, LatestEpisodeState, LEPBaseProps } from './latestEpisodesScreen.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-type Props = LatestEpisodeProps<GogoRecentRelease>;
+type Props = LatestEpisodeProps;
 type State = LatestEpisodeState<GogoRecentRelease>;
 
 class LatestEpisodesScreenComponent extends PureComponent<Props, State> {
@@ -171,4 +171,4 @@ class LatestEpisodesScreenComponent extends PureComponent<Props, State> {
     }
 }
 
-export const LatestEpisodesScreen = sideStreamWrapper(LatestEpisodesScreenComponent)
+export const LatestEpisodesScreen = sideStreamWrapper<LEPBaseProps>(LatestEpisodesScreenComponent)

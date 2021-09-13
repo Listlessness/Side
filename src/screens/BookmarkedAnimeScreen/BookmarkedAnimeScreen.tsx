@@ -4,11 +4,11 @@ import { Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatListComp, CustomModal, sideStreamWrapper, SimpleScreenWrapper, ThumbnailProps, Thumbnail } from '../../components';
 import { ContextTypeNames } from '../../utils';
-import { BookmarkedAnimeScreenProps, BookmarkedAnimeScreenState } from './bookmarkedScreen.types';
+import { BookmarkedAnimeScreenProps, BookmarkedAnimeScreenState, BABaseProps } from './bookmarkedScreen.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-type Props = BookmarkedAnimeScreenProps<ThumbnailProps>;
+type Props = BookmarkedAnimeScreenProps;
 type State = BookmarkedAnimeScreenState<ThumbnailProps>;
 
 class BookmarkedAnimeScreenComponent extends PureComponent<Props, State> {
@@ -123,4 +123,4 @@ class BookmarkedAnimeScreenComponent extends PureComponent<Props, State> {
     }
 }
 
-export const BookmarkedAnimeScreen = sideStreamWrapper(BookmarkedAnimeScreenComponent, [ContextTypeNames.SSBookmarkedAnimeContext])
+export const BookmarkedAnimeScreen = sideStreamWrapper<BABaseProps>(BookmarkedAnimeScreenComponent, [ContextTypeNames.SSBookmarkedAnimeContext])

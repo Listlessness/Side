@@ -65,7 +65,7 @@ interface SideStreamWrapperContextProps {
     snackContext: SnackContextType,
     ssBookmarkedAnimeContext?: SSBookmarkedAnimeContextType,
     OnScreenFocusComp: React.FunctionComponent<{callback: () => any, dependencies?: any[]}>,
-    ssLastWatchedAnimeContext: SSLastWatchedAnimeContextType
+    ssLastWatchedAnimeContext?: SSLastWatchedAnimeContextType
 }
 
 

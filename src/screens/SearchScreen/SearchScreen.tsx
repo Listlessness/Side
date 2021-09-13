@@ -5,11 +5,11 @@ import { ActivityIndicator, Button, Headline, IconButton, Searchbar } from 'reac
 import { Thumbnail, FlatListComp, CustomModal, CustomPicker, SimpleScreenWrapper, sideStreamWrapper } from '../../components';
 import { JikanService } from '../../services';
 import { JikanSearchAnimeSubType, JikanSearchGenre, JikanSearchOrderBy, JikanSearchRated, JikanSearchSort, JikanSearchType, SearchResultItem } from '../../utils';
-import { SearchScreenProps, SearchScreenState } from './searchScreen.types';
+import { SearchScreenProps, SearchScreenState, SSBaseProps } from './searchScreen.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-type Props = SearchScreenProps<SearchResultItem>;
+type Props = SearchScreenProps;
 type State = SearchScreenState<SearchResultItem>;
 
 class SearchScreenComponent extends PureComponent<Props, State> {
@@ -256,7 +256,7 @@ class SearchScreenComponent extends PureComponent<Props, State> {
     }
 }
 
-export const SearchScreen = sideStreamWrapper(SearchScreenComponent)
+export const SearchScreen = sideStreamWrapper<SSBaseProps>(SearchScreenComponent)
 
 const styles = StyleSheet.create({
     tools: {

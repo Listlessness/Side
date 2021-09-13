@@ -3,14 +3,13 @@ import { RootStackParamList, SideStreamWrapperContextProps } from "../../utils";
 
 export type {
     GenresProps,
-    GenresState
+    GenresState,
+    GSBaseProps
 }
 
-type TAPBaseProps = NativeStackScreenProps<RootStackParamList, 'Genres'> & SideStreamWrapperContextProps;
+type GSBaseProps = NativeStackScreenProps<RootStackParamList, 'Genres'>;
 
-interface GenresProps<T> extends TAPBaseProps{
-    
-}
+type GenresProps = GSBaseProps & SideStreamWrapperContextProps;
 
 interface GenresState<T> {
     currIndex: number,

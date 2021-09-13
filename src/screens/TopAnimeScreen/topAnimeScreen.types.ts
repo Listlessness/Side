@@ -3,14 +3,13 @@ import { RootStackParamList, SideStreamWrapperContextProps } from "../../utils";
 
 export type {
     TopAnimeProps,
-    TopAnimeState
+    TopAnimeState,
+    TAPBaseProps
 }
 
-type TAPBaseProps = NativeStackScreenProps<RootStackParamList, 'Top Anime'> & SideStreamWrapperContextProps;
+type TAPBaseProps = NativeStackScreenProps<RootStackParamList, 'Top Anime'>;
 
-interface TopAnimeProps<T> extends TAPBaseProps{
-    
-}
+type TopAnimeProps = TAPBaseProps & SideStreamWrapperContextProps;
 
 interface TopAnimeState<T> {
     currIndex: number,

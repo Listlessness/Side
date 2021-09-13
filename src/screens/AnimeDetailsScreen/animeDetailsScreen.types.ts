@@ -3,10 +3,15 @@ import { RootStackParamList, SideStreamWrapperContextProps } from "../../utils";
 
 export type {
     AnimeDetailsScreenProps,
-    AnimeDetailsScreenState
+    AnimeDetailsScreenState,
+    AnimeDetailsScreenBaseProps
 }
 
-type AnimeDetailsScreenProps = NativeStackScreenProps<RootStackParamList, "Anime Details"> & SideStreamWrapperContextProps;
+type AnimeDetailsScreenBaseProps = NativeStackScreenProps<RootStackParamList, "Anime Details"> ;
+
+type AnimeDetailsScreenProps = AnimeDetailsScreenBaseProps & SideStreamWrapperContextProps;
+
+
 
 interface AnimeDetailsScreenState<T> {
     animeDetailsById?: T;

@@ -1,18 +1,19 @@
 import React, { createRef, PureComponent } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
-import { CustomCarouselProps, CustomCarouselState } from './customCarousel.types';
+import { CustomCarouselBaseProps, CustomCarouselProps, CustomCarouselState } from './customCarousel.types';
 import { MessageComp , SeeMoreButton, sideStreamWrapper} from '../common';
 import { FlatList } from 'react-native';
-import { SnackContext } from '../../utils';
 import { Subheading } from 'react-native-paper';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
+type Props<T> = CustomCarouselProps<T>;
+type State<T> = CustomCarouselState<T>;
 
-class CustomCarouselComponent<T> extends PureComponent<CustomCarouselProps<T>, CustomCarouselState<T>> {
+class CustomCarouselComponent<T> extends PureComponent<Props<T>, State<T>> {
     carouselRef: React.MutableRefObject<null>;
 
-    constructor(props: CustomCarouselProps<T>) {
+    constructor(props: Props<T>) {
         super(props)
 
         this.carouselRef = createRef();
@@ -43,7 +44,7 @@ class CustomCarouselComponent<T> extends PureComponent<CustomCarouselProps<T>, C
                 messageText: reason.toString(),
                 items: []
             }
-             this.props.snackContext.showMessage({
+             this.props.snackContext?.showMessage({
                 message: `Failed to retrieve "${this.props.title}" result.`
             });
         }).finally(() => {
@@ -86,7 +87,7 @@ class CustomCarouselComponent<T> extends PureComponent<CustomCarouselProps<T>, C
 
         return (
             <View style={styles.container}>
-                {checkOnFocus && <this.props.OnScreenFocusComp callback={this.__fetchItems.bind(this)} />}
+                {checkOnFocus && this.props.OnScreenFocusComp && <this.props.OnScreenFocusComp callback={this.__fetchItems.bind(this)} />}
                 <View style={styles.header}>
                     <Subheading style={styles.carouselTitle}>{title}</Subheading>
                     {onPress && <SeeMoreButton onPress={onPress} />}
@@ -111,7 +112,7 @@ class CustomCarouselComponent<T> extends PureComponent<CustomCarouselProps<T>, C
     }
 }
 
-export const CustomCarousel = sideStreamWrapper(CustomCarouselComponent)
+export const CustomCarousel = sideStreamWrapper<CustomCarouselBaseProps<any>>(CustomCarouselComponent)
 
 
 const styles = StyleSheet.create({

@@ -7,6 +7,4 @@ export type {
 
 type EFSPBaseProps = NativeStackScreenProps<RootStackParamList, 'Episode Full Screen'>;
 
-interface EpisodeFullScreenScreenProps extends EFSPBaseProps{
-    
-}
+type EpisodeFullScreenScreenProps = EFSPBaseProps;

@@ -3,14 +3,13 @@ import { Filters, RootStackParamList, SideStreamWrapperContextProps } from "../.
 
 export type {
     SimpleListScreenProps,
-    SimpleListScreenState
+    SimpleListScreenState,
+    SLSBaseProps
 }
 
-type LEPBaseProps = NativeStackScreenProps<RootStackParamList, 'Simple List'> & SideStreamWrapperContextProps;
+type SLSBaseProps = NativeStackScreenProps<RootStackParamList, 'Simple List'>;
 
-interface SimpleListScreenProps<T> extends LEPBaseProps{
-    
-}
+type SimpleListScreenProps = SLSBaseProps & SideStreamWrapperContextProps;
 
 interface SimpleListScreenState<T, R> {
     currPage: number,

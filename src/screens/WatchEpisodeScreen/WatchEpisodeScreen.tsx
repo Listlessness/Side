@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Dimensions, ScrollView, StyleSheet, View } from 'react-native'
 import { GogoAnimeService } from '../../services'
-import { WatchEpisodeScreenProps, WatchEpisodeScreenState } from './watchEpisodeScreen.types';
+import { WatchEpisodeScreenProps, WatchEpisodeScreenState, WEPBaseProps } from './watchEpisodeScreen.types';
 import { Appbar, Chip, Divider, List } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
@@ -309,7 +309,7 @@ class WatchEpisodeScreenComponent extends PureComponent<Props, State> {
     }
 }
 
-export const WatchEpisodeScreen = sideStreamWrapper(WatchEpisodeScreenComponent, [ContextTypeNames.SSLastWatchedAnimeContext])
+export const WatchEpisodeScreen = sideStreamWrapper<WEPBaseProps>(WatchEpisodeScreenComponent, [ContextTypeNames.SSLastWatchedAnimeContext])
 
 const styles = StyleSheet.create({
     mainView: {

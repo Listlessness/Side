@@ -3,12 +3,12 @@ import { Dimensions } from 'react-native';
 import { GenreAnimeItem, JikanTypes, JikanSearchGenre } from '../../utils';
 import { Thumbnail, TabListItem, TabbedList, sideStreamWrapper } from '../../components';
 import { JikanService } from '../../services';
-import { GenresProps, GenresState } from './genresScreen.types';
+import { GenresProps, GenresState, GSBaseProps } from './genresScreen.types';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 
-type Props = GenresProps<GenreAnimeItem>;
+type Props = GenresProps;
 type State = GenresState<GenreAnimeItem>;
 
 class GenresScreenComponent extends PureComponent<Props, State> {
@@ -166,4 +166,4 @@ class GenresScreenComponent extends PureComponent<Props, State> {
 
 }
 
-export const GenresScreen = sideStreamWrapper(GenresScreenComponent)
+export const GenresScreen = sideStreamWrapper<GSBaseProps>(GenresScreenComponent)

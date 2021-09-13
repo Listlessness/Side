@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { AnimeDetailsScreenProps, AnimeDetailsScreenState } from './animeDetailsScreen.types'
+import { AnimeDetailsScreenBaseProps, AnimeDetailsScreenProps, AnimeDetailsScreenState } from './animeDetailsScreen.types'
 import { AnimeById, CharacterItem, ContextTypeNames, IAnime, MALItem, MALType, Recommendation } from '../../utils';
 import { GogoAnimeService, JikanService } from '../../services';
 import { Dimensions, ImageBackground, StyleSheet, View, Image, ScrollView, Linking } from 'react-native';
@@ -370,7 +370,7 @@ class AnimeDetailsScreenComponent extends PureComponent<Props, State> {
     }
 }
 
-export const AnimeDetailsScreen = sideStreamWrapper(AnimeDetailsScreenComponent, [ContextTypeNames.SSBookmarkedAnimeContext])
+export const AnimeDetailsScreen = sideStreamWrapper<AnimeDetailsScreenBaseProps>(AnimeDetailsScreenComponent, [ContextTypeNames.SSBookmarkedAnimeContext])
 
 
 const styles = StyleSheet.create({
