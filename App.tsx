@@ -33,7 +33,7 @@ import {
   SimpleListPage,
   GenresPage,
   BookmarkedAnimePage
-} from './src/pages';
+} from './src/screens';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';

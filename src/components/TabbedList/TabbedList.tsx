@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Tabs, TabScreen} from 'react-native-paper-tabs';
-import { sideStreamWrapper, SimplePageWrapper } from '../common';
+import { sideStreamWrapper, SimpleScreenWrapper } from '../common';
 import { FlatListComp } from '../FlatListComp';
 import { TabbedListProps, TabbedListState } from './tabbedList.types';
 
@@ -78,7 +78,7 @@ class TabbedListComponent<T> extends PureComponent<TabbedListProps<T>, TabbedLis
         } = this.props;
 
         return (
-            <SimplePageWrapper>
+            <SimpleScreenWrapper>
                 <Tabs
                   uppercase={false}
                   defaultIndex={currIndex}
@@ -87,7 +87,7 @@ class TabbedListComponent<T> extends PureComponent<TabbedListProps<T>, TabbedLis
                 >
                     {this.TAB_ITEMS}
                 </Tabs>
-            </SimplePageWrapper>
+            </SimpleScreenWrapper>
         );
     }
 }
