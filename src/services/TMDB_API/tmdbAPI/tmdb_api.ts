@@ -37,7 +37,7 @@ export default class TMDB_API {
         });
 
         this.tmdb_image_config = {
-            baseURL: "https://image.tmdb.org/t/p/",
+            baseURL: "https://image.tmdb.org/t/p",
             backdrop_sizes: ["w300","w780","w1280","original"],
             logo_sizes: ["w45","w92","w154","w185","w300","w500","original"],
             poster_sizes: ["w92","w154","w185","w342","w500","w780","original"],
@@ -68,23 +68,23 @@ export default class TMDB_API {
     }
 
     generateBackdropURI = (path: string) => {
-        return `${this.tmdb_image_config.baseURL}/${this.tmdb_image_config.backdrop_sizes[2]}`
+        return `${this.tmdb_image_config.baseURL}/${this.tmdb_image_config.backdrop_sizes[2]}${path}`
     }
 
     generateLogoURI = (path: string) => {
-        return `${this.tmdb_image_config.baseURL}/${this.tmdb_image_config.logo_sizes[5]}`
+        return `${this.tmdb_image_config.baseURL}/${this.tmdb_image_config.logo_sizes[5]}${path}`
     }
 
     generatePosterURI = (path: string) => {
-        return `${this.tmdb_image_config.baseURL}/${this.tmdb_image_config.poster_sizes[5]}`
+        return `${this.tmdb_image_config.baseURL}/${this.tmdb_image_config.poster_sizes[5]}${path}`
     }
 
     generateProfileImageURI = (path: string) => {
-        return `${this.tmdb_image_config.baseURL}/${this.tmdb_image_config.logo_sizes[1]}`
+        return `${this.tmdb_image_config.baseURL}/${this.tmdb_image_config.logo_sizes[1]}${path}`
     }
 
     generateStillImageURI = (path: string) => {
-        return `${this.tmdb_image_config.baseURL}/${this.tmdb_image_config.logo_sizes[2]}`
+        return `${this.tmdb_image_config.baseURL}/${this.tmdb_image_config.logo_sizes[2]}${path}`
     }
 
     toJapanDate = (input_date: TMDB_Date) => {

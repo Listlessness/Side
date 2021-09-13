@@ -15,7 +15,7 @@ interface ThumbnailProps {
 }
 
 interface EpisodeThumbnailProps {
-    id: string | number;
+    id: string;
     title: string;
     episode:  string;
     url:  string;

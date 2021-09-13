@@ -30,8 +30,7 @@ export const Thumbnail = React.memo(
             },
             [mal_id, url, navigation],
         );
-
-
+        
         return (
             <TouchableOpacity onPress={__animeDetails} key={mal_id} style={styles.container}>
                 <ImageBackground

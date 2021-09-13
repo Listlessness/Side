@@ -2,14 +2,14 @@ import { useFocusEffect } from '@react-navigation/native';
 import React from 'react'
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { WebView } from 'react-native-webview'
-import { EpisodeFullScreenScreenProps } from './episodeFullScreen.types'
+import { EpisodeFullScreenProps } from './episodeFullScreen.types'
 import { StyleSheet, View } from 'react-native';
 import { setStatusBarHidden } from 'expo-status-bar';
 
-export const EpisodeFullScreenScreen = React.memo(function EpisodeFullScreenScreen({
+export const EpisodeFullScreen = React.memo(function EpisodeFullScreen({
     route,
     navigation
-}: EpisodeFullScreenScreenProps) {
+}: EpisodeFullScreenProps) {
     
     const [videoLink, setVideoLink] = React.useState(route.params.link);
 

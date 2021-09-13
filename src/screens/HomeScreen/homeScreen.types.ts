@@ -2,12 +2,12 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList, SideStreamWrapperContextProps } from "../../utils";
 
 export type {
-    LandingScreenProps,
-    LandingScreenState
+    HomeScreenProps,
+    HomeScreenState
 }
 
-type LandingScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'> & SideStreamWrapperContextProps;
+type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'> & SideStreamWrapperContextProps;
 
-interface LandingScreenState {
+interface HomeScreenState {
     refreshingCount: number
 }

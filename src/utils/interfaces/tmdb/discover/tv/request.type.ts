@@ -8,7 +8,7 @@ interface TMDB_TV_Discover_Request {
     params: {
         page?: number,
         language?: string,
-        sort_by?: TMDB_TV_Discover_SortBy,
+        sort_by?: 'vote_average.desc' | 'vote_average.asc' | 'first_air_date.desc' | 'first_air_date.asc' | 'popularity.desc' | 'popularity.asc',
         'air_date.gte'?: TMDB_Date,
         'air_date.lte'?: TMDB_Date,
         'first_air_date.gte'?: TMDB_Date,

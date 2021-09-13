@@ -8,6 +8,7 @@ export {
 const TV_AT_AR: TMDB_TV_Discover_Request = {
     params: {
         'air_date.lte': new TMDB_Date(),
+        'air_date.gte': new TMDB_Date(),
         timezone: TMDBService.getJapanTimezone(),
         with_keywords: [TMDBService.getAnimeKeywordId()],
     }

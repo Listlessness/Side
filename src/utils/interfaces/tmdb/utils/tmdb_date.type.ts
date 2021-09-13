@@ -20,4 +20,9 @@ class TMDB_Date {
     getDate = () => {
         return this.date
     }
+
+    toDaysAgo = (num: number) => {
+        this.date.setDate(this.date.getDate() - 6);
+        return this
+    }
 }

@@ -1,6 +1,8 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import React from 'react'
-import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
+import { Dimensions, RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
+
+const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 interface ScrollSWProps {
     children: any,
@@ -65,13 +67,14 @@ const styles = StyleSheet.create({
     Screen: {
         backgroundColor: '#000E14',
         flex: 1,
-        paddingBottom: 20,
+        paddingBottom: 20
     },
     content: {
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         paddingRight: 15,
-        paddingLeft: 15
+        paddingLeft: 15,
+        minHeight: windowHeight
     },
     fadeTop: {
         position: 'absolute',

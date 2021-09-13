@@ -3,7 +3,7 @@ export * from './LatestEpisodesScreen';
 export * from './SearchScreen';
 export * from './TopAnimeScreen';
 export * from './WatchEpisodeScreen';
-export * from './EpisodeFullScreenScreen';
+export * from './EpisodeFullScreen';
 export * from './AnimeDetailsScreen';
 export * from './SimpleListScreen';
 export * from './GenresScreen';

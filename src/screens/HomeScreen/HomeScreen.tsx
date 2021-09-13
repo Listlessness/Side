@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react';
-import { CustomCarousel, ScrollScreenWrapper, sideStreamWrapper } from '../../components';
+import { CustomCarousel, ScrollScreenWrapper, sideStreamWrapper, Thumbnail } from '../../components';
 import { TMDBService } from '../../services';
 import { LastWatchedAnimeItem, ContextTypeNames, TMDB_TV_Discover_Results } from '../../utils';
-import { LandingScreenProps, LandingScreenState } from './homeScreen.types';
+import { HomeScreenProps, HomeScreenState } from './homeScreen.types';
 import { EpisodeThumbnail } from '../../components/Thumbnail/EpisodeThumbnail';
 import { TV_AT_AR } from './helpers';
 
-class LandingScreenComponent extends PureComponent<LandingScreenProps, LandingScreenState> {
+class HomeScreenComponent extends PureComponent<HomeScreenProps, HomeScreenState> {
     Carousels: { title: string; keyPrefix: string; fetchItems: () => Promise<any[]>; renderItem: ({ item, index }: { item: any; index: number; }) => JSX.Element; checkOnFocus?: boolean; }[];
     
-    constructor(props: LandingScreenProps) {
+    constructor(props: HomeScreenProps) {
         super(props)
 
         this.state = {
@@ -21,14 +21,13 @@ class LandingScreenComponent extends PureComponent<LandingScreenProps, LandingSc
                 title: "Airing Today / Aired Recently",
                 keyPrefix: 'AT-AR',
                 fetchItems: this.__fetchTVAiring,
-                renderItem: this.__renderLastWatchedItems,
+                renderItem: this.__renderTVAiring,
             },
             {
                 title: "Last Watched Anime",
                 keyPrefix: 'LWA',
                 fetchItems: this.__fetchLastWatchedItems,
                 renderItem: this.__renderLastWatchedItems,
-                checkOnFocus: true
             }
         ]
     }
@@ -48,13 +47,13 @@ class LandingScreenComponent extends PureComponent<LandingScreenProps, LandingSc
      */
       __renderTVAiring = ({item, index}: { item: TMDB_TV_Discover_Results; index: number; }) => {
         return (
-            <EpisodeThumbnail
+            <Thumbnail
                 key={index}
-                id={item.id || ''}
+                picture_url={TMDBService.generatePosterURI(item.poster_path)}
+                mal_id={0}
                 title={item.name || '?'}
-                episode={'?'}
                 url={'?'}
-                picture_url={TMDBService.generatePosterURI(item.poster_path)}                
+                score={item.vote_average}
             />
         );
     }
@@ -101,16 +100,17 @@ class LandingScreenComponent extends PureComponent<LandingScreenProps, LandingSc
                 refreshing={refreshingCount !== 0}
                 onRefresh={this.__onRefresh}
             >
-                {this.Carousels.map((props, index) => {
+                {this.Carousels.map((props, index) => (
                     <CustomCarousel
+                        key={index}
                         {...props}
                         onRefreshComplete={this.__reduceRefreshCount}
                         refreshing={refreshingCount !== 0}
                     />
-                })}
+                ))}
             </ ScrollScreenWrapper>
         );
     }
 }
 
-export const LandingScreen = sideStreamWrapper(LandingScreenComponent, [ContextTypeNames.SSLastWatchedAnimeContext])
+export const HomeScreen = sideStreamWrapper(HomeScreenComponent, [ContextTypeNames.SSLastWatchedAnimeContext])

@@ -22,21 +22,10 @@ import {
   SSBookmarkedAnimeContext,
   SSLastWatchedAnimeContext
 } from './src/utils';
-import {
-  EpisodeFullScreenPage,
-  LandingPage,
-  LatestEpisodesPage,
-  SearchPage,
-  TopAnimePage,
-  WatchEpisodePage,
-  AnimeDetailsPage,
-  SimpleListPage,
-  GenresPage,
-  BookmarkedAnimePage
-} from './src/screens';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import { HomeScreen, LatestEpisodesScreen, TopAnimeScreen, SearchScreen, WatchEpisodeScreen, SimpleListScreen, AnimeDetailsScreen, GenresScreen, BookmarkedAnimeScreen, EpisodeFullScreen } from './src/screens';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
@@ -65,7 +54,7 @@ const HomeStackNavigator = () => {
       <Stack.Group>
         <Stack.Screen
           name={'Home'}
-          component={LandingPage}
+          component={HomeScreen}
           options={({ navigation, route }) => ({
             headerRight: () => (
               <IconButton
@@ -86,21 +75,21 @@ const HomeStackNavigator = () => {
         />
         <Stack.Screen
           name={'Latest Episodes'}
-          component={LatestEpisodesPage}
+          component={LatestEpisodesScreen}
         />
-        <Stack.Screen name={'Top Anime'} component={TopAnimePage} />
+        <Stack.Screen name={'Top Anime'} component={TopAnimeScreen} />
         <Stack.Screen
           name={'Search'}
-          component={SearchPage}
+          component={SearchScreen}
           options={{ title: 'Search for your favourite Anime!' }}
         />
         <Stack.Screen
           name={'Watch Episode'}
-          component={WatchEpisodePage}
+          component={WatchEpisodeScreen}
         />
         <Stack.Screen
           name={'Simple List'}
-          component={SimpleListPage}
+          component={SimpleListScreen}
           options={{headerTitle: '...'}}
         />
       </Stack.Group>
@@ -116,7 +105,7 @@ const HomeStackNavigator = () => {
         }}>
         <Stack.Screen
           name={'Anime Details'}
-          component={AnimeDetailsPage}
+          component={AnimeDetailsScreen}
         />
       </Stack.Group>
     </Stack.Navigator>
@@ -134,7 +123,7 @@ const GenreStackNavigator = () => {
       }}>
         <Stack.Screen
           name={'Genres'}
-          component={GenresPage}
+          component={GenresScreen}
           options={({ navigation, route }) => ({
             headerRight: () => (
               <IconButton
@@ -148,7 +137,7 @@ const GenreStackNavigator = () => {
         />
         <Stack.Screen
           name={'Search'}
-          component={SearchPage}
+          component={SearchScreen}
           options={{ title: 'Search for your favourite Anime!' }}
         />
     </Stack.Navigator>
@@ -166,7 +155,7 @@ const BookMarkStackNavigator = () => {
       }}>
         <Stack.Screen
           name={'Bookmarked Anime'}
-          component={BookmarkedAnimePage}
+          component={BookmarkedAnimeScreen}
           options={({ navigation, route }) => ({
             headerRight: () => (
               <IconButton
@@ -180,7 +169,7 @@ const BookMarkStackNavigator = () => {
         />
         <Stack.Screen
           name={'Search'}
-          component={SearchPage}
+          component={SearchScreen}
           options={{ title: 'Search for your favourite Anime!' }}
         />
     </Stack.Navigator>
@@ -288,7 +277,7 @@ export default function App() {
                         />
                         <Stack.Screen
                           name={'Episode Full Screen'}
-                          component={EpisodeFullScreenPage}
+                          component={EpisodeFullScreen}
                           options={{
                             presentation: 'modal'
                           }}
